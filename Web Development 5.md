@@ -1376,7 +1376,7 @@ One key difference is that the state is separated completely from React componen
 
 > Annotated Flux Overview by Facebook: [facebook.github.io/flux/docs/in-depth-overview.html](https://facebook.github.io/flux/docs/in-depth-overview.html)
 
-Here, you can see how state is updated and triggers events in components while being separate from the components. For example, if you clicked a button that incremented a piece of state in a store, the change would have to be made with an action. This action is then provided to the dispatcher who sends the action to all stores. These stores will then update themselves and their state and emit a *change event* once they are done. Then the *controller-views* consisting of components listen for these changes and update their state, triggering a rerender (usually).
+Here, you can see how state is updated and triggers events in components while being separate from the components. For example, if you clicked a button that incremented a piece of state in a store, the change would have to be made with an action. This action is then provided to the dispatcher who sends the action to all stores. These stores will then update themselves and their state and emit a *change event* once they are done. Then, the *controller-views* consisting of components listen for these changes and update their state, triggering a rerender (usually).
 
 ### Redux
 
