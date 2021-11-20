@@ -1,0 +1,13 @@
+---
+title:
+- type: main
+  text: Write for Anything: Modern Full-Stack Development
+creator:
+- role: author
+  text: Joseph Semrai
+description: An introduction to modern full-stack development in 2021.
+rights: Commercial
+language: en-US
+stylesheet: epub.css
+cover-image: cover.jpg
+...
