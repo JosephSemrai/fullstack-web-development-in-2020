@@ -1,21 +1,17 @@
 [TOC]
 
-
-
 # Book Todo
 
-* Add Images/Diagrams written with the iPad Pro for
-  * Document Object Model
-  * HTTP Requests (Submitting New Data Using HTTP POST and Forms)
-* Add section about style guides, linting, etc.
-* Replace mentions of 'I' in first person
-* Explain what the global object is in the JavaScript section
-
-
+- Add Images/Diagrams written with the iPad Pro for
+  - Document Object Model
+  - HTTP Requests (Submitting New Data Using HTTP POST and Forms)
+- Add section about style guides, linting, etc.
+- Replace mentions of 'I' in first person
+- Explain what the global object is in the JavaScript section
 
 # Tips
 
-As a beginner, whenever you encounter an error message, you should always take a second to understand the cause of the error message. With this, you should write your code advancing iin very small steps in order to avoid writing a lot of code that ends up not working. This way, you will only have a few lines that can be problematic at a given time and can take the time to understand why these lines are throwing errors, etc. 
+As a beginner, whenever you encounter an error message, you should always take a second to understand the cause of the error message. With this, you should write your code advancing iin very small steps in order to avoid writing a lot of code that ends up not working. This way, you will only have a few lines that can be problematic at a given time and can take the time to understand why these lines are throwing errors, etc.
 
 # Introduction to Web Development
 
@@ -23,7 +19,7 @@ This book was written originally to take someone from knowing nothing to knowing
 
 ## Hello World?
 
-So, before we actually get into things, I just want to introduce you to some words that are super common in the world of web development and beyond. 
+So, before we actually get into things, I just want to introduce you to some words that are super common in the world of web development and beyond.
 
 Also, please note that the explanations in Chapter 0 follow subpar programming practices coupled with mediocre systems design. These are just examples to be looked at as a high level overview of how things may work while giving you a taste at what these Application Programming Interfaces (APIs) can do. Additionally, there are some ommitted blocks of code that are not relevant to your understanding of these concepts. As a result, the code mentioned in Chapter 0 will not create a working app, but rather serve as a reference and a device for conceptual learning.
 
@@ -37,25 +33,23 @@ HTTP is a protocol that allows for the fetching of resources as indicated by the
 
 There are various HTTP methods used for various purposes.
 
-| HTTP Methods | What does it do?                                             |
-| ------------ | ------------------------------------------------------------ |
-| GET          | Requests data from a specified resource                      |
-| POST         | Sends data to a server to update or create something         |
-| PUT          | Sends data to a server to update or create smething, but is *idempotent* (calling the same PUT request will always produce the same result, but multiple POST requests may produce duplicate results) |
-| HEAD         | Pretty much identical to GET, but does not include the response body (does not return the contents of the response - often used for checking what a GET request will return before actuallying downloading it) |
-| DELETE       | Deletes the specified resources                              |
+| HTTP Methods | What does it do?                                                                                                                                                                                                        |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GET          | Requests data from a specified resource                                                                                                                                                                                 |
+| POST         | Sends data to a server to update or create something                                                                                                                                                                    |
+| PUT          | Sends data to a server to update or create smething, but is _idempotent_ (calling the same PUT request will always produce the same result, but multiple POST requests may produce duplicate results)                   |
+| HEAD         | Pretty much identical to GET, but does not include the response body (does not return the contents of the response - often used for checking what a GET request will return before actuallying downloading it)          |
+| DELETE       | Deletes the specified resources                                                                                                                                                                                         |
 | PATCH        | Update/Changes a resource. PATCH requests only contain the changes to the resource, not the entire resource. Thus, they should be in a patch language (JSON Patch, XML Patch, etc.) (not safe or idempotent on its own) |
-| OPTIONS      | Describes/Outlines the comuncation options for the resource that is being targeted. |
+| OPTIONS      | Describes/Outlines the comuncation options for the resource that is being targeted.                                                                                                                                     |
 
 These HTTP methods all have their own response codes which we'll talk about later. Also be aware that these methods all have different behaviors when cached, reloaded, called upon via the user pressing the back button, etc.
 
-Now, visit a website and open up your developer tools panel (this book will reference the Chrome Development Tools) and click on the 'Network' tab. Upon refreshing or loading the page, you will see everything that the browser has requested. Click one of these requests to see more information about the request and response. Here you can see information such as the Content-Type of the page which indicates the format and type of the document returned. 
+Now, visit a website and open up your developer tools panel (this book will reference the Chrome Development Tools) and click on the 'Network' tab. Upon refreshing or loading the page, you will see everything that the browser has requested. Click one of these requests to see more information about the request and response. Here you can see information such as the Content-Type of the page which indicates the format and type of the document returned.
 
 If you take a look at the reponse tab, you can see what was actually returned from the server from that GET request.
 
 Further along the requests, you may see references to images that may have been loaded after receiving a HTML response with tags (such as the <img> tag) telling the browser to request other resources. Upon receiving an initial response from the server, a browser will make additional requests to load any additional resources that may be specified in the HTML.
-
-
 
 ## Delving into Dynamic Web Pages
 
@@ -63,7 +57,7 @@ Here we'll take a look at a code snippet for a dynamic web page that makes use o
 
 ```javascript
 const getHtml = (listLength) => {
-  return(`
+  return `
     <!DOCTYPE html>
     <html>
       <head>
@@ -75,28 +69,26 @@ const getHtml = (listLength) => {
         </div>
       </body>
     </html>
-`)
-} 
+`;
+};
 
-app.get('/', (req, res) => {
-  const page = getHtml(list.length)
-  res.send(page)
-})
+app.get("/", (req, res) => {
+  const page = getHtml(list.length);
+  res.send(page);
+});
 ```
 
-Here is an example of a dynamic web page that we generate on the server side. We take advantage of this fact by passing the page some data to display that we would not be able to do traditionally with a static file. Upon a request to the server, the server will take note of the length of a list stored in memory and return a HTML file with the value inserted in place of ```${listLength}```.
+Here is an example of a dynamic web page that we generate on the server side. We take advantage of this fact by passing the page some data to display that we would not be able to do traditionally with a static file. Upon a request to the server, the server will take note of the length of a list stored in memory and return a HTML file with the value inserted in place of `${listLength}`.
 
-```javascript 
+```javascript
 <p>Number of notes created ${listLength}</p>
 ```
 
-> Important Note: For management purposes, it is typically not a good idea to write HTML in the middle of code. 
+> Important Note: For management purposes, it is typically not a good idea to write HTML in the middle of code.
 
 ## Moving Application Logic to the Client
 
 We don't have to run everything on the server and return a "static" HTML file. We can also incorporate client-side logic in the form of JavaScript files that make requests to the server and do their own processing.
-
-
 
 We can mention a reference to a JavaScript file in our HTML in order to execute it and add client-side logic to our application.
 
@@ -134,19 +126,17 @@ xhttp.open('GET', '/data.json', true) // Defines a GET request to the serverAddr
 xhttp.send() // Sends the request
 ```
 
-
-
 Now, you might have noticed that we write the code for handling the response before we even send the request for the response. This is because
 
 ```javascript
 http.onreadystatechange = function () {
-  // Anything in here 
-}
+  // Anything in here
+};
 ```
 
-is an event handler defined on the ```xhttp``` object involved with the request that is called when the state of the object changes. Thus, if we assign a function to this event handler, it will be called when the state of this object changes.
+is an event handler defined on the `xhttp` object involved with the request that is called when the state of the object changes. Thus, if we assign a function to this event handler, it will be called when the state of this object changes.
 
-When the request is completed, the state changes and calls this function. From within the function, we check if  ``readyState == 4 && this.status == 200`` to see if the operation is complete (readyState 4) and if the HTTP status code of the response is 200 (HTTP Status OK).
+When the request is completed, the state changes and calls this function. From within the function, we check if `readyState == 4 && this.status == 200` to see if the operation is complete (readyState 4) and if the HTTP status code of the response is 200 (HTTP Status OK).
 
 **This style of invoking event handlers is something that you will see a lot of in JavaScript.** The functions that are assigned to these event handlers are called **'callback functions'** where the code that you write does not invoke the function but rather the runtime environment (the browser in this case) will invoke the function when the event has occured.
 
@@ -156,7 +146,7 @@ When the request is completed, the state changes and calls this function. From w
 
 The Document Object Model, or DOM for short, is an API that allows for the editing of element trees programatically. What this means is that you can edit your page (like how we did in the above example) through the use of JavaScript by traversing the element tree that is a web page.
 
-To have a glimpse at this tree-like structure, take a look at the 'Elements' tab in your console. Here you can see the various elements of a page nested within other elements, with the 'branches' extending out from their parents. This concept allows us to traverse from levels of branches from any point on the tree. 
+To have a glimpse at this tree-like structure, take a look at the 'Elements' tab in your console. Here you can see the various elements of a page nested within other elements, with the 'branches' extending out from their parents. This concept allows us to traverse from levels of branches from any point on the tree.
 
 You can also create elements and add them to the DOM and other objects in the DOM as we did earlier.
 
@@ -171,35 +161,35 @@ todoList.appendChild(li2)
 We can also select elements programatically.
 
 ```javascript
-li.setAttribute('class','list-item')
-todoList.setAttribute('id', 'list')
+li.setAttribute("class", "list-item");
+todoList.setAttribute("id", "list");
 
-document.getElementById('list').innerHTML = "example"
-document.getElementsByClassName('list-item')[0].innerHTML = "example"
+document.getElementById("list").innerHTML = "example";
+document.getElementsByClassName("list-item")[0].innerHTML = "example";
 ```
 
-Here, ``getElementById()`` returns the one element with that ID of an element's child elements. The ``document`` object is the topmost node in the hierarchy of the DOM tree. As we are looking in the document's child elements, we are looking through all elements.
+Here, `getElementById()` returns the one element with that ID of an element's child elements. The `document` object is the topmost node in the hierarchy of the DOM tree. As we are looking in the document's child elements, we are looking through all elements.
 
-``getElementsByClassName()`` returns a collection of an element's child elements with the specified class name. In the above example, we adjust the innerHTML of the first and only element in that collection. InnerHTML relates to the HTML content of an element (the content within element tags).
+`getElementsByClassName()` returns a collection of an element's child elements with the specified class name. In the above example, we adjust the innerHTML of the first and only element in that collection. InnerHTML relates to the HTML content of an element (the content within element tags).
 
 ## Styling with CSS
 
 In order to provide our web page styling information, we can take advantage of Cascading Style Sheets (CSS for short) which allow us to define the apperance of web pages using a markup language.
 
-Within the head element of the HTML code, we can create a ``<link>`` tag to fetch a CSS file from a particular address as such.
+Within the head element of the HTML code, we can create a `<link>` tag to fetch a CSS file from a particular address as such.
 
 ```HTML
 <link rel="stylesheet" type="text/css" href="main.css" />
 ```
 
-Now, this element refers to a file called "main.css" in the same directory as this HTML file. 
+Now, this element refers to a file called "main.css" in the same directory as this HTML file.
 
 Within "main.css" we can write the following to define some styling information.
 
 ```css
 .container {
   padding: 5em;
-  border: 1px solid; 
+  border: 1px solid;
 }
 
 .todoList {
@@ -209,12 +199,11 @@ Within "main.css" we can write the following to define some styling information.
 #list {
   color: blue;
 }
-
 ```
 
 Here we define the styling information for two classes that we can specify as an attribute to an HTML element. A class selector definition in CSS always starts with a period and contains the actual name of the class.
 
-You can write CSS rules to apply styling information to elements that contain these classes. Similarly, to use ID selectors, you would write ``#class-name`` as seen above with the 'list' ID.
+You can write CSS rules to apply styling information to elements that contain these classes. Similarly, to use ID selectors, you would write `#class-name` as seen above with the 'list' ID.
 
 ###Combining CSS, HTML, and JavaScript
 
@@ -234,40 +223,38 @@ We can use HTML form elements in order to submit data to a server using the POST
 
 ```html
 <form action="/new_todo" method="POST">
-  <input type="text" name="todo">
-  <br>
-  <input type="submit" value="Save">
+  <input type="text" name="todo" />
+  <br />
+  <input type="submit" value="Save" />
 </form>
 ```
 
-Inserting this in our page gives us a text box and a "Save" button that allows the user to type in a todo and save it. Please note how the form tag takes in the attributes of ``action`` and ``method`` allowing us to specify the HTTP method and the address to point to.
+Inserting this in our page gives us a text box and a "Save" button that allows the user to type in a todo and save it. Please note how the form tag takes in the attributes of `action` and `method` allowing us to specify the HTTP method and the address to point to.
 
 When the button is clicked, the browser will send the values in the inputs (the textbox) to the server using a HTTP POST method directed at the "/new_todo" endpoint.
 
 ### ADD IMAGE HERE OF REQUESTS
 
-Now, if you take a look at the Network tab when you submit this form, you might be surprised that it causes five HTTP requests. The reason for this being that the first event is the HTTP POST request to the server with the data to be submitted to which the server responds with the 302 HTTP status code that describes a URL redirect. This URL redirect tells the browser to do a new HTTP GET request to the address mentioned in the header of the response; as a result, the browser redirects to the location and loads the page bringing along more HTTP GET requests for each of the HTML, CSS, JavaScript, and raw data files (data.json that is fetched as part of the client side logic). 
-
-
+Now, if you take a look at the Network tab when you submit this form, you might be surprised that it causes five HTTP requests. The reason for this being that the first event is the HTTP POST request to the server with the data to be submitted to which the server responds with the 302 HTTP status code that describes a URL redirect. This URL redirect tells the browser to do a new HTTP GET request to the address mentioned in the header of the response; as a result, the browser redirects to the location and loads the page bringing along more HTTP GET requests for each of the HTML, CSS, JavaScript, and raw data files (data.json that is fetched as part of the client side logic).
 
 Now, how might we handle this HTTP POST request on the server side of things?
 
 On the server, we would write a few lines of code to handle this route.
 
 ```javascript
-app.post('/new_todo', (req, res) => {
+app.post("/new_todo", (req, res) => {
   todos.push({
     content: req.body.todo,
     date: new Date(),
-  })
+  });
 
-  return res.redirect('/todos')
-})
+  return res.redirect("/todos");
+});
 ```
 
 Here, we handle a POST request to the '/new_todo' route. From this, we create a new todo object that contains the content of the object and the date. We then push this object to the todos array. After this is done, we put an instruction to redirect to '/todos' in the response.
 
-Saving objects to memory does not permanently store it. A simple restart of the web server will cause everything to be lost as it is not saved to a database. We'll discuss how to save objects to a database later in this book. 
+Saving objects to memory does not permanently store it. A simple restart of the web server will cause everything to be lost as it is not saved to a database. We'll discuss how to save objects to a database later in this book.
 
 ### Modern Conventions
 
@@ -283,9 +270,9 @@ In order to prevent a redirect (against the goal of having a single-page app), w
 
 ```html
 <form id="todos_form">
-  <input type="text" name="todo">
-  <br>
-  <input type="text" value="Save">
+  <input type="text" name="todo" />
+  <br />
+  <input type="text" value="Save" />
 </form>
 ```
 
@@ -294,43 +281,39 @@ Here, you'll notice that we got rid of the action and method attributes while al
 Now, to send the form data the "SPA way", we must write some more JavaScript on the client side.
 
 ```javascript
-var form = document.getElementById('todos_form')
-form.onsubmit = function(e) {
-  e.preventDefault() // Overrides the default behavior of some browers that may lead to a redirect, etc.
+var form = document.getElementById("todos_form");
+form.onsubmit = function (e) {
+  e.preventDefault(); // Overrides the default behavior of some browers that may lead to a redirect, etc.
 
   var todo = {
     content: e.target.elements[0].value, // Gets the first input of the form and it's value (text content)
     date: new Date(),
-  }
+  };
 
-  todos.push(todo) // Adds the todo to the todos list so we can use it to rerender the page with it
-  e.target.elements[0].value = '' // Clears the form text box
-  redrawTodos() // Function that will cause all of the todos to be rerendered
-  sendToServer(todo) // Function that will send the new todo to be sent to the server using the XMLHttpRequest API
-}
+  todos.push(todo); // Adds the todo to the todos list so we can use it to rerender the page with it
+  e.target.elements[0].value = ""; // Clears the form text box
+  redrawTodos(); // Function that will cause all of the todos to be rerendered
+  sendToServer(todo); // Function that will send the new todo to be sent to the server using the XMLHttpRequest API
+};
 ```
 
-Notice how we are creating functions that provide reusable functionality to make our code easier to maintain and read, especially as our projects continue to grow. Now, we'll go over the implementation of the ``sendToServer()`` method.
+Notice how we are creating functions that provide reusable functionality to make our code easier to maintain and read, especially as our projects continue to grow. Now, we'll go over the implementation of the `sendToServer()` method.
 
 ```javascript
-var sendToServer = function(todo) {
-  var xhttpForPost = new XMLHttpRequest()
+var sendToServer = function (todo) {
+  var xhttpForPost = new XMLHttpRequest();
 
-  xhttpForPost.open('POST', '/new_todo', true)
-  xhttpForPost.setRequestHeader(
-    'Content-type', 'application/json'
-  )
-  xhttpForPost.send(JSON.stringify(todo))
-}
+  xhttpForPost.open("POST", "/new_todo", true);
+  xhttpForPost.setRequestHeader("Content-type", "application/json");
+  xhttpForPost.send(JSON.stringify(todo));
+};
 ```
 
 In this method, we create a new `XMLHttpRequest` and set it's request header to match the type of data that we are sending. In this case, we are sending json objects, so we update the request header and use `JSON.stringify()` to convert our JavaScript `todo` object into a JSON string that can be sent to the server.
 
-
-
 # JavaScript
 
-This is just going to be a quick overview of some features of the JavaScript langauge and tips that will prove useful during development. This section will teach you everything that you will need to know to continue in this book, but by no means should be used to learn JavaScript. For the purpose of learning JavaScript, I heavily recommend the *You Don't Know JavaScript* book series.
+This is just going to be a quick overview of some features of the JavaScript langauge and tips that will prove useful during development. This section will teach you everything that you will need to know to continue in this book, but by no means should be used to learn JavaScript. For the purpose of learning JavaScript, I heavily recommend the _You Don't Know JavaScript_ book series.
 
 ## JavaScript Background
 
@@ -347,21 +330,21 @@ JavaScript is widely known as a client-side langauge that enables interactivity 
 You can store an array in a const as follows
 
 ```js
-const exampleArray = [5, 0, 3]
+const exampleArray = [5, 0, 3];
 ```
 
 If you would like to add an item to the array, you can use
 
 ```js
-exampleArray.push(6)
+exampleArray.push(6);
 ```
 
 If you would like to execute a function for each item in an array, you can iterate through items in an array by using the `forEach()` function as follows
 
 ```js
-exampleArray.forEach(valueFromArray => {
-  console.log(valueFromArray)  // prints 4 lines containing 5, 0, 3, and 6
-})
+exampleArray.forEach((valueFromArray) => {
+  console.log(valueFromArray); // prints 4 lines containing 5, 0, 3, and 6
+});
 ```
 
 Here, you can see something called an 'arrow function' being defined and passed to the `forEach()` function. Upon receiving this function as a parameter, `forEach()` will execute that function for each of the items in the array, making sure to pass the individual element (for the current iteration) as a parameter for arrow function that we passed to it.
@@ -371,9 +354,9 @@ Here, you can see something called an 'arrow function' being defined and passed 
 Now, when we eventually visit React, you'll soon find that a common feature is the use of immutable data structures. Thus, if we were to ever need to add another item to an array, we wouldn't add it to the same array reference but rather create a new array with our new value by using the `concat()` function.
 
 ```js
-const newArray = exampleArray.concat(5)
-console.log(exampleArray) // [5, 0, 3] is printed
-console.log(newArray) // [5, 0, 3, 5] is printed
+const newArray = exampleArray.concat(5);
+console.log(exampleArray); // [5, 0, 3] is printed
+console.log(newArray); // [5, 0, 3, 5] is printed
 ```
 
 Here, you can see how using the `contcat()` method did not mutate our original array in any way but rather created and returned a new array with the function argument added on to it.
@@ -383,10 +366,10 @@ Here, you can see how using the `contcat()` method did not mutate our original a
 Expanding on this concept of immutability, when we want to modify or pass every value from an array into a function, the `map()` function (which will be used quite extensively in React) returns the results of an interable (array, list, etc.) after applying a given function. What this means for our arrays is that we can create completely new arrays where the function given as a parameter is used to create them based off of our original array. This is done without mutating our original array as it returns a completely new array.
 
 ```js
-const exampleMap = [5, 3, 1]
+const exampleMap = [5, 3, 1];
 
-const newExample = exampleMap.map(value => value * 2)
-console.log(newExample)   // [10, 6, 2] is printed
+const newExample = exampleMap.map((value) => value * 2);
+console.log(newExample); // [10, 6, 2] is printed
 ```
 
 ### Destructuring Assignment Expression
@@ -394,29 +377,29 @@ console.log(newExample)   // [10, 6, 2] is printed
 You can assign individual items in an array to variables by using **destructuring assignment**.
 
 ```js
-const toBeDestructured = [5, 6, 7, 8, 9]
+const toBeDestructured = [5, 6, 7, 8, 9];
 
-const [firstItem, secondItem, ...everythingElse] = toBeDestructured
+const [firstItem, secondItem, ...everythingElse] = toBeDestructured;
 
-console.log(firstItem, secondItem)  // 5, 6 is printed
-console.log(everythingElse)          // [7, 8, 9] is printed
+console.log(firstItem, secondItem); // 5, 6 is printed
+console.log(everythingElse); // [7, 8, 9] is printed
 ```
 
 Here, you can see that the variables `firstItem` and `secondItem` receive the first two integers of the array. Then the rest of the values get collected into a new array which is then assigned to the variable `everythingElse`. You can use any variable name and any amount of variables to get the values that you desire from the array.
 
 ## Objects and JavaScript Object Notation (JSON)
 
-JavaScript contains objects that follow the JavaScript object notation. One way to create these objects is by using *object literals* in which you literally write the object in your code as follows
+JavaScript contains objects that follow the JavaScript object notation. One way to create these objects is by using _object literals_ in which you literally write the object in your code as follows
 
 ```js
 const examplePersonObject = {
   name: {
-    first: 'ExampleFirst',
-    last: 'ExampleLast',
+    first: "ExampleFirst",
+    last: "ExampleLast",
   },
-  jobs: ['Teacher', 'Software Engineer'],
-  workplace: 'Microsoft',
-}
+  jobs: ["Teacher", "Software Engineer"],
+  workplace: "Microsoft",
+};
 ```
 
 Within an object you have things called properties. These are essentially the key values that you would use in order to get the values of the properties. The syntax is, as you can see above, `property: value`. The values of these properties can be anything ranging from integers to full blown objects.
@@ -426,36 +409,36 @@ Within an object you have things called properties. These are essentially the ke
 In order to use values within objects, we can use dot notation or brackets to reference these properties and receive these values back.
 
 ```js
-console.log(examplePersonObject.workplace) // Using dot notation to reference the property, 'Microsoft' is printed
-console.log(examplePersonObject['workplace']) // Using brackets to reference the property, 'Microsoft' is printed
+console.log(examplePersonObject.workplace); // Using dot notation to reference the property, 'Microsoft' is printed
+console.log(examplePersonObject["workplace"]); // Using brackets to reference the property, 'Microsoft' is printed
 ```
 
 With brackets, we also gain the ability to reference properties based off of a variable instead of having to rely on string literals or hardcoded properties.
 
 ```js
-const exampleField = 'workplace'
-console.log(examplePersonObject[exampleField]) // Using bracket notation and a variable to reference the property specified in the variable, 'Microsoft' is printed
+const exampleField = "workplace";
+console.log(examplePersonObject[exampleField]); // Using bracket notation and a variable to reference the property specified in the variable, 'Microsoft' is printed
 ```
 
 In addition, we can use the concepts from above to dive deeper into our nested object. Recall that our `name` property within our `examplePersonObject` object has an object of its own. We can access properties of that object as follows
 
 ```js
-const requestedName = 'last'
-console.log(examplePersonObject['name'][requestedName]) // Using bracket notation and a variable to reference the property within the object of the 'name' property, 'ExampleLast' is printed
-console.log(examplePersonObject.name.first) // Using 'stacked' dot notation, we reference the name property and the 'first' property of the value of the name property leading to 'ExampleFirst' being printed
+const requestedName = "last";
+console.log(examplePersonObject["name"][requestedName]); // Using bracket notation and a variable to reference the property within the object of the 'name' property, 'ExampleLast' is printed
+console.log(examplePersonObject.name.first); // Using 'stacked' dot notation, we reference the name property and the 'first' property of the value of the name property leading to 'ExampleFirst' being printed
 ```
 
-Here, you'll notice that we can 'stack' brackets or the use of dot notation multiple times to delve within objects. It may also be helpful to think of your objects as any file structure that you would find on your computer and the dot notation/brackets as the file path. 
+Here, you'll notice that we can 'stack' brackets or the use of dot notation multiple times to delve within objects. It may also be helpful to think of your objects as any file structure that you would find on your computer and the dot notation/brackets as the file path.
 
-> Please note, you *cannot* use variables with dot notation as of ES9. You also cannot reference properties with spaces or create new properties with spaces in their names when using dot notation as in the following example.
+> Please note, you _cannot_ use variables with dot notation as of ES9. You also cannot reference properties with spaces or create new properties with spaces in their names when using dot notation as in the following example.
 
 ### Adding Properties
 
 We can also add properties to any object after the fact by using brackets or dot notation as well.
 
 ```js
-examplePersonObject.age = 204
-examplePersonObject['favorite color'] = 'Blue'
+examplePersonObject.age = 204;
+examplePersonObject["favorite color"] = "Blue";
 ```
 
 Here, you'll notice, as mentioned earlier, we must use brackets to create the `'favorite color'` property as the name has a space in it.
@@ -464,8 +447,8 @@ Whenever we encounter these odd cases for property names, we can use string synt
 
 ```js
 const exampleObject2 = {
-  'some random property': 25
-}
+  "some random property": 25,
+};
 ```
 
 Here, you'll notice that we wrapped the property name in quotes in order to accomplish this.
@@ -495,8 +478,8 @@ const exampleObject3 = {
 Now, to call these functions, we can use the usual dot notation or brackets, but w ecan also store a method reference in a variable and call that method through the variable as follows
 
 ```js
-const referenceToTalk = exampleObject3.talk
-referenceToTalk("Example") // Prints "Called from within an object with the argument: Example"
+const referenceToTalk = exampleObject3.talk;
+referenceToTalk("Example"); // Prints "Called from within an object with the argument: Example"
 ```
 
 If you use the `this` keyword in any of your object methods, please note that `this` is defined based on how the method is called with these regular functions (explained in further detail below in the 'JavaScript Functions' section). Thus, if you call the function via reference, `this` becomes the global object and can lead to many errors.
@@ -504,19 +487,17 @@ If you use the `this` keyword in any of your object methods, please note that `t
 For example, if we tried calling the `bindDemo` method from a reference, we will get an error
 
 ```js
-const referenceToBindDemo = exampleObject3.bindDemo
-referenceToBindDemo() // Error printed as there is no property in the global object
+const referenceToBindDemo = exampleObject3.bindDemo;
+referenceToBindDemo(); // Error printed as there is no property in the global object
 ```
 
 We can create new functions with `this` bound manually regardless of what is calling the method.
 
 ```js
-const boundFunction = exampleObject3.bindDemo.bind(exampleObject3) // Bound to exampleObject3 so 'this' will work
+const boundFunction = exampleObject3.bindDemo.bind(exampleObject3); // Bound to exampleObject3 so 'this' will work
 ```
 
-
-
-With this, it is important to always keep track of `this` when writing JavaScript as it can lead to a plethora of issues. 
+With this, it is important to always keep track of `this` when writing JavaScript as it can lead to a plethora of issues.
 
 ## INSERT INFORMATION ABOUT OBJECT METHODS IN JAVASCRIPT
 
@@ -524,19 +505,17 @@ With this, it is important to always keep track of `this` when writing JavaScrip
 
 The use of a constructor may remind you of classes coming from a Java background or any of the many other languages that make use of this mechanism. I wouldn't get my hopes up too much, though, as JavaScript doesn't really have classes that behave in the same was as these other langauges.
 
-
-
 We can write constructors as follows
 
 ```js
 function Person(first, last, age, occupation) {
-  this.firstName = first
-  this.lastName = last
-  this.age = age
-  this.occupation = occupation
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.occupation = occupation;
   this.changeAge = function (age) {
-   	this.age = age
-  }
+    this.age = age;
+  };
 }
 ```
 
@@ -547,32 +526,32 @@ We can also add object methods to our constructor which will be applied to the o
 > It is recommended to name constructor functions with an upper-case first letter.
 
 ```js
-var examplePerson = new Person("Jake", "Flannn", 25, "Software Engineer")
+var examplePerson = new Person("Jake", "Flannn", 25, "Software Engineer");
 ```
 
 The above is how we would go about creating a object of the `Person` "type". If we wanted to go ahead and change the age of our `Person` object, we can call the object method stored in one of its properties.
 
 ```js
-examplePerson.changeAge(25)
+examplePerson.changeAge(25);
 ```
 
 Here, the object method mentioned in the constructor has bound `this` to the `examplePerson` object, to which we are able to reference the object's age by `this.age` in the method and update it.
 
 ### Class Syntax
 
-With version ES6 came the introduction of the *class syntax* which can help us structure objects and object-oriented classes. Now, this is where things might get familiar to those with a background in languages such as Java. Please keep in mind, although they behave similarly to Java objects, at their core, they are still JavaScript objects that are based on prototype inheritance.
+With version ES6 came the introduction of the _class syntax_ which can help us structure objects and object-oriented classes. Now, this is where things might get familiar to those with a background in languages such as Java. Please keep in mind, although they behave similarly to Java objects, at their core, they are still JavaScript objects that are based on prototype inheritance.
 
 #### Class Declarations
 
-We can define a class by using a *class declaration* as follows
+We can define a class by using a _class declaration_ as follows
 
 ```js
 class Person {
   constructor(firstName, lastName, age, occupation) {
-    this.firstName = firstName
-    this.lastName = lastName
-    this.age = age
-    this.occupation = occupation
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.age = age;
+    this.occupation = occupation;
   }
 }
 ```
@@ -583,7 +562,7 @@ Also, please be sure to mention class declarations in your code before you actua
 
 > If you care to read more about hoisting, I suggest you take a look at the 'JavaScript Nuances and Tips' section at the end of the chapter.
 
-The body of a class is automatically put into "strict mode" for increased performance and safer guidelines (see 'JavaScript Nuances and Tips' for an in-depth explanation of what it does). 
+The body of a class is automatically put into "strict mode" for increased performance and safer guidelines (see 'JavaScript Nuances and Tips' for an in-depth explanation of what it does).
 
 #### Class Expressions
 
@@ -592,15 +571,15 @@ Class expressions are also another way to define a class in JavaScript versions 
 ```js
 var Square = class {
   constructor(dimension) {
-    this.height = dimension
-    this.width = dimension
+    this.height = dimension;
+    this.width = dimension;
   }
   area() {
-    return this.height * this.width
+    return this.height * this.width;
   }
-}
+};
 
-console.log(new Square(5).area()) // Prints 25
+console.log(new Square(5).area()); // Prints 25
 ```
 
 You'll notice that we omited the class name here, which you cannot do with class declarations. The constructor property is also optional for these classes with redeclaration being possible.
@@ -609,71 +588,65 @@ As mentioned earlier, the body of a class is automatically put into "strict mode
 
 #### Static Methods in Classes
 
-When using the  `static` keyword to define a method for a class, we create a static method which can be called without instantiating the class (creating an instance of the class/the object created after using the constructor to create a new object). These methods **cannot** be called by class instances.
+When using the `static` keyword to define a method for a class, we create a static method which can be called without instantiating the class (creating an instance of the class/the object created after using the constructor to create a new object). These methods **cannot** be called by class instances.
 
 ```js
 class Example {
   constructor(x, y) {
-    this.x = x
-    this.y = y
+    this.x = x;
+    this.y = y;
   }
   static add(a, b) {
-    return a + b
+    return a + b;
   }
 }
-const exampleInstance = new Example(5, 5)
-console.log(Example.add(5, 5)) // Prints 10
+const exampleInstance = new Example(5, 5);
+console.log(Example.add(5, 5)); // Prints 10
 ```
 
 Notice how we called the `add()` static method from the actual class declaration rather than the `exampleInstance` instance that we have instantiated from the class. Static functions are used for utility functions that do not depend on properties of specific instances.
 
 There are many more special behaviors with JavaScript classes, but this should suffice for most web development purposes. When the time comes to learn JavaScript behaviors, features, and syntax more deeply, it is recommended to read the 'MDN web docs' or the 'You Don't Know JavaScript' book series.
 
-
-
 # JAVASCRIPT PROTOTYPES
 
 Every object in JavaScript has an internal property known as 'prototype'
-
-
-
-
 
 ### JavaScript Functions
 
 Now let's talk about one of the most important concepts that you'll find in JavaScript when dealing with web development, especially when dealing with React.
 
-Nowadays, the most common way to define functions is by defining an arrow function. Arrow functions can be written as follows 
+Nowadays, the most common way to define functions is by defining an arrow function. Arrow functions can be written as follows
 
 ```js
 const add = (a, b) => {
-  return a + b
-}
+  return a + b;
+};
 
 // To call our function
-const sum = add(5, 5)
-console.log(sum) // Prints 10
+const sum = add(5, 5);
+console.log(sum); // Prints 10
 ```
 
 There are also shortcuts that we can take. If we just have one parameter that we need for our function, we can get rid of the parentheses around our parameters as follows
 
 ```js
-const square = d => {
-  return d * d
-}
+const square = (d) => {
+  return d * d;
+};
 ```
 
 Going even further, if there's just one expression inside the body of our function, we can keep everything in one line and get rid of the brackets.
 
 ```js
-const square = d => d * d
+const square = (d) => d * d;
 ```
 
 This shortened syntax often finds its use when dealing with the map method as it looks quite clean and can fit everything into one line.
 
 ```js
-const toBeSquared = [5,2,3]
-const squaredNumbers = toBeSquared.map(d => d * d)
+const toBeSquared = [5, 2, 3];
+const squaredNumbers = toBeSquared.map((d) => d * d);
 ```
 
 Arrow functions behave differently than regular functions. For example, they bind the keyword `this` to the lexical scope instead of binding it based on context. Usually, regular functions bind this to the object that calls the function (the context), while arrow functions take the value of `this` in the scope that the function was defined. In other words, arrow functions bind the value of `this` to the value of `this` where it was defined. This makes them unsuitable for being used as an object method.
@@ -686,18 +659,18 @@ Before arrow functions, there were function expressions and function declaration
 
 ```js
 function add(a, b) {
-  return a + b
+  return a + b;
 }
-const sum = add(2, 9)
+const sum = add(2, 9);
 ```
 
 When we do not give a function a name, it is called a function expression:
 
 ```js
-const add = function(a, b) {
-  return (a + b)
-}
-const sum = add(2, 9)
+const add = function (a, b) {
+  return a + b;
+};
+const sum = add(2, 9);
 ```
 
 Please do not worry about remembering all of this, we will revisit most relevant concepts later on when we encounter their actual real-world uses.
@@ -728,13 +701,7 @@ If you look online for some explanatoins, they will explain the technical reason
 
 ### Hoisting
 
-
-
-
-
 ## Spread Syntax
-
-
 
 # Let's React
 
@@ -763,26 +730,24 @@ Upon running this command, the application should run at the address `https://lo
 
 Chrome should have opened automatically, so you should now open your developer tools so we can get started.
 
-For all intents and purposes with regard to learning React, we can simplify our `index.js` file and our project directory quite significantly. 
+For all intents and purposes with regard to learning React, we can simplify our `index.js` file and our project directory quite significantly.
 
 Please replace your `index.js` file with the contents below.
 
 ```jsx
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from "react";
+import ReactDOM from "react-dom";
 
 const App = () => (
   <div>
     <p>My first React app!</p>
   </div>
-)
+);
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById("root"));
 ```
 
 You can also go ahead and delete `App.js`, `App.css`, `App.test.js`, `logo.svg`, and `serviceWorker.js` as they are not needed for this project.
-
-
 
 ## Components
 
@@ -791,14 +756,12 @@ Within our `index.js` file, you'll find an item called a React-component with th
 There is also a line that renders this component into view at the bottom of the file as follows
 
 ```jsx
- ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById("root"));
 ```
 
 This line renders the component into the div-element with the id of 'root' that was specified in the `public/index.html` file.
 
 Now, you can always write standard HTML into that file, and it will appear, but with React applications, we try to write everything defined as React components. Who would've known?
-
-
 
 Let's take a dive into our `App` component. Looking at the code, you can see that the component places a `<p>` tag containing the text 'My first React app!' inside a `div` tag. Moving on to the JavaScript aspect, the component is an anonymous JavaScript function (a function that is not bound to an identifier or more simply, a function that does not have a name) with no parameters. This function is then stored inside the constant variable `App`.
 
@@ -814,8 +777,8 @@ const App = () => {
     <div>
       <p>My first React app!</p>
     </div>
-  )
-}
+  );
+};
 ```
 
 Where we now explicitly return the component that we want to render. Upon doing this, we can now render dynamic content as we can execute any JavaScript statement before the return statement.
@@ -824,9 +787,9 @@ For example, we can now write
 
 ```jsx
 const App = () => {
-  const now = new Date()
-  const a = 50
-  const b = 50
+  const now = new Date();
+  const a = 50;
+  const b = 50;
 
   return (
     <div>
@@ -835,8 +798,8 @@ const App = () => {
         {a} plus {b} is {a + b}
       </p>
     </div>
-  )
-}
+  );
+};
 ```
 
 Here, you can see us execute JavaScript statements before the return statement which allows us to store values within variables to be referenced in our component. We reference these variables in our component by enclosing them within curly braces. In our return statement, we can put JavaScript code within curly braces which will be evaluated and inserted into our component.
@@ -852,7 +815,17 @@ var App = function App() {
   var now = new Date();
   var a = 50;
   var b = 50;
-  return React.createElement("div", null, React.createElement("p", null, "My first React clock! It is ", now.toString()), React.createElement("p", null, a, " plus ", b, " is ", a + b));
+  return React.createElement(
+    "div",
+    null,
+    React.createElement(
+      "p",
+      null,
+      "My first React clock! It is ",
+      now.toString()
+    ),
+    React.createElement("p", null, a, " plus ", b, " is ", a + b)
+  );
 };
 ```
 
@@ -863,7 +836,7 @@ JSX isn't exactly like HTML though, it is "XML-like", meaning that every tag wri
 For example, when writing HTML, you can write a line break element as follows
 
 ```html
-<br>
+<br />
 ```
 
 However, when writing JSX, you must have a closing tag as follows
@@ -878,8 +851,6 @@ or when dealing with components that may require items between the starting and 
 <h1>I need a closing tag!</h1>
 ```
 
-
-
 **As you begin to write your own components, please note that a React-component must have a name that starts with a capital letter.** The reason for this being that the component use will be treated as a built-in element (such as a span or div) if the component does not start with a capital letter.
 
 ### Adding Complexity
@@ -892,8 +863,8 @@ const ExampleComponent = () => {
     <div>
       <p>I will be used inside another component!</p>
     </div>
-  )
-}
+  );
+};
 
 const App = () => {
   return (
@@ -903,19 +874,17 @@ const App = () => {
       <ExampleComponent />
       <ExampleComponent />
     </div>
-  )
-}
+  );
+};
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById("root"));
 ```
 
 Here, you can see that we mentioned `<ExampleComponent />` multiple times in our `App` component. This allows us to break our project into many components designed for a purpose that can be reused in other components, allowing us to keep our project maintainable as it grows larger.
 
-
-
 ## Components With Data (Props)
 
-Now, let's combine the concept of using JavaScript in our JSX and the modular structure of React. Doing so requires the use of *props* which allow us to pass data to components.
+Now, let's combine the concept of using JavaScript in our JSX and the modular structure of React. Doing so requires the use of _props_ which allow us to pass data to components.
 
 For example, we can create the following components that pass data to each other and use it in a meaningful way.
 
@@ -923,23 +892,26 @@ For example, we can create the following components that pass data to each other
 const Welcome = (props) => {
   return (
     <div>
-      <p>Welcome, {props.title}{props.name}!</p>
+      <p>
+        Welcome, {props.title}
+        {props.name}!
+      </p>
     </div>
-  )
-}
+  );
+};
 
 const App = () => {
-  const josephTitle = 'Mr. '
-  const josephAge = 37
-  
+  const josephTitle = "Mr. ";
+  const josephAge = 37;
+
   return (
     <div>
       <h1>Members: </h1>
-      <Welcome name="Grace" title="Ms. " age={5+20}/>
-      <Welcome name="Joseph" title={josephTitle} age={josephAge}/>
+      <Welcome name="Grace" title="Ms. " age={5 + 20} />
+      <Welcome name="Joseph" title={josephTitle} age={josephAge} />
     </div>
-  )
-}
+  );
+};
 ```
 
 Here, you can see that we make use of the `Welcome` component twice in our `App` component. Within our calls to the `Welcome` component, we pass in the prop `name` as a string parameter. We can also pass the result of a JavaScript expression by wrapping it in curly braces as you can see with our references to the `josephTitle` and `josephAge` variables as well as our evaluation of the expression `5+20`.
@@ -951,7 +923,7 @@ When writing your React components, keep iin mind that the content of a React co
 const App = () => {
   const josephTitle = 'Mr. '
   const josephAge = 37
-  
+
   return (
     <h1>Members: </h1>
     <Welcome name="Grace" title="Ms. " age={5+20}/>
@@ -972,7 +944,7 @@ As we have discussed earlier, we can also return an array of components as follo
 const App = () => {
   const josephTitle = 'Mr. '
   const josephAge = 37
-  
+
   return [
     <h1>Members: </h1>
     <Welcome name="Grace" title="Ms. " age={5+20}/>
@@ -987,17 +959,17 @@ With our first solution of wrapping multiple JSX elements in one enclosing tag, 
 
 ```jsx
 const App = () => {
-  const josephTitle = 'Mr. '
-  const josephAge = 37
-  
+  const josephTitle = "Mr. ";
+  const josephAge = 37;
+
   return (
     <>
       <h1>Members: </h1>
-      <Welcome name="Grace" title="Ms. " age={5+20}/>
-      <Welcome name="Joseph" title={josephTitle} age={josephAge}/>
+      <Welcome name="Grace" title="Ms. " age={5 + 20} />
+      <Welcome name="Joseph" title={josephTitle} age={josephAge} />
     </>
-  )
-}
+  );
+};
 ```
 
 Here, the fragment's opening tag is `<>` with `</>` as the closing tag. Fragments are essentially empty elements that we can use to wrap the elements to be returned by the component. Doing this allows us to compile our code successfully without making it unsightly or adding extra div-elements to our DOM-tree.
@@ -1011,23 +983,23 @@ const Greet = (props) => {
   return (
     <div>
       <p>
-        Welcome {props.name}, we have your age as: {props.age} 
+        Welcome {props.name}, we have your age as: {props.age}
       </p>
     </div>
-  )
-}
+  );
+};
 
 const App = () => {
-  const exampleName = 'Jake'
-  const exampleAge = 15
+  const exampleName = "Jake";
+  const exampleAge = 15;
 
   return (
     <div>
       <Greet name="Jason" age={36 + 10} />
       <Greet name={exampleName} age={exampleAge} />
     </div>
-  )
-}
+  );
+};
 ```
 
 ### Component Helper Functions
@@ -1037,23 +1009,21 @@ Now, if we wanted to write a component that also wrote about how many days the p
 ```jsx
 const Greet = (props) => {
   const ageDays = () => {
-    return props.age * 365
-  }
-  
+    return props.age * 365;
+  };
+
   return (
     <div>
       <p>
-        Welcome {props.name}, we have your age as: {props.age} 
+        Welcome {props.name}, we have your age as: {props.age}
       </p>
-			<p>
-        You are close to {ageDays()} days old
-      </p>
+      <p>You are close to {ageDays()} days old</p>
     </div>
-  )
-}
+  );
+};
 ```
 
-As the function is defined within the component function, it has access to all the props passed to the components. Thus, we do not need to pass the age prop to the function. We then use the function that we defined within the `Greet` component in order to get, rougly, the amount of days that the user has been alive for. 
+As the function is defined within the component function, it has access to all the props passed to the components. Thus, we do not need to pass the age prop to the function. We then use the function that we defined within the `Greet` component in order to get, rougly, the amount of days that the user has been alive for.
 
 The result of this component should look like this:
 
@@ -1065,23 +1035,21 @@ We can streamline our references to our props by using something called destruct
 
 ```jsx
 const Greet = (props) => {
-  const { name, age } = props // Assigns the name property to the variable 'name' and the age property to the variable 'age'
-  
+  const { name, age } = props; // Assigns the name property to the variable 'name' and the age property to the variable 'age'
+
   const ageDays = () => {
-    return age * 365
-  }
-  
+    return age * 365;
+  };
+
   return (
     <div>
       <p>
-        Welcome {name}, we have your age as: {age} 
+        Welcome {name}, we have your age as: {age}
       </p>
-			<p>
-        You are close to {ageDays()} days old
-      </p>
+      <p>You are close to {ageDays()} days old</p>
     </div>
-  )
-}
+  );
+};
 ```
 
 Here, you'll see that we no longer have to reference these properties through dot notation/brackets upon the object, we can just simply reference the properties by their names as they have been assigned to constants when they were destructured.
@@ -1089,22 +1057,21 @@ Here, you'll see that we no longer have to reference these properties through do
 In order to further streamline this, we can destructure the props into the variables in the argument list when we define our arrow function.
 
 ```jsx
-const Greet = ({ name, age }) => { // The props are destructured in the argument list
+const Greet = ({ name, age }) => {
+  // The props are destructured in the argument list
   const ageDays = () => {
-    return age * 365
-  }
-  
+    return age * 365;
+  };
+
   return (
     <div>
       <p>
-        Welcome {name}, we have your age as: {age} 
+        Welcome {name}, we have your age as: {age}
       </p>
-			<p>
-        You are close to {ageDays()} days old
-      </p>
+      <p>You are close to {ageDays()} days old</p>
     </div>
-  )
-}
+  );
+};
 ```
 
 Here, instead of passing the entire `props` object into the component function, we destructure the props into the two variables `name` and `age` which are then passed into our component without passing in the entire `props` object. Thus, any references to the `props` object will lead to a 'Failed to compile' error. With this, it is important to remember that you will not be able to reference the `props` object and will have to destructure any new props that you pass into your component.
@@ -1115,27 +1082,24 @@ Let's bring some interactivity into our components.
 
 ```jsx
 const App = (props) => {
-  const { count } = props
+  const { count } = props;
   return (
     <div>
-      <p>
-        The current count is: {count}
-      </p>
+      <p>The current count is: {count}</p>
     </div>
-  )
-}
+  );
+};
 
-let count = 1
+let count = 1;
 
 const refresh = () => {
-  ReactDOM.render(<App count={count} />, 
-  document.getElementById('root'))
-}
+  ReactDOM.render(<App count={count} />, document.getElementById("root"));
+};
 
 setInterval(() => {
-  refresh()
-  count += 1
-}, 1000)
+  refresh();
+  count += 1;
+}, 1000);
 ```
 
 Now, you'll see here that we have a function called `refresh` that will call upon `ReactDOM.render` to render our component to the root element in our document. Within this `refresh` function, we pass the current value of the variable count to our `App` component which will then be rendered and added to the root element.
@@ -1151,30 +1115,22 @@ React recently had the addition of 'React Hooks' in React 16.8. We'll now be tak
 Let's rewrite our above app to make use of `useState`.
 
 ```jsx
-import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
 
 const App = (props) => {
-  const [ count, setCounter ] = useState(0)
+  const [count, setCounter] = useState(0);
 
-  setTimeout(
-    () => setCounter(count + 1),
-    1000
-  )
+  setTimeout(() => setCounter(count + 1), 1000);
 
   return (
     <div>
-      <p>
-        The current count is: {count}
-      </p>
+      <p>The current count is: {count}</p>
     </div>
-  )
-}
+  );
+};
 
-ReactDOM.render(
-  <App />, 
-  document.getElementById('root')
-)
+ReactDOM.render(<App />, document.getElementById("root"));
 ```
 
 There are quite a few new concepts and changes to this application, so let's take a look into what has changed and what these new functions do.
@@ -1184,63 +1140,52 @@ You'll first notice that we imported the `useState` function from 'react' in ord
 Next, draw your attention to the following line
 
 ```jsx
-const [ count, setCounter ] = useState(0)
+const [count, setCounter] = useState(0);
 ```
 
-Here, we make use of the destructuring syntax to assign the elements of the array that `useState` returns to the constants `count` and  `setCounter`. When you call `useState`, it creates this 'state variable' which will be preserved by React and not 'disappear' (due to the scope of our variables) when the function exists unlike normal variables. It also creates a function that we can use to update our state.
+Here, we make use of the destructuring syntax to assign the elements of the array that `useState` returns to the constants `count` and `setCounter`. When you call `useState`, it creates this 'state variable' which will be preserved by React and not 'disappear' (due to the scope of our variables) when the function exists unlike normal variables. It also creates a function that we can use to update our state.
 
 The first element in the array that is returned from the `useState` function call is the 'state variable'. The second element in the array that is returned from the call is our function that we can use to update our state. We then utilize array destucturing (the bracket syntax) in order to store the first element in the `count` constant and the update function `setCounter` constant.
 
 One common point of confusion is simply just passing an expression to update the state in a `setTimeout` function or anywhere. You typically will have to create a function to change state and pass that to any function which will update your state. For example, in our application above, we wrote
 
 ```jsx
-setTimeout(
-    () => setCounter(count + 1),
-    1000
-  )
+setTimeout(() => setCounter(count + 1), 1000);
 ```
 
 In this snippet, we call the `setTimeout` function and pass it an arrow function (with shortcut syntax) to increment the counter variable in our state and with a timeout duration of 1000 milliseconds. Every time this state modifying function is called, React will go ahead and re-render the component. When dealing with functional components, the entire function's body will be re-executed upon a re-render. Upon calling `setCounter`, the `count` variable will be updated and we can reference it as such.
 
-
-
-
-
 Just to provide some contrast, if we were to not use React Hooks and convert it to a class, our component would look something like this.
 
 ```jsx
-import React from 'react'
+import React from "react";
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      count: 0
-    }
+      count: 0,
+    };
   }
 
   render() {
     return (
       <div>
-        <p>
-          The current count is {this.state.count}
-        </p>
+        <p>The current count is {this.state.count}</p>
       </div>
-    )
+    );
   }
 
   componentDidMount() {
-    setInterval(() => { 
-        this.setState({
-            count: this.state.count + 1
-        })
-    }, 1000)
+    setInterval(() => {
+      this.setState({
+        count: this.state.count + 1,
+      });
+    }, 1000);
   }
 }
 ```
 
-Notice how things can be quite verbose and how we have to employ slightly different practices such as referring to our state variables with dot notation and `this.state`. 
-
-
+Notice how things can be quite verbose and how we have to employ slightly different practices such as referring to our state variables with dot notation and `this.state`.
 
 ## Event Handlers
 
@@ -1251,57 +1196,49 @@ In React, button elements have a variety of mouse events. We can use the click e
 ```jsx
 class EventHandlerButton extends React.Component {
   handleClick = () => {
-    console.log('A button has been clicked!');
-  }
+    console.log("A button has been clicked!");
+  };
 
   render() {
-    return (
-      <button onClick={this.handleClick}>
-        Click Me!
-      </button>
-    );
+    return <button onClick={this.handleClick}>Click Me!</button>;
   }
 }
 ```
 
 Here, we took the 'onClick' event handler and set the handler to our `handleClick` function in our class. Notice how follows the syntax of a property and is passed like a prop would be to our component.
 
-Moving back to React Hooks and our functional component, here's an example of a more complex  component that increments our `count` value upon a button press. 
+Moving back to React Hooks and our functional component, here's an example of a more complex component that increments our `count` value upon a button press.
 
 ```jsx
 const App = (props) => {
-  const [ count, setCounter ] = useState(0)
+  const [count, setCounter] = useState(0);
 
   return (
     <div>
       <div>{count}</div>
-      <button onClick={() => setCounter(count + 1)}>
-        Increment
-      </button>
+      <button onClick={() => setCounter(count + 1)}>Increment</button>
     </div>
-  )
-}
+  );
+};
 ```
 
-Here, we have defined a function inside the onClick event handler which takes the current value of the `count` variable in our component's state, adds one to that value, and uses `setCounter` to set its value to the incremented value. 
+Here, we have defined a function inside the onClick event handler which takes the current value of the `count` variable in our component's state, adds one to that value, and uses `setCounter` to set its value to the incremented value.
 
 In the interest of keeping things more manageable, we can declare our functions outside of the event handler as helper functions similarly to what we did with our React component class above.
 
 ```jsx
 const App = (props) => {
-  const [ count, setCounter ] = useState(0)
+  const [count, setCounter] = useState(0);
 
-  const incrementOne = () => setCounter(count + 1)
-  
+  const incrementOne = () => setCounter(count + 1);
+
   return (
     <div>
       <div>{count}</div>
-      <button onClick={incrementOne}>
-        Increment
-      </button>
+      <button onClick={incrementOne}>Increment</button>
     </div>
-  )
-}
+  );
+};
 ```
 
 With this, it is fair to say that event handlers (handlers) are just functions. However, when setting our `onClick` property/event handler to a function, we can make a fatal mistake very easily by calling the function rather than a reference to the function.
@@ -1309,9 +1246,7 @@ With this, it is fair to say that event handlers (handlers) are just functions. 
 ### React Re-Rendering Error
 
 ```jsx
-<button onClick={incrementOne()}>
-        Increment
-</button>
+<button onClick={incrementOne()}>Increment</button>
 ```
 
 Writing this with the parentheses makes `incrementOne()` a **function call** which is not the reference to the function that it is expecting. This is an issue, because if we have a direct function call, the function will be executed upon the rendering of the component rather than just upon the event. This creates an infinite cycle as the `incrementOne()` function calls the update function `setCounter` which causes the component to be re-rendered executing the `incrementOne` function, starting the cycle once again.
@@ -1322,28 +1257,24 @@ Let's explore a function that sets the counter to a specific function.
 
 ```jsx
 const App = (props) => {
-  const [ count, setCounter ] = useState(0)
+  const [count, setCounter] = useState(0);
 
-  const incrementOne = () => setCounter(count + 1)
+  const incrementOne = () => setCounter(count + 1);
 
-  const setCounterValue = (value) => setCounter(value)
-  
+  const setCounterValue = (value) => setCounter(value);
+
   return (
     <div>
       <div>{count}</div>
-      <button onClick={incrementOne}>
-        Increment
-      </button>
+      <button onClick={incrementOne}>Increment</button>
 
-      <button onClick={setCounterValue(0)}>
-        Set Counter to 0
-      </button>
+      <button onClick={setCounterValue(0)}>Set Counter to 0</button>
     </div>
-  )
-}
+  );
+};
 ```
 
-Here, we have written a function that should take in a parameter and set the count variable to that given variable. We also have created a button that **incorrectly** makes a function call to `setCounterVariable()` rather than passing in a reference. This is because we only want to tell React the function to execute upon an event (in this case, the onClick event). When we pass a function call as the handler, we do not do this but rather execute the function leading to unwanted behavior.  This will cause the same issue as described earlier, so how can we fix this and still retain the ability to pass in parameters to our function?
+Here, we have written a function that should take in a parameter and set the count variable to that given variable. We also have created a button that **incorrectly** makes a function call to `setCounterVariable()` rather than passing in a reference. This is because we only want to tell React the function to execute upon an event (in this case, the onClick event). When we pass a function call as the handler, we do not do this but rather execute the function leading to unwanted behavior. This will cause the same issue as described earlier, so how can we fix this and still retain the ability to pass in parameters to our function?
 
 One quick and easy way to do this is to make the event handler a function that calls our `setCounterValue` function.
 
@@ -1357,28 +1288,24 @@ Another way we can solve this problem is by defining a function that ends up ret
 
 ```jsx
 const App = (props) => {
-  const [ count, setCounter ] = useState(0)
+  const [count, setCounter] = useState(0);
 
-  const incrementOne = () => setCounter(count + 1)
+  const incrementOne = () => setCounter(count + 1);
 
   const setCounterValue = (value) => {
-		return () => {
-      setCounter(value)
-    }
-  }
+    return () => {
+      setCounter(value);
+    };
+  };
   return (
     <div>
       <div>{count}</div>
-      <button onClick={incrementOne}>
-        Increment
-      </button>
+      <button onClick={incrementOne}>Increment</button>
 
-      <button onClick={setCounterValue(0)}>
-        Set Counter to 0
-      </button>
+      <button onClick={setCounterValue(0)}>Set Counter to 0</button>
     </div>
-  )
-}
+  );
+};
 ```
 
 Here, we edited the `setCounterValue` function to take in the value and return a function that calls the `setCounter` function in order to update our state variable. We can now write the "function call" without wrapping it in an arrow function or encountering an error as this "function call" behaves like a reference to the function with the call only returning the function to be exectuted rather than executing the function. Thus, when the component renders, the `setCounter` function will not be called, avoiding the issue of infinite re-renders. This is similar to our above solution in that, upon a call, it returns the function that we actually want to execute upon an event which behaves like a reference to the function.
@@ -1387,26 +1314,22 @@ With this implementation, you might have also noticed that we now no longer have
 
 ```jsx
 const App = (props) => {
-  const [ count, setCounter ] = useState(0)
-  
+  const [count, setCounter] = useState(0);
+
   const setCounterValue = (value) => {
-		return () => {
-      setCounter(value)
-    }
-  }
+    return () => {
+      setCounter(value);
+    };
+  };
   return (
     <div>
       <div>{count}</div>
-      <button onClick={setCounterValue(count + 1)}>
-        Increment
-      </button>
+      <button onClick={setCounterValue(count + 1)}>Increment</button>
 
-      <button onClick={setCounterValue(0)}>
-        Set Counter to 0
-      </button>
+      <button onClick={setCounterValue(0)}>Set Counter to 0</button>
     </div>
-  )
-}
+  );
+};
 ```
 
 This new component makes use of the `setCounterValue` function to both increment and set our counter to 0.
@@ -1415,21 +1338,21 @@ When dealing with React, you may also see things called "double arrow functions"
 
 ```jsx
 const setCounterValue = (value) => {
-		return () => {
-      setCounter(value)
-    }
-}
+  return () => {
+    setCounter(value);
+  };
+};
 ```
 
 Calling `setCounterValue(100)` returns
 
 ```jsx
 () => {
-      setCounter(100)
-}
+  setCounter(100);
+};
 ```
 
-as `value` is passed in to the second arrow function "configuring" it with the value that we desire so that we do not have to pass in parameters to this function and can just take the function as is. This illustrates how these functions return other functions that contain our parameters inserted so they can be used almost as a reference and are not executed upon their initial call (they must be called two times in order to get our final result, React does this by first "unwrapping" the desired function through calling it upon a render and then by calling the desired function upon the specified event). 
+as `value` is passed in to the second arrow function "configuring" it with the value that we desire so that we do not have to pass in parameters to this function and can just take the function as is. This illustrates how these functions return other functions that contain our parameters inserted so they can be used almost as a reference and are not executed upon their initial call (they must be called two times in order to get our final result, React does this by first "unwrapping" the desired function through calling it upon a render and then by calling the desired function upon the specified event).
 
 Since we're dealing with arrow functions, we can take advantage of the shortened syntax that it offers in order to achieve the same result more elegantly.
 
@@ -1437,8 +1360,8 @@ The same function can be written as
 
 ```jsx
 const setCounterValue = (value) => () => {
-  setCounter(value)
-}
+  setCounter(value);
+};
 ```
 
 since we can omit the return statement and the surrounding curly braces as there is only one expression for the surrounding/initial function.
@@ -1448,12 +1371,10 @@ We can take this one step further and omit the curly braces surrounding our retu
 This shortens our function that returns a function to
 
 ```jsx
-const setCounterValue = (value) => () => setCounter(value)
+const setCounterValue = (value) => () => setCounter(value);
 ```
 
 which is a "double arrow function" with compact syntax. This way of dealing with functions is called "currying" and it involves nesting functions for each possible argument so that the inner components do not need to have all the arguments passed to them but rather get retain/get them through the natural closure created by the nested functions.
-
-
 
 ## Child Components
 
@@ -1462,29 +1383,25 @@ One of React's core principles is to write components that can be reused with ma
 First, we can create a `Display` component that allows us to actually display the value of the counter. As you continue to familiarize yourself with React, you'll find that it is best to "lift the state up" as high as possible in the component hierarchy (i.e. keeping state accessible to all the components that reflect the same changing data through keeping the state above their closest common ancestor).
 
 ```jsx
-const Display = ({ counter }) => <div>{counter}</div>
+const Display = ({ counter }) => <div>{counter}</div>;
 ```
 
 Here, our `Display` component gets the application state passed ot it and is able to display it in terms of returning the appropriate `div` which contains everything to be shown on the page.
 
 ```jsx
 const App = (props) => {
-  const [ count, setCounter ] = useState(0)
-  
-  const setCounterValue = (value) => () => setCounter(value) // Making use of double arrow functions described earlier
+  const [count, setCounter] = useState(0);
+
+  const setCounterValue = (value) => () => setCounter(value); // Making use of double arrow functions described earlier
   return (
     <div>
-      <Display counter={count} /> {/* Using our display component mentioned earlier */}
-      <button onClick={setCounterValue(count + 1)}>
-        Increment
-      </button>
-
-      <button onClick={setCounterValue(0)}>
-        Set Counter to 0
-      </button>
+      <Display counter={count} />{" "}
+      {/* Using our display component mentioned earlier */}
+      <button onClick={setCounterValue(count + 1)}>Increment</button>
+      <button onClick={setCounterValue(0)}>Set Counter to 0</button>
     </div>
-  )
-}
+  );
+};
 ```
 
 This new App component makes use of the Display component that we wrote earlier and passes the current `count` value from our state to the component.
@@ -1495,41 +1412,31 @@ Here is the implementation of our `CounterButton` component.
 
 ```jsx
 const CounterButton = ({ onClick, text }) => (
-  <button onClick={onClick}>
-    {text}
-  </button>
-)
+  <button onClick={onClick}>{text}</button>
+);
 ```
 
 Here's the updated `App` component that takes advantage of our `CounterButton` component.
 
 ```jsx
 const App = (props) => {
-  const [ count, setCounter ] = useState(0)
-  
-  const setCounterValue = (value) => () => setCounter(value) // Making use of double arrow functions described earlier
+  const [count, setCounter] = useState(0);
+
+  const setCounterValue = (value) => () => setCounter(value); // Making use of double arrow functions described earlier
   return (
     <div>
-      <Display counter={count} /> {/* Using our display component mentioned earlier */}
-      <CounterButton 
-        onClick={setCounterValue(count + 1)}
-        text='Increment'
-      />
-
-      <CounterButton 
-        onClick={setCounterValue(0)}
-        text='Set Counter to 0'
-      />
+      <Display counter={count} />{" "}
+      {/* Using our display component mentioned earlier */}
+      <CounterButton onClick={setCounterValue(count + 1)} text="Increment" />
+      <CounterButton onClick={setCounterValue(0)} text="Set Counter to 0" />
     </div>
-  )
-}
+  );
+};
 ```
 
 After this, we have three components with the `App` component making use of the `CounterButton` component in order to update the `count` state variable and the `Display` component in order to display this variable.
 
 > Note that since our `CounterButton` component is custom, we do not have to name our `onClick` attibute 'onClick' as we are not using the default DOM `<button>` element. Thus, we are free to give any name to `CounterButton`'s `onClick` property. However, please remember that it is conventional to name props that represent events 'on[Event]' and to name methods that handle the events 'handle[Event]'.
-
-
 
 ## Effective State Practices
 
@@ -1539,24 +1446,20 @@ Let's start with an application designed to track the amount of times that two b
 
 ```jsx
 const App = (props) => {
-  const [noCount, setNo] = useState(0)
-  const [yesCount, setYes] = useState(0)
+  const [noCount, setNo] = useState(0);
+  const [yesCount, setYes] = useState(0);
 
   return (
     <div>
       <div>
         {noCount}
-        <button onClick={() => setNo(noCount + 1)}>
-          No
-        </button>
-        <button onClick={() => setYes(yesCount + 1)}>
-          Yes
-        </button>
+        <button onClick={() => setNo(noCount + 1)}>No</button>
+        <button onClick={() => setYes(yesCount + 1)}>Yes</button>
         {yesCount}
       </div>
     </div>
-  )
-}
+  );
+};
 ```
 
 Here, we used `useState` two times to create two state 'variables' and functions that we can use to update our state variables. Now, there aren't really any rigid rules toward what a component's state can consist of, if we wanted to organize more complex state situations, we could throw these variables into an object as properties and update this object whenever we wanted to update the state rather than the indivdual variables. We would achieve this as follows
@@ -1565,107 +1468,103 @@ Here, we used `useState` two times to create two state 'variables' and functions
 const App = (props) => {
   const [clicksObject, setClicks] = useState({
     yes: 0,
-    no: 0
-  })
- 
+    no: 0,
+  });
 
   const handleYesClick = () => {
-    const updatedClicksObject = { 
-      yes: clicksObject.yes + 1, 
-      no: clicksObject.no 
-    }
-    setClicks(updatedClicksObject)
-  }
+    const updatedClicksObject = {
+      yes: clicksObject.yes + 1,
+      no: clicksObject.no,
+    };
+    setClicks(updatedClicksObject);
+  };
 
   const handleNoClick = () => {
-    const updatedClicksObject = { 
-      yes: clicksObject.yes, 
-      no: clicksObject.no + 1 
-    }
-    setClicks(updatedClicksObject)
-  }
-  
+    const updatedClicksObject = {
+      yes: clicksObject.yes,
+      no: clicksObject.no + 1,
+    };
+    setClicks(updatedClicksObject);
+  };
+
   return (
     <div>
       <div>
         {clicksObject.no}
-        <button onClick={handleNoClick}>
-          No
-        </button>
-        <button onClick={handleYesClick}>
-          Yes
-        </button>
+        <button onClick={handleNoClick}>No</button>
+        <button onClick={handleYesClick}>Yes</button>
         {clicksObject.yes}
       </div>
     </div>
-  )
-}
+  );
+};
 ```
 
 This achieves the same result as the application described earlier, just with a slightly different implementation. Let's break it down a bit.
 
-In this application, we created the object `clicksObject` using the `useState` method. This means that our state consists of `clicksObject` and we can use the `setClicks` constant that we passed to `useState` as a function reference to update our state object. When we press the 'No' button, the `onClick` event is invoked and the `handleNoClick` handler function is called. 
+In this application, we created the object `clicksObject` using the `useState` method. This means that our state consists of `clicksObject` and we can use the `setClicks` constant that we passed to `useState` as a function reference to update our state object. When we press the 'No' button, the `onClick` event is invoked and the `handleNoClick` handler function is called.
 
 ```jsx
 const handleNoClick = () => {
-    const newClicks = { 
-      yes: clicksObject.yes, 
-      no: clicksObject.no + 1 
-    }
-    setClicks(updatedClicksObject)
-}
+  const newClicks = {
+    yes: clicksObject.yes,
+    no: clicksObject.no + 1,
+  };
+  setClicks(updatedClicksObject);
+};
 ```
 
 This function creates a new object that takes the properties from the `clicksObject` object in our application state and puts it into our new object, `updatedClicksObject`, we then add one to the `no` property in order to reflect the updated count. Finally, we call` setClicks` and pass in our new object to set as our application state, updating everything and showing our new count. The `handleYesClick` handler functions the same way, only referencing the `yes` property of the object instead to be incremented by one.
 
-Now, later on, as your objects grow in size and your application state becomes complex, you may write needlessly long, complex code in order to handle simple state updates with this solution. Fortuneately, there's a better way to handle things in a neater, more organized fashion. We can make use of the *object spread* syntax described earlier in order to copy the properties of our original object without having to specify each property as follows
+Now, later on, as your objects grow in size and your application state becomes complex, you may write needlessly long, complex code in order to handle simple state updates with this solution. Fortuneately, there's a better way to handle things in a neater, more organized fashion. We can make use of the _object spread_ syntax described earlier in order to copy the properties of our original object without having to specify each property as follows
 
 ```jsx
 const handleYesClick = () => {
-  const updatedClicksObject = { 
-    ...clicksObject, 
-    yes: clicksObject.yes + 1 
-  }
-  setClicks(updatedClicksObject)
-}
+  const updatedClicksObject = {
+    ...clicksObject,
+    yes: clicksObject.yes + 1,
+  };
+  setClicks(updatedClicksObject);
+};
 
 const handleNoClick = () => {
-  const updatedClicksObject = { 
-    ...clicksObject, 
-    no: clicksObject.no + 1 
-  }
-  setClicks(updatedClicksObject)
-}
+  const updatedClicksObject = {
+    ...clicksObject,
+    no: clicksObject.no + 1,
+  };
+  setClicks(updatedClicksObject);
+};
 ```
 
-As a reminder, the object spread syntax essentially creates a copy of the object that follows the ``...``, thus we can use it to create a copy of an object and update only the property that we need to by explicitly referencing it.
+As a reminder, the object spread syntax essentially creates a copy of the object that follows the `...`, thus we can use it to create a copy of an object and update only the property that we need to by explicitly referencing it.
 
 This implementation also allows us to add new properties to our state object without needing to add it to all of our handler functions as they would create a new object that would not reflect these additional properties.
 
 Now, in the nature of making our code clean, consise, and easy to read, we can just create the object inside the `setClicks` call and pass it in directly as follows
 
 ```jsx
-const handleYesClick = () => setClicks({ ...clicksObject, yes: clicksObject.yes + 1 })
+const handleYesClick = () =>
+  setClicks({ ...clicksObject, yes: clicksObject.yes + 1 });
 
-const handleNoClick = () => setClicks({ ...clicksObject, no: clicksObject.no + 1 })
-
+const handleNoClick = () =>
+  setClicks({ ...clicksObject, no: clicksObject.no + 1 });
 ```
 
 Here's a point in which many may encounter an issue when dealing with React. In pursuit of the most simple solution, one may try to just update the state directly as such
 
 ```jsx
 const handleYesClick = () => {
-  clicksObject.yes++
-}
+  clicksObject.yes++;
+};
 ```
 
 or
 
 ```jsx
 const handleYesClick = () => {
-  clicksObject.yes++
-  setClicks(clicksObject)
-}
+  clicksObject.yes++;
+  setClicks(clicksObject);
+};
 ```
 
 Neither of these solutions are acceptable as **React does not allow for state to be mutated directly**. Objects in state should never be mutated (as in updating the object that is referenced by a variable or constant) but rather replaced with a new object. If you tried the above incorrect solutions for the handler methods, you would find that the counters would never be updated as React would not trigger a rerender due to it thinking that nothing had changed. React thinks nothing has changed, because even though the object was updated, the object reference has not changed (a new object was not passed), thus React is none the wiser to any updates.
@@ -1680,65 +1579,58 @@ Let's take the above application and adapt it to use a single array to keep trac
 const App = (props) => {
   const [clicksObject, setClicks] = useState({
     yes: 0,
-    no: 0
-  })
-  
-  const [clicksArray, setArray] = useState([])
- 
+    no: 0,
+  });
+
+  const [clicksArray, setArray] = useState([]);
 
   const handleYesClick = () => {
     // Handles updating the clicksObject
-    const updatedClicksObject = { 
-      yes: clicksObject.yes + 1, 
-      no: clicksObject.no 
-    }
-    setClicks(updatedClicksObject)
-    
+    const updatedClicksObject = {
+      yes: clicksObject.yes + 1,
+      no: clicksObject.no,
+    };
+    setClicks(updatedClicksObject);
+
     // Handles updating the clicksArray
-   	setArray(clicksArray.concat('Yes')) // We use concat here to create a new array and pass it to setArray as we cannot mutate the original array in React.
-    
-  }
+    setArray(clicksArray.concat("Yes")); // We use concat here to create a new array and pass it to setArray as we cannot mutate the original array in React.
+  };
 
   const handleNoClick = () => {
     // Handles updating the clicksObject
-    const updatedClicksObject = { 
-      yes: clicksObject.yes, 
-      no: clicksObject.no + 1 
-    }
-    setClicks(updatedClicksObject)
-    
+    const updatedClicksObject = {
+      yes: clicksObject.yes,
+      no: clicksObject.no + 1,
+    };
+    setClicks(updatedClicksObject);
+
     // Handles updating the clicksArray
-    setArray(clicksArray.concat('No'))
-  }
-  
+    setArray(clicksArray.concat("No"));
+  };
+
   return (
     <div>
       <div>
         {clicksObject.no}
-        <button onClick={handleNoClick}>
-          No
-        </button>
-        <button onClick={handleYesClick}>
-          Yes
-        </button>
+        <button onClick={handleNoClick}>No</button>
+        <button onClick={handleYesClick}>Yes</button>
         {clicksObject.yes}
       </div>
-      
+
       {/* Displays the contents of clicksArray */}
-      <p>{clicksArray.join(' ')}</p>
-      
+      <p>{clicksArray.join(" ")}</p>
     </div>
-  )
-}
+  );
+};
 ```
 
 Please take a look at the comments in our new application to see the changes that we have made in order to reflect this new array and our display of our click history. In order to create our history array, the `useState` hook was used to initialize our state with a blank array. We then use the updater method in order to update our array when one of the buttons is clicked as follows
 
 ```jsx
-setArray(clicksArray.concat('Yes'))
+setArray(clicksArray.concat("Yes"));
 ```
 
-Here, we use the `setArray` updater method to update our array in our component's state in order to reflect our new click. 
+Here, we use the `setArray` updater method to update our array in our component's state in order to reflect our new click.
 
 Now, you might think about using the `push()` method in order to add the elements to the array. You should **never** do this; recall that we discussed the nature of React and how state must not be mutated. Mutating state directly almost always leads to undesired behavior and issues later down the line. While this may be hard to grasp initially, it is best to reinforce these practices early on.
 
@@ -1746,26 +1638,18 @@ Looking at how we display the content of our clicksArray (the history of our cli
 
 ### Dynamic Content
 
-In this section, *conditionals* will be introduced which allow us to conditionally (who would've thought?) render items in our component.
+In this section, _conditionals_ will be introduced which allow us to conditionally (who would've thought?) render items in our component.
 
 First, let's take the history section in our previous section and componentize it.
 
 ```jsx
 const ClickHistory = (props) => {
   if (props.clicksArray.length === 0) {
-    return (
-      <div>
-        Please press one of the buttons!
-      </div>
-    )
+    return <div>Please press one of the buttons!</div>;
   }
 
-  return (
-    <div>
-      History: {props.clicksArray.join(' ')}
-    </div>
-  )
-}
+  return <div>History: {props.clicksArray.join(" ")}</div>;
+};
 ```
 
 Here, you'll notice that we introduced an `if` statement in our component. This allows us to **conditionally** render items in our component depending on what our expression evaluates to. In this case, if the array in our state has no items within it, the component will display a message to the user, 'Please press one of the buttons!', otherwise, we'll display the history of `clicksArray` to the user.
@@ -1776,56 +1660,49 @@ Let's now update the `App` component in order to take advantage of this new `Cli
 const App = (props) => {
   const [clicksObject, setClicks] = useState({
     yes: 0,
-    no: 0
-  })
-  
-  const [clicksArray, setArray] = useState([])
- 
+    no: 0,
+  });
+
+  const [clicksArray, setArray] = useState([]);
 
   const handleYesClick = () => {
     // Handles updating the clicksObject
-    const updatedClicksObject = { 
-      yes: clicksObject.yes + 1, 
-      no: clicksObject.no 
-    }
-    setClicks(updatedClicksObject)
-    
+    const updatedClicksObject = {
+      yes: clicksObject.yes + 1,
+      no: clicksObject.no,
+    };
+    setClicks(updatedClicksObject);
+
     // Handles updating the clicksArray
-   	setArray(clicksArray.concat('Yes')) // We use concat here to create a new array and pass it to setArray as we cannot mutate the original array in React.
-    
-  }
+    setArray(clicksArray.concat("Yes")); // We use concat here to create a new array and pass it to setArray as we cannot mutate the original array in React.
+  };
 
   const handleNoClick = () => {
     // Handles updating the clicksObject
-    const updatedClicksObject = { 
-      yes: clicksObject.yes, 
-      no: clicksObject.no + 1 
-    }
-    setClicks(updatedClicksObject)
-    
+    const updatedClicksObject = {
+      yes: clicksObject.yes,
+      no: clicksObject.no + 1,
+    };
+    setClicks(updatedClicksObject);
+
     // Handles updating the clicksArray
-    setArray(clicksArray.concat('No'))
-  }
-  
+    setArray(clicksArray.concat("No"));
+  };
+
   return (
     <div>
       <div>
         {clicksObject.no}
-        <button onClick={handleNoClick}>
-          No
-        </button>
-        <button onClick={handleYesClick}>
-          Yes
-        </button>
+        <button onClick={handleNoClick}>No</button>
+        <button onClick={handleYesClick}>Yes</button>
         {clicksObject.yes}
       </div>
-      
+
       {/* Displays the contents of clicksArray */}
       <ClickHistory clicksArray={clicksArray} />
-      
     </div>
-  )
-}
+  );
+};
 ```
 
 Just like that, we have our new React app that is partially componentized with our `ClickHistory` component.
@@ -1853,8 +1730,8 @@ const App = (props) => {
     // You can't call `useState` from within a loop!
     const [test2, setTest2] = useState()
   }
-  
-  
+
+
 	// You can't call `useState` from within an arrow function inside the functional component!
   const dontDoThis = () => {
     const [test3, setTest3] = useState(50)
@@ -1873,7 +1750,7 @@ Circling back to our discussing about Event Handlers. When passing a handler as 
 This leads us to a common mistake of confusing expressions for functions. For example, when people are initially starting out with React, they might try to do something like
 
 ```jsx
-<button onClick={objectCount = 5}> Press Me! </button>
+<button onClick={(objectCount = 5)}> Press Me! </button>
 ```
 
 If we tried to do something like this, we'll get thrown an error relating to being passed the wrong type of object as the handler for this property.
@@ -1885,9 +1762,7 @@ index.js:1 Warning: Expected `onClick` listener to be a function, instead got...
 Now, you might wonder, what would happen if we passed a statement as our event handler. Let's explore the following implementation
 
 ```jsx
-<button onClick={console.log("I've Been Clicked!")}>
-  Press Me!
-</button>
+<button onClick={console.log("I've Been Clicked!")}>Press Me!</button>
 ```
 
 With this, our React app compiles just fine and our message gets logged to the console right away; however, strangely subsequent presses of the button does not print anything to the console. Looking back to what was said earlier when we were talking about event handlers, the first console log is simply due to React executing the statement upon running the app in order to retrieve whatever the statement inside returns (before, our functions would return the prepared functions that we actually wanted to execute!). This means that the statement actually gets executed once and whatever gets returned from that statement is our actual event handler. This single execution is also why we ran into issues earlier, as this single execution would trigger a re-render which would set off an infinite loop. With this, our `console.log("I've Been Clicked!")` statement returns `undefined` upon its single execution. Thus, whenever we press our button, we actually are executing nothing.
@@ -1896,7 +1771,7 @@ To recap, with our above snippet of code, the `console.log` statement gets execu
 
 Recall our discussion of currying and dealing with passing event handlers to components, the two ways of defining event handlers are ultimately up to personal preferences. You can either write the arrow function that returns the function call that you actually want in the event property, or you can write your helper function to return the prepared function.
 
-## Passing Event Handlers to Child Components 
+## Passing Event Handlers to Child Components
 
 With this discussion of event handers, you might be wondering how components within components may call an event handler. For example, you might want a counter component that calls a function when the counter reaches 50 or when a button is pressed, that button within the counter component would have to have access to the event handler passed to the counter component.
 
@@ -1904,88 +1779,90 @@ We can pass props to child components simply by passing down the props of our ex
 
 ```jsx
 const App = () => {
-  
   const CustomButton = (props) => (
-  	<button onClick={props.onClick}>{props.content}</button>
-  )
-  
+    <button onClick={props.onClick}>{props.content}</button>
+  );
+
   const printSomething = (value) => {
-    console.log(value)
-  }
-  
+    console.log(value);
+  };
+
   return (
     <div>
-			<CustomButton onClick={() => printSomething(50)} content="Press Me!" />
+      <CustomButton onClick={() => printSomething(50)} content="Press Me!" />
     </div>
-  )
-}
+  );
+};
 ```
 
 Here, you'll see in our `CustomButton` component, we have received an event handler from the parent and passed it to a child `button` component through referencing the property via dot notation on the `props` object. Keep in mind, you must use the correct names when referencing the props of the parent component. For example, if we changed the property to `handleFunction` we would have to reference it as `props.handleFunction` as follows
 
 ```jsx
 const CustomButton = (props) => (
-  	<button onClick={props.handleFunction}>{props.content}</button>
-  )
+  <button onClick={props.handleFunction}>{props.content}</button>
+);
 
-const App = () => {  
+const App = () => {
   const printSomething = (value) => {
-    console.log(value)
-  }
-  
+    console.log(value);
+  };
+
   return (
     <div>
-			<CustomButton handleFunction={() => printSomething(50)} content="Press Me!" />
+      <CustomButton
+        handleFunction={() => printSomething(50)}
+        content="Press Me!"
+      />
     </div>
-  )
-}
+  );
+};
 ```
 
 With this, we can continue to pass props down (or event handlers in this case) further and further down from child to child simply by referencing the `props` object of the parent component.
-
-
 
 #### Common Mistake: Defining Components Within Components
 
 When developing, you may think to define components within components. For example, it might make some sense to define the `CustomButton` component inside our `App` component as follows
 
 ```jsx
-const App = () => {  
-  
+const App = () => {
   const CustomButton = (props) => (
-  	<button onClick={props.handleFunction}>{props.content}</button>
-  )
-  
+    <button onClick={props.handleFunction}>{props.content}</button>
+  );
+
   const printSomething = (value) => {
-    console.log(value)
-  }
-  
+    console.log(value);
+  };
+
   return (
     <div>
-			<CustomButton handleFunction={() => printSomething(50)} content="Press Me!" />
+      <CustomButton
+        handleFunction={() => printSomething(50)}
+        content="Press Me!"
+      />
     </div>
-  )
-}
+  );
+};
 ```
 
 People initially make this mistake with the idea of keeping things organized. If you're only using this custom component within this custom component, why not just define the component within the component that uses it? While, in this case, the application will appear to work, you should **never** do this as it can lead to unexpected issues with your components.
 
 ### Web Development Tips & Debugging
 
-Typically, when developing, you should always leave your console open to monitor what's going on. Of course there are exceptions to this such as when you need all your screen real estate to test a layout, but this is just a general rule to follow. Additionally, developer workflows are highly aided when you have your code and your browser window open at the same time (especially when combined with things like live reload, which automatically refresh your browser window to allow you to see the changes you are making in real time). 
+Typically, when developing, you should always leave your console open to monitor what's going on. Of course there are exceptions to this such as when you need all your screen real estate to test a layout, but this is just a general rule to follow. Additionally, developer workflows are highly aided when you have your code and your browser window open at the same time (especially when combined with things like live reload, which automatically refresh your browser window to allow you to see the changes you are making in real time).
 
 When dealing with debugging, there are a variety of tools that you will gradually learn over the years, but old school print debugging can always solve problems in a pinch. They allow you to see what's going on within your code with a few simple lines of code, so don't be afraid to write a few `console.log` statements in your code to see what's going wrong inside your code.
 
 In order to make the most out of print debugging, be sure to not concatenate objects that you want to monitor using the `+` operator. Instead, log to the console by passing another argument as follows
 
 ```jsx
-console.log('This is the History object: ', props.clicksArray)
+console.log("This is the History object: ", props.clicksArray);
 ```
 
 Do **not** concatenate the object to the string using the `+` operator as follows
 
 ```jsx
-console.log('This is the History object: ' + props.clicksArray)
+console.log("This is the History object: " + props.clicksArray);
 ```
 
 Log statements that use a comma to pass another argument with the object we want to keep track of rather than just concatenating it to our string allow us to press an arrow in our console in order to see the contents of the object. When we just use the `+` operator to concatenate our object to the string, we'll get an unhelpful log message such as
@@ -2009,29 +1886,29 @@ As of August 15th, full support for React Hooks has been added to React DevTools
 When dealing with long lists or dynamic content, it wouldn't make sense to "hard code" multiple instances of these components. This is where the `map` function comes into play. Let's take a note taking application as an example
 
 ```jsx
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from "react";
+import ReactDOM from "react-dom";
 
 const notes = [
   {
     id: 1,
-    content: 'First Note',
-    date: '2019-09-30T17:32:41.199Z',
-    flagged: true
+    content: "First Note",
+    date: "2019-09-30T17:32:41.199Z",
+    flagged: true,
   },
   {
     id: 2,
-    content: 'Second Note!',
-    date: '2019-08-30T12:13:24.091Z',
-    flagged: false
+    content: "Second Note!",
+    date: "2019-08-30T12:13:24.091Z",
+    flagged: false,
   },
   {
     id: 3,
-    content: 'This is our third note.',
-    date: '2019-08-30T12:20:14.998Z',
-    flagged: true
-  }
-]
+    content: "This is our third note.",
+    date: "2019-08-30T12:20:14.998Z",
+    flagged: true,
+  },
+];
 
 const App = ({ notes }) => {
   return (
@@ -2043,13 +1920,10 @@ const App = ({ notes }) => {
         <li>{notes[2].content}</li>
       </ul>
     </div>
-  )
-}
+  );
+};
 
-ReactDOM.render(
-  <App notes={notes} />,
-  document.getElementById('root')
-)
+ReactDOM.render(<App notes={notes} />, document.getElementById("root"));
 ```
 
 Here, you'll notice that we simply create three `li` elements and reference the content of our three different notes objects. However, we can take this a step forward and rewrite our `App` component to use the `map` function in order to create list items for every object within our `notes` array.
@@ -2060,11 +1934,13 @@ const App = ({ notes }) => {
     <div>
       <h1>Notes</h1>
       <ul>
-        {notes.map(note => <li>Content: {note.content}</li>)}
+        {notes.map((note) => (
+          <li>Content: {note.content}</li>
+        ))}
       </ul>
     </div>
-  )
-}
+  );
+};
 ```
 
 This will generate the same result as the code snippet above.
@@ -2073,17 +1949,15 @@ We can go even further with regard to reusability by separating this `map` call 
 
 ```jsx
 const App = ({ notes }) => {
-  const noteList = () => notes.map(note => <li>Content: {note.content}</li>)
+  const noteList = () => notes.map((note) => <li>Content: {note.content}</li>);
 
   return (
     <div>
       <h1>Notes</h1>
-      <ul>
-        {noteList()}
-      </ul>
+      <ul>{noteList()}</ul>
     </div>
-  )
-}
+  );
+};
 ```
 
 Everything seems good with this application, but we still have some work to do; if you take a look in your console, you'll find that three errors are thrown related to each `<li>` element that we have in our app.
@@ -2095,7 +1969,8 @@ This is because, when dealing with collections/lists/arrays, React needs to iden
 We can now update our `noteList` method to use our key values.
 
 ```jsx
-const noteList = () => notes.map(note => <li key={note.id}>Content: {note.content}</li>)
+const noteList = () =>
+  notes.map((note) => <li key={note.id}>Content: {note.content}</li>);
 ```
 
 The reason why our app works fine without assigning keys initially is that, by default, React uses indexes as keys as in the following example
@@ -2107,7 +1982,8 @@ The reason why our app works fine without assigning keys initially is that, by d
 Sometimes, in order to quickly resolve this error, some developers may manually set the key to the index via a solution similar to the one below
 
 ```jsx
-const noteList = () => notes.map((note, i) => <li key={note.id}>Content: {note.content}</li>)
+const noteList = () =>
+  notes.map((note, i) => <li key={note.id}>Content: {note.content}</li>);
 ```
 
 > Note how the map function passes the value of the index to `i` when called in this manner.
@@ -2116,11 +1992,11 @@ It is not recommended to use indexes for keys if the order of the list items cha
 
 ### Componetizing
 
-We've been exploring the idea of making things more manageable by splitting our project up into components since we've started talking about React, but you might have noticed that we have stuck everything in one file, posing potential managability issues. We can remedy this by using exports/imports as well as separate files for our components. Taking advantage of imports/exports and splitting our components into separate files will become increasingly necessary as your projects increase in complexity. 
+We've been exploring the idea of making things more manageable by splitting our project up into components since we've started talking about React, but you might have noticed that we have stuck everything in one file, posing potential managability issues. We can remedy this by using exports/imports as well as separate files for our components. Taking advantage of imports/exports and splitting our components into separate files will become increasingly necessary as your projects increase in complexity.
 
 #### Project Structures
 
-Now, React projects range in terms of *project structure* (the layout of the files and folders for a given application), but typically the files relating to components will find themselves in a folder called 'components' in which that folder is found in a 'src' directory (source directory).
+Now, React projects range in terms of _project structure_ (the layout of the files and folders for a given application), but typically the files relating to components will find themselves in a folder called 'components' in which that folder is found in a 'src' directory (source directory).
 
 `create-react-app` will create a project structure similar to the one below
 
@@ -2147,9 +2023,9 @@ your-app-folder
 
 Here, you can see the 'src' folder which contains our dynamic files/source code that will be processed by Webpack. You'll also notice the addition of a few new folders:
 
-* 'public' is where static files typically reside. These files are not imported by the JavaScript application and will maintain their file name (files imported in 'src' will be given hashed names so that you always get the latest file rather than a cached vrsion of that file). Ultimately, this means that in production, the names for these files will be served up exactly as is; as a result, the client will usually cache these files and not fetch newer versions of it.
-* 'node_modules' is where dependencies/packages installed by NPM or Yarn will go.
-* 'build' is where the production-ready build is built to and typically will not exist until after you run `npm build` or `yard build`.
+- 'public' is where static files typically reside. These files are not imported by the JavaScript application and will maintain their file name (files imported in 'src' will be given hashed names so that you always get the latest file rather than a cached vrsion of that file). Ultimately, this means that in production, the names for these files will be served up exactly as is; as a result, the client will usually cache these files and not fetch newer versions of it.
+- 'node_modules' is where dependencies/packages installed by NPM or Yarn will go.
+- 'build' is where the production-ready build is built to and typically will not exist until after you run `npm build` or `yard build`.
 
 The 'src' folder in this generated project structure is not very pleasant to deal with, so it is common to see project structures with 'src' folders resembling the following structure
 
@@ -2177,10 +2053,10 @@ If you're confused by any of this, don't worry, understanding of project stuctur
 Let's take the notes application from above and split it up. Commonly, components are declared as **ES6-modules** which are the modules that you import at the top of the page.
 
 ```jsx
-import React from 'react'
+import React from "react";
 ```
 
-is an example of a ES6-module import where the 'react' module is assignd to the variable `React`.  There are two types of exports:
+is an example of a ES6-module import where the 'react' module is assignd to the variable `React`. There are two types of exports:
 
 #### Default Exports
 
@@ -2190,23 +2066,21 @@ A given file can only contain **one** default export. Default exports are writte
 
 ```jsx
 // Default exporting 'ExampleComponent'
-const ExampleComponent = () => {}
+const ExampleComponent = () => {};
 
 export default ExampleComponent;
-
 ```
 
-An example of importing a default export is as follows 
+An example of importing a default export is as follows
 
 **./index.js**
 
 ```jsx
 // Importing the above component in another file
-import ICanUseAnyNameSinceItsADefaultExport from "./components/ExampleComponent"
-
+import ICanUseAnyNameSinceItsADefaultExport from "./components/ExampleComponent";
 ```
 
-> Note, we used a *relative path* to refer to our component and did not have to mention the '.js' file type in our path.
+> Note, we used a _relative path_ to refer to our component and did not have to mention the '.js' file type in our path.
 
 As a result of being able to have only one default export per file, you can use any name in the import of the file as illustrated by our random variable name in the above example.
 
@@ -2220,8 +2094,8 @@ Named exports are useful when we need to export multiple objects in a given file
 
 ```jsx
 // Using named exports to export the two following components
-export const ExampleComponent = () => {}
-export const ExampleComponent2 = () => {}
+export const ExampleComponent = () => {};
+export const ExampleComponent2 = () => {};
 ```
 
 An example of importing multiple named exports is as follows
@@ -2230,7 +2104,10 @@ An example of importing multiple named exports is as follows
 
 ```jsx
 // Importing multiple named exports at once
-import { ExampleComponent, ExampleComponent2 } from "./components/ExampleComponent"
+import {
+  ExampleComponent,
+  ExampleComponent2,
+} from "./components/ExampleComponent";
 ```
 
 Notice how this is similar to the destructuring syntax in both form and function in that we are only taking certain objects from the source file via reference by name.
@@ -2238,7 +2115,7 @@ Notice how this is similar to the destructuring syntax in both form and function
 If you wanted to import a named export with your own custom name for the variable that it is stored in, you can write
 
 ```jsx
-import { ExampleComponent as HereIsARandomName } from "./components/ExampleComponent"
+import { ExampleComponent as HereIsARandomName } from "./components/ExampleComponent";
 ```
 
 Additionally, if you wanted to import every named export from a file, you can write
@@ -2250,7 +2127,7 @@ import * from "./components/ExampleComponent"
 If you wanted all of those named exports stored within one object, you could also write
 
 ```jsx
-import * as ComponentsObject from "./components/ExampleComponent"
+import * as ComponentsObject from "./components/ExampleComponent";
 ```
 
 Where you would now reference the components as properties of this object, `ComponentsObject.ExampleComponent` and `ComponentsObject.ExampleComponent2`.
@@ -2262,15 +2139,13 @@ We can write our first ES6-module default **export** for our note app as follows
 **./components/Note.js**
 
 ```jsx
-import React from 'react'
+import React from "react";
 
 const Note = ({ note }) => {
-  return (
-    <li>{note.content}</li>
-  )
-}
+  return <li>{note.content}</li>;
+};
 
-export default Note
+export default Note;
 ```
 
 For every file that contains a React component, we must import React. Additionally, if we would like to actually use the component, we must export the component (it can be a named export or default export, just remember to import it correctly when the time comes). Now, we can use this `Note` component in **Note.js** by referencing it in our `App` component
@@ -2278,28 +2153,22 @@ For every file that contains a React component, we must import React. Additional
 **./App.js**
 
 ```jsx
-import React from 'react'
-import Note from './components/Note'
+import React from "react";
+import Note from "./components/Note";
 
 const App = ({ notes }) => {
-  const noteList = () => notes.map(note => 
-  	<Note
-      key={note.id}
-			note={note}
-    />
-  )
+  const noteList = () =>
+    notes.map((note) => <Note key={note.id} note={note} />);
 
   return (
     <div>
       <h1>Notes</h1>
-      <ul>
-        {noteList()}
-      </ul>
+      <ul>{noteList()}</ul>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
 ```
 
 Now, our `App` component makes use of the imported `Note` component that we exported earlier. We can now reference our overall `App` component in **index.js** as follows
@@ -2307,18 +2176,15 @@ Now, our `App` component makes use of the imported `Note` component that we expo
 **./index.js**
 
 ```jsx
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App'
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
 
 const notes = [
   // Here is where our note data comes from
-]
+];
 
-ReactDOM.render(
-  <App notes={notes} />,
-  document.getElementById('root')
-)
+ReactDOM.render(<App notes={notes} />, document.getElementById("root"));
 ```
 
 Notice how we imported the `App` component for use in our `index.js` file which renders this component to our root document element. This relationship is quite common in that components contain other components that all leads up to a component being rendered by the `ReactDOM.render()` function. This all serves as an example to how components would be split into separate files and used.
@@ -2332,30 +2198,24 @@ Let's take a look at our note taking application and figure out a way to add the
 **./App.js**
 
 ```jsx
-import React, { useState } from 'react'
-import Note from './components/Note'
+import React, { useState } from "react";
+import Note from "./components/Note";
 
 const App = (props) => {
-  const [notes, setNotes] = useState(props.notes)
-  
-  const noteList = () => notes.map(note => 
-  	<Note
-      key={note.id}
-			note={note}
-    />
-  )
+  const [notes, setNotes] = useState(props.notes);
+
+  const noteList = () =>
+    notes.map((note) => <Note key={note.id} note={note} />);
 
   return (
     <div>
       <h1>Notes</h1>
-      <ul>
-        {noteList()}
-      </ul>
+      <ul>{noteList()}</ul>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
 ```
 
 > Notice how the import for `useState` is a named import
@@ -2363,42 +2223,36 @@ export default App
 In this new `App` component, we use the `useState` function in order to add state to our function. We initialize it with `props.notes` which contains the array of notes that we passed into the `App` component in our **index.js** file. Now that we have a way to keep our component state, we can create a way to add notes to our state
 
 ```jsx
-import React, { useState } from 'react'
-import Note from './components/Note'
+import React, { useState } from "react";
+import Note from "./components/Note";
 
 const App = (props) => {
-  const [notes, setNotes] = useState(props.notes)
-  
-  const noteList = () => notes.map(note => 
-  	<Note
-      key={note.id}
-			note={note}
-    />
-  )
-                                   
+  const [notes, setNotes] = useState(props.notes);
+
+  const noteList = () =>
+    notes.map((note) => <Note key={note.id} note={note} />);
+
   const addNote = (event) => {
-    event.preventDefault() // Prevents the page from being refreshed when we click the submit button
-    console.log('Note form submitted', event.target)
-  }
+    event.preventDefault(); // Prevents the page from being refreshed when we click the submit button
+    console.log("Note form submitted", event.target);
+  };
 
   return (
     <div>
       <h1>Notes</h1>
-      <ul>
-        {noteList()}
-      </ul>
+      <ul>{noteList()}</ul>
       <form onSubmit={addNote}>
-      	<input />
+        <input />
         <button type="submit">Add Note</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
 ```
 
-In this code snippet, you'll notice that we have written an `addNote` function which functions as an event handler upon the event that is the submission of the form that we have included in the JSX of our component. This function takes in a parameter called `event` which is the particular event that had triggered the call to this function. 
+In this code snippet, you'll notice that we have written an `addNote` function which functions as an event handler upon the event that is the submission of the form that we have included in the JSX of our component. This function takes in a parameter called `event` which is the particular event that had triggered the call to this function.
 
 As a refresher, events are "things" that happen to HTML elements in which you can write event handlers that react upon these "things" that happen. There are plenty of DOM Events that are used to notify our event handlers that something has taken place. You can read more about these on a resource such as 'MDN web docs' if you're curious.
 
@@ -2411,42 +2265,34 @@ The next logical step would be to access the text that we put in our `input` ele
 We can accomplish this by adding a new piece of state that keeps track of the value of our input field as follows
 
 ```jsx
-import React, { useState } from 'react'
-import Note from './components/Note'
+import React, { useState } from "react";
+import Note from "./components/Note";
 
 const App = (props) => {
-  const [notes, setNotes] = useState(props.notes)
-  const [noteField, setNoteField] = useState(
-  	'Enter a new note here...'
-  )
-  
-  const noteList = () => notes.map(note => 
-  	<Note
-      key={note.id}
-			note={note}
-    />
-  )
-                                   
+  const [notes, setNotes] = useState(props.notes);
+  const [noteField, setNoteField] = useState("Enter a new note here...");
+
+  const noteList = () =>
+    notes.map((note) => <Note key={note.id} note={note} />);
+
   const addNote = (event) => {
-    event.preventDefault() // Prevents the page from being refreshed when we click the submit button
-    console.log('Note form submitted', event.target)
-  }
+    event.preventDefault(); // Prevents the page from being refreshed when we click the submit button
+    console.log("Note form submitted", event.target);
+  };
 
   return (
     <div>
       <h1>Notes</h1>
-      <ul>
-        {noteList()}
-      </ul>
+      <ul>{noteList()}</ul>
       <form onSubmit={addNote}>
-      	<input value={noteField} />
+        <input value={noteField} />
         <button type="submit">Add Note</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
 ```
 
 This is only a partial solution as this leaves us with a read-only field as our `input` element since upon every render, the value of our input field is set to `noteField`. Opening the console will also give you an error relating to providing a value to a form field without its own 'onChange' handler which leads to a field that is read-only.
@@ -2454,68 +2300,56 @@ This is only a partial solution as this leaves us with a read-only field as our 
 To fix this, as our error message recommended to us, we can write an 'onChange' event handler that will sync any changes that the user makes to the input box with the component's state. This way, the change will be updated in the state so that the change is actually reflected upon the rendering of the component rather than the change being undone as a result of the `input`'s value being reset to the state's value every time.
 
 ```jsx
-import React, { useState } from 'react'
-import Note from './components/Note'
+import React, { useState } from "react";
+import Note from "./components/Note";
 
 const App = (props) => {
-  const [notes, setNotes] = useState(props.notes)
-  const [noteField, setNoteField] = useState(
-  	'Enter a new note here...'
-  )
-  
-  const noteList = () => notes.map(note => 
-  	<Note
-      key={note.id}
-			note={note}
-    />
-  )
-                                   
+  const [notes, setNotes] = useState(props.notes);
+  const [noteField, setNoteField] = useState("Enter a new note here...");
+
+  const noteList = () =>
+    notes.map((note) => <Note key={note.id} note={note} />);
+
   const addNote = (event) => {
-    event.preventDefault() // Prevents the page from being refreshed when we click the submit button
-    console.log('Note form submitted', event.target)
-  }
-  
+    event.preventDefault(); // Prevents the page from being refreshed when we click the submit button
+    console.log("Note form submitted", event.target);
+  };
+
   const handleInputChange = (event) => {
-    console.log('Input form changed', event.target.value)
-    setNoteField(event.target.value)
-  }
+    console.log("Input form changed", event.target.value);
+    setNoteField(event.target.value);
+  };
 
   return (
     <div>
       <h1>Notes</h1>
-      <ul>
-        {noteList()}
-      </ul>
+      <ul>{noteList()}</ul>
       <form onSubmit={addNote}>
-      	<input 
-          value={noteField} 
-          onChange={handleInputChange} />
+        <input value={noteField} onChange={handleInputChange} />
         <button type="submit">Add Note</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
 ```
 
 Let's take a look at what we added.
 
 ```jsx
 const handleInputChange = (event) => {
-  console.log('Input form changed', event.target.value)
-  setNoteField(event.target.value)
-}
+  console.log("Input form changed", event.target.value);
+  setNoteField(event.target.value);
+};
 ```
 
 First, we wrote an event handler that would update our `noteField` state to reflect the changes in our input box. We can get the value of the input box by retrieving the `value` property of the `target` of the `event` following the syntax that we had discussed earlier.
 
 ```jsx
 <form onSubmit={addNote}>
-      	<input 
-          value={noteField} 
-          onChange={handleInputChange} />
-        <button type="submit">Add Note</button>
+  <input value={noteField} onChange={handleInputChange} />
+  <button type="submit">Add Note</button>
 </form>
 ```
 
@@ -2529,20 +2363,19 @@ Now that we resolved this issue, `noteField` accurately reflects the value of th
 
 ```jsx
 const addNote = (event) => {
-  event.preventDefault() // Prevents the page from being refreshed when we click the submit button
-  console.log('Note form submitted', event.target)
-  
-	const newNoteObject = {
+  event.preventDefault(); // Prevents the page from being refreshed when we click the submit button
+  console.log("Note form submitted", event.target);
+
+  const newNoteObject = {
     id: notes.length + 1, // May cause issues with duplicate ids if this array were to ever have elements deleted from it
     content: noteField,
     date: new Date().toISOString(),
     flagged: Math.random() > 0.75,
-  }
-  
-  setNotes(notes.concat(newNoteObject))
-  setNoteField('Enter a new note here...')
-  
-}
+  };
+
+  setNotes(notes.concat(newNoteObject));
+  setNoteField("Enter a new note here...");
+};
 ```
 
 In the completion of this function, you'll notice a few things. We create the new note object by grabbing the current date through creating a new instance of `Date`, the content by looking at our component state in order to see the value of our input box, the important value by randomly generating a number and evaluating it which gives us a 25% chance of the note being marked as flagged, and an ID number that is generated by adding one to the length value of the array. If we were to have the feature of deleting notes, this ID solution would not work as we could run into issues with duplicate IDs given that a previous note was deleted, leading to the length calculation to providing us with an ID that is in use.
@@ -2555,7 +2388,7 @@ After we update our `notes` piece of state, we set the `noteField` piece of stat
 
 Let's make use of that `flagged` property in each one of our `notes` objects.
 
-We can first track whether we're actually supposed to show all the notes or just the flagged notes by adding a piece of state using  `useState`.
+We can first track whether we're actually supposed to show all the notes or just the flagged notes by adding a piece of state using `useState`.
 
 ```jsx
 const App = (props) => {
@@ -2575,10 +2408,10 @@ const App = (props) => {
   	'Enter a new note here...'
   )
   const [showAll, setShowAll] = useState(true)
-  
+
   const filteredNotes = showAll ? notes : notes.filter(note => note.flagged)
-  
-  const noteList = () => filteredNotes.map(note => 
+
+  const noteList = () => filteredNotes.map(note =>
   	<Note
       key={note.id}
 			note={note}
@@ -2589,7 +2422,7 @@ const App = (props) => {
 Here, you'll notice the addition of a `filteredNotes` constant which contains the entire notes array or only the flagged notes depending on whether `showAll` is true or not. We express this using a conditional (ternary) operator which allows us to express a logical branch in super simple terms with the following syntax
 
 ```jsx
-const final = conditionToEvaluate ? caseIfTrue : caseIfFalse
+const final = conditionToEvaluate ? caseIfTrue : caseIfFalse;
 ```
 
 Thus, if `conditionToEvaluate` is true, `final` will be set to the value of `caseIfTrue` and if it's false, it'll be set to `caseIfFalse`. This operator is usually used as a shortcut in place of `if` statements.
@@ -2597,9 +2430,9 @@ Thus, if `conditionToEvaluate` is true, `final` will be set to the value of `cas
 You can also see the usage of the `filter` method here where we filter for only notes where the `filtered` property is true. The syntax for the `filter` method typically resembles the following
 
 ```jsx
-const newArray = originalArray.filter(function(arrayItem) {
+const newArray = originalArray.filter(function (arrayItem) {
   return condition; // If condition is true, then `arrayItem` will be included in the new array
-})
+});
 ```
 
 What this does is take each individual item of the array, pass it into the function specified as an argument of the `filter` method in order to get a condition. If the condition is true, then the given element will be included in the creation of the new array.
@@ -2607,7 +2440,7 @@ What this does is take each individual item of the array, pass it into the funct
 Our implementation is quite similar, the difference being that we used an arrow function with shortened syntax as opposed to a function expression.
 
 ```jsx
-const filteredNotes = notes.filter(note => note.flagged) // Assuming that `showAll` is always true
+const filteredNotes = notes.filter((note) => note.flagged); // Assuming that `showAll` is always true
 ```
 
 Here, you can see our arrow function where each element in `notes` is passed into the function as `note` to which the condition that is returned is the `flagged` property of the element.
@@ -2615,8 +2448,8 @@ Here, you can see our arrow function where each element in `notes` is passed int
 Now, to finish everything up, let's add the ability to toggle our filter.
 
 ```jsx
-import React, { useState } from 'react' 
-import Note from './components/Note'
+import React, { useState } from "react";
+import Note from "./components/Note";
 
 const App = (props) => {
   // ...
@@ -2624,22 +2457,21 @@ const App = (props) => {
     <div>
       <h1>Notes</h1>
       <div>
-        <button onClick={() => setShowAll(!showAll)}> {/* "Flips" the `showAll` state */}
-          Show {showAll ? 'Flagged' : 'All' } {/* Changes button text depending on state */}
+        <button onClick={() => setShowAll(!showAll)}>
+          {" "}
+          {/* "Flips" the `showAll` state */}
+          Show {showAll ? "Flagged" : "All"}{" "}
+          {/* Changes button text depending on state */}
         </button>
       </div>
-      <ul>
-        {noteList()}
-      </ul>
+      <ul>{noteList()}</ul>
       <form onSubmit={addNote}>
-      	<input 
-          value={noteField} 
-          onChange={handleInputChange} />
+        <input value={noteField} onChange={handleInputChange} />
         <button type="submit">Add Note</button>
       </form>
     </div>
-  )
-}
+  );
+};
 ```
 
 Here, we added a button with its `onClick` property set to toggle the `showAll` piece of state. Additionally, we put a conditional (ternary) operator in order to determine the text that was shown inside the button.
@@ -2649,96 +2481,89 @@ The code for our project thusfar is as follows (you can always refer to the proj
 **./index.js**
 
 ```jsx
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
 
 const notes = [
-    {
-      id: 1,
-      content: 'First Note',
-      date: '2019-09-30T17:32:41.199Z',
-      flagged: true
-    },
-    {
-      id: 2,
-      content: 'Second Note!',
-      date: '2019-08-30T12:13:24.091Z',
-      flagged: false
-    },
-    {
-      id: 3,
-      content: 'This is our third note.',
-      date: '2019-08-30T12:20:14.998Z',
-      flagged: true
-    }
-  ]
+  {
+    id: 1,
+    content: "First Note",
+    date: "2019-09-30T17:32:41.199Z",
+    flagged: true,
+  },
+  {
+    id: 2,
+    content: "Second Note!",
+    date: "2019-08-30T12:13:24.091Z",
+    flagged: false,
+  },
+  {
+    id: 3,
+    content: "This is our third note.",
+    date: "2019-08-30T12:20:14.998Z",
+    flagged: true,
+  },
+];
 
-ReactDOM.render(<App notes={notes} />, document.getElementById('root'));
+ReactDOM.render(<App notes={notes} />, document.getElementById("root"));
 ```
 
 **./App.js**
 
 ```jsx
-import React, { useState } from 'react';
-import Note from './components/Note'
+import React, { useState } from "react";
+import Note from "./components/Note";
 
 const App = (props) => {
-  const [notes, setNotes] = useState(props.notes)
-  const [noteField, setNoteField] = useState(
-  	'Enter a new note here...'
-  )
-  const [showAll, setShowAll] = useState(true)
-  
-  const filteredNotes = showAll ? notes : notes.filter(note => note.flagged)
+  const [notes, setNotes] = useState(props.notes);
+  const [noteField, setNoteField] = useState("Enter a new note here...");
+  const [showAll, setShowAll] = useState(true);
+
+  const filteredNotes = showAll ? notes : notes.filter((note) => note.flagged);
 
   const addNote = (event) => {
-    event.preventDefault() // Prevents the page from being refreshed when we click the submit button
-    console.log('Note form submitted', event.target)
-    
+    event.preventDefault(); // Prevents the page from being refreshed when we click the submit button
+    console.log("Note form submitted", event.target);
+
     const newNoteObject = {
       id: notes.length + 1, // May cause issues with duplicate ids if this array were to ever have elements deleted from it
       content: noteField,
       date: new Date().toISOString(),
       flagged: Math.random() > 0.75,
-    }
-    
-    setNotes(notes.concat(newNoteObject))
-    setNoteField('Enter a new note here...')
-  }
+    };
+
+    setNotes(notes.concat(newNoteObject));
+    setNoteField("Enter a new note here...");
+  };
 
   const handleInputChange = (event) => {
-    console.log('Input form changed', event.target.value)
-    setNoteField(event.target.value)
-  }
-  
-  const noteList = () => filteredNotes.map(note => 
-  	<Note
-      key={note.id}
-			note={note}
-    />
-  )
+    console.log("Input form changed", event.target.value);
+    setNoteField(event.target.value);
+  };
+
+  const noteList = () =>
+    filteredNotes.map((note) => <Note key={note.id} note={note} />);
 
   return (
     <div>
       <h1>Notes</h1>
       <div>
-        <button onClick={() => setShowAll(!showAll)}> {/* "Flips" the `showAll` state */}
-          Show {showAll ? 'Flagged' : 'All' } {/* Changes button text depending on state */}
+        <button onClick={() => setShowAll(!showAll)}>
+          {" "}
+          {/* "Flips" the `showAll` state */}
+          Show {showAll ? "Flagged" : "All"}{" "}
+          {/* Changes button text depending on state */}
         </button>
       </div>
-      <ul>
-        {noteList()}
-      </ul>
+      <ul>{noteList()}</ul>
       <form onSubmit={addNote}>
-      	<input 
-          value={noteField} 
-          onChange={handleInputChange} />
+        <input value={noteField} onChange={handleInputChange} />
         <button type="submit">Add Note</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
 export default App;
 ```
@@ -2746,15 +2571,13 @@ export default App;
 **./components/Note.js**
 
 ```jsx
-import React from 'react'
+import React from "react";
 
 const Note = ({ note }) => {
-  return (
-    <li>{note.content}</li>
-  )
-}
+  return <li>{note.content}</li>;
+};
 
-export default Note
+export default Note;
 ```
 
 Please also note that these files would be located in the `src` folder of most managed file structures (including the one set up by `create-react-app`)
@@ -2823,31 +2646,31 @@ Visiting **http://localhost:3001/notes** will display the `notes` object in **db
 You may recall `XMLHttpRequest` mentioned at the beginning of this book. You may also recall that this method of retrieving data is no longer recommended, however, it is still widely taught and is frequently used in legacy code.
 
 ```jsx
-const xhttp = new XMLHttpRequest()
+const xhttp = new XMLHttpRequest();
 
-xhttp.onreadystatechange = function() {
+xhttp.onreadystatechange = function () {
   if (this.readyState == 4 && this.status == 200) {
-    const data = JSON.parse(this.responseText) // Parses the response into an object
+    const data = JSON.parse(this.responseText); // Parses the response into an object
   }
-}
+};
 
-xhttp.open('GET', '/data.json', true)
-xhttp.send()
+xhttp.open("GET", "/data.json", true);
+xhttp.send();
 ```
 
 Here, we use a new `XMLHttpRequest` object to interact with our server, allowing us to retrieve data from our URL without refreshing the page. `XMHttpRequest()` is a constructor that initializes our new XMLHttpRequest via the `new` keyword. We then assign a function expression to the `onreadystatechange` property of the object which is an `EventHandler` that is called whenever the `readySatate` attribute changes. In other words, whenever the `xhttp` object changes in state, the `onreadystatechange` event handler is executed indicating that the response to the request has arrived.
 
 Inside the function, we initially check the `readyState` and `status` properties of the response in order to see if we actually were returned the correct response. You'll learn more about what these status codes mean later in this book. We then get the actual content of our response (the JSON) by parsing the `responseText` property of our response.
 
-You may have noticed that our code is *asynchronous* in this case, in that our code is not executed from "top to bottom" but rather is executed out of order with our event handler being executed only once our request has returned after being sent.
+You may have noticed that our code is _asynchronous_ in this case, in that our code is not executed from "top to bottom" but rather is executed out of order with our event handler being executed only once our request has returned after being sent.
 
 #### JavaScript's Asynchronous Model
 
 JavaScript is a single-threaded language meaning that, in actuality, only one thing can happen at once. Thus, JavaScript runtimes or engines can only execute one statement at a time per thread (although, today, it is possible to run parallelized code on more than one thread wit h web workers; this does not make the event loop multithreaded).
 
-Since JavaScript is single-threaded and can only make one 'thing' happen at once, we have to make sure that things that may take a while do not block interaction (such as making a web request like the one we did above but instead synchronously). This means that almost all I/O in JavaScript is non-blocking whether it be HTTP requests, reading/writing to the disk, fetching something from a database, etc. All of these actions would be done via the thread of execution providing a callback function that will be executed when this non-blocking operation is done so that the rest of the program can continue. 
+Since JavaScript is single-threaded and can only make one 'thing' happen at once, we have to make sure that things that may take a while do not block interaction (such as making a web request like the one we did above but instead synchronously). This means that almost all I/O in JavaScript is non-blocking whether it be HTTP requests, reading/writing to the disk, fetching something from a database, etc. All of these actions would be done via the thread of execution providing a callback function that will be executed when this non-blocking operation is done so that the rest of the program can continue.
 
-For now, you can think of these concepts as having a list of chores: to wash your clothes, cook your dinner, and brush your teeth. The synchronous way of completing these tasks would be to put your clothes in the washer, wait until the washer is done, then start cooking your dinner, then wait until you finished cooking your dinner, then start brushing your teeth. 
+For now, you can think of these concepts as having a list of chores: to wash your clothes, cook your dinner, and brush your teeth. The synchronous way of completing these tasks would be to put your clothes in the washer, wait until the washer is done, then start cooking your dinner, then wait until you finished cooking your dinner, then start brushing your teeth.
 
 The asynchronous way of doing this would be to start washing, then while the washer is running, you can go ahead and start cooking your dinner, after you start cooking your dinner, you can go ahead and brush your teeth. Then, you'll eventually get the callback function that will be executed for your dinner and washer (when those tasks are done, you'll have to tend to them), so a callback function for the washer might be to pick up the clothes, and a callback function for your dinner might be to put it on a plate and serve it to yourself. These callback functions are called once the task at hand is done. The event loop simply just keeps track of the order that everything is in and what needs to be executed.
 
@@ -2855,7 +2678,7 @@ The asynchronous way of doing this would be to start washing, then while the was
 
 ### The Axios Library
 
-Now, let's take a look at using the *axios* library in order to fetch data from our server. It functions quite like fetch, a promise based function, but offers some additional features such as its wide browser support (for example, `fetch()` is not supported on IE11, but Axios functions just fine with its backwards compatability) and convenience features such as a timeout property, automatic JSON data transformation, and much more.
+Now, let's take a look at using the _axios_ library in order to fetch data from our server. It functions quite like fetch, a promise based function, but offers some additional features such as its wide browser support (for example, `fetch()` is not supported on IE11, but Axios functions just fine with its backwards compatability) and convenience features such as a timeout property, automatic JSON data transformation, and much more.
 
 In order to use Axios, we must first install the package using npm. npm stands for 'node package manager' which is the main resource for external JavaScript libraries and is almost universally used among JavaScript projects.
 
@@ -2878,17 +2701,12 @@ Here is an example of a **package.json** file.
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-    
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -2896,7 +2714,6 @@ Here is an example of a **package.json** file.
     ]
   }
 }
-
 ```
 
 Here, you can see the dependencies of the project as well as various other bits of information about our project. Don't worry about what everything means at the moment.
@@ -2921,14 +2738,14 @@ We can now explore adding our own scripts to our **package.json** file in order 
 
 ```json
 {
-  // ... 
+  // ...
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start": "json-server -p3001 db.json" // Executing this command would require that we have json-server installed whether it be globally or in our project
-  },
+  }
   // ...
 }
 ```
@@ -2946,20 +2763,20 @@ Now that we have everything set up, we can finally begin using Axios.
 Let's first import and create two axios constants that are assigned with the promise that is returned from the `axios.get()` method. A promise is something that represents the eventual completion/failure of an asynchronous operation and the value that it returns.
 
 ```jsx
-import axios from 'axios'
+import axios from "axios";
 
-const examplePromise = axios.get('http://localhost:3001/notes')
-console.log(examplePromise)
+const examplePromise = axios.get("http://localhost:3001/notes");
+console.log(examplePromise);
 
-const examplePromise1 = axios.get('http://localhost:3001/randomtext')
-console.log(examplePromise1)
+const examplePromise1 = axios.get("http://localhost:3001/randomtext");
+console.log(examplePromise1);
 ```
 
 A promise can have three different states
 
-* **Pending**: Was not yet fulfilled nor rejected (initial state, the value has not been made available yet)
-* **Fulfilled**: The async operation has completed successfully (the final value of the promise was successfully determined after the operation had completed)
-* **Rejected**: The async operation has failed (the final value of the promise was unable to be determined)
+- **Pending**: Was not yet fulfilled nor rejected (initial state, the value has not been made available yet)
+- **Fulfilled**: The async operation has completed successfully (the final value of the promise was successfully determined after the operation had completed)
+- **Rejected**: The async operation has failed (the final value of the promise was unable to be determined)
 
 Taking a look at your console to see the result of these `console.log` statements, you should find the following printed
 
@@ -2972,11 +2789,11 @@ Here, you can see how our first promise returned a promise status of being "reso
 If we wanted to get the result that our promise resolves to, we can provide a function to the `then` method of our promise.
 
 ```jsx
-const examplePromise = axios.get('http://localhost:3001/notes')
+const examplePromise = axios.get("http://localhost:3001/notes");
 
-examplePromise.then(response => {
-  console.log(response)
-})
+examplePromise.then((response) => {
+  console.log(response);
+});
 ```
 
 What we're doing here is providing a callback function to the `then` method of the promise (which is included in the `Promise` prototype with the responsibility of appending fulfillment and rejection handlers to the given promise). This callback function with then be called when the operation has been completed/resolved and pass in the response object as the `response` parameter. This response object includes the typical response data that would come with an HTTP GET request response including the headers, status code, and the actual content/data.
@@ -2989,15 +2806,13 @@ The server returns the data as plain text, but we're able to parse the plaintext
 
 ![image-20191026173817715](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191026173817715.png)
 
-In most cases, we wouldn't actually need to store the entire object in a constant or variable, so we can get rid of the assignment operator and variable declaration. We can also clean our code up by using a code formatting style in that we *chain* our methods
+In most cases, we wouldn't actually need to store the entire object in a constant or variable, so we can get rid of the assignment operator and variable declaration. We can also clean our code up by using a code formatting style in that we _chain_ our methods
 
 ```jsx
-axios
-  .get('http://localhost:3001/notes')
-  .then(response => {
-    const notes = response.data
-    console.log(notes)
-  })
+axios.get("http://localhost:3001/notes").then((response) => {
+  const notes = response.data;
+  console.log(notes);
+});
 ```
 
 Now, let's take a look at an attempt to actually use the data returned from the server in our notes app from earlier.
@@ -3005,19 +2820,16 @@ Now, let's take a look at an attempt to actually use the data returned from the 
 **./index.js**
 
 ```jsx
-import ReactDOM from 'react-dom'
-import React from 'react'
-import App from './App'
+import ReactDOM from "react-dom";
+import React from "react";
+import App from "./App";
 
-import axios from 'axios'
+import axios from "axios";
 
-axios.get('http://localhost:3001/notes').then(response => {
-  const notes = response.data
-  ReactDOM.render(
-    <App notes={notes} />,
-    document.getElementById('root')
-  )
-})
+axios.get("http://localhost:3001/notes").then((response) => {
+  const notes = response.data;
+  ReactDOM.render(<App notes={notes} />, document.getElementById("root"));
+});
 ```
 
 Here, upon starting our app, we'll call the `get` method of `axios` and, with `then`, assign the callback function to get the data from the response and render our `App` component to the root element of our web page with the response passed in as the `notes` property.
@@ -3033,11 +2845,11 @@ We'll be using the effect hook in our `App` component to fetch the notes data fr
 **./index.js**
 
 ```jsx
-import ReactDOM from 'react-dom'
-import React from 'react'
-import App from './App'
+import ReactDOM from "react-dom";
+import React from "react";
+import App from "./App";
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById("root"));
 ```
 
 Here you can see how we simply render our `App` component to the root element of our document without doing anything else in our **index.js** file.
@@ -3060,7 +2872,7 @@ const App = (props) => {
   const [showAll, setShowAll] = useState(true)
 
   // **Effect Hook**
-  const effectHook = () => { 
+  const effectHook = () => {
     console.log('Reached Effect ')
     axios
       .get('http://localhost:3001/notes')
@@ -3073,7 +2885,7 @@ const App = (props) => {
   useEffect(effectHook, [])
   console.log('Rendered', notes.length, 'notes')
   // **End Effect Hook**
-  
+
   //...
 ```
 
@@ -3082,18 +2894,16 @@ Take a look at the comments in the code snippet above to get an idea of what we 
 Now, draw your attention to the lines involving our effect hook.
 
 ```jsx
-  const effectHook = () => { 
-    console.log('Reached Effect ')
-    axios
-      .get('http://localhost:3001/notes')
-      .then(response => {
-        console.log('The promise has been fulfilled :)')
-        setNotes(response.data)
-      })
-  }
+const effectHook = () => {
+  console.log("Reached Effect ");
+  axios.get("http://localhost:3001/notes").then((response) => {
+    console.log("The promise has been fulfilled :)");
+    setNotes(response.data);
+  });
+};
 
-  useEffect(effectHook, [])
-  console.log('Rendered', notes.length, 'notes')
+useEffect(effectHook, []);
+console.log("Rendered", notes.length, "notes");
 ```
 
 Here, you'll notice how `useEffect` takes in a function to which we can use to fetch our data (this function will be run right after the component is rendered). `useEffect` also takes in a second parameter for which if you pass in an empty array ([]), like we did in this example, the effect will never be re-run as it tells React that it does not depend on any props or state (thus eliminating the need that it would need to be re-run since it's not dependent on anything that changes). If we were to omit this empty array as the second argument and use React's default, the effect would be run after every single completed render; that means, if something changes in your component to where it has to be re-rendered, this request would be made which may not be a good idea for performance reasons.
@@ -3102,32 +2912,32 @@ Taking a look at the console, assuming that everything works and the server is u
 
 ![image-20191027003328132](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191027003328132.png)
 
-* 'Rendered 0 notes' is printed first as the component is rendered for the first time without there being anything in our `notes` piece of state, simply because the function passed to `useEffect` had not been executed yet
-* Then, after the components first render, the `effectHook` function is executed (which was passed into `useEffect`) which causes 'Reached Effect' to be printed.
-* After our function had been executed, eventually (assuming that our promise is actually fulfilled), the fucntion that we passed into the `then()` method of our response will be executed with 'The promise has been fulfilled :)' being printed to the console.
-* Finally, we set our `notes` piece of state to our response's data using the `setNotes` function that was supplied to us via the use of `useState`. This update to our state causes our component to re-render which leads ot the `console.log` statement involving our rendered components to be executed again; this time, however, our `notes` piece of state actually has three objects inside it, so 'Rendered 3   notes' is printed to the console.
+- 'Rendered 0 notes' is printed first as the component is rendered for the first time without there being anything in our `notes` piece of state, simply because the function passed to `useEffect` had not been executed yet
+- Then, after the components first render, the `effectHook` function is executed (which was passed into `useEffect`) which causes 'Reached Effect' to be printed.
+- After our function had been executed, eventually (assuming that our promise is actually fulfilled), the fucntion that we passed into the `then()` method of our response will be executed with 'The promise has been fulfilled :)' being printed to the console.
+- Finally, we set our `notes` piece of state to our response's data using the `setNotes` function that was supplied to us via the use of `useState`. This update to our state causes our component to re-render which leads ot the `console.log` statement involving our rendered components to be executed again; this time, however, our `notes` piece of state actually has three objects inside it, so 'Rendered 3 notes' is printed to the console.
 
 > We still follow React's principle of not mutating data as our `response` object is new every time we make a request, so by setting our `notes` piece of state to `response.data`, we're setting it to a new object every single time.
 
 Since `axios.get` returns a promise, and we're just accessing the `then` method of that property. We could also store that promise in a constant and use the `then` method to assign an event handler whose body handles our response as follows
 
 ```jsx
-  const useEffect(() => { 
+  const useEffect(() => {
     console.log('Reached Effect ')
-    
+
     const axiosEventHandler = response => { // Here's our handler for our response that used to be an anonymous arrow function defined in the `then` method's parameter list.
       console.log('The promise has been fulfilled :)')
       setNotes(response.data)
     }
-    
+
     const axiosPromise = axios.get('http://localhost:3001/notes')
     axiosPromise.then(axiosEventHandler)
   }, [])
-  
+
   console.log('Rendered', notes.length, 'notes')
 ```
 
-Here, we made the changes to store the promise that axios returns in a constant so we can reference it later on when using our event handler defined in another constant to be set by the `then` method of the promise. This way of writing things, while it may allow for cleaner statements, is not usually the best way to go about these promises, the formatting of *chaining* usually works just fine. 
+Here, we made the changes to store the promise that axios returns in a constant so we can reference it later on when using our event handler defined in another constant to be set by the `then` method of the promise. This way of writing things, while it may allow for cleaner statements, is not usually the best way to go about these promises, the formatting of _chaining_ usually works just fine.
 
 With regard to taking various approaches to solve problems, a good rule to follow involves writing your code to be easily read. Don't strive to have the "fanciest" solution with crazy one-liners, just write code in the most concise, human-readable form that you can. This makes maintaing your own projects and having other people work on them much easier; keep it stupid simple (KISS) is an acronym that you may want to have in mind when working on larger projects.
 
@@ -3135,27 +2945,25 @@ With regard to taking various approaches to solve problems, a good rule to follo
 
 ### REST Terminology
 
-If you've ever decided to look up what a REST (Representational State Transfer) API is supposed to do, you might have come across the four functions which use HTTP requests to: GET, PUT, POST, and DELETE data. REST APIs consist of data objects, called "resources" in REST terms, which all have unique addresses (the URL). For example, with the notes app that we've been working with, the URL **/notes/3** would return the note in the notes collection with an ID of 3 whereas a request to the URL **/notes** would return a resource collection of *all* the notes. Forward slashes (/) typically indicate hierarchical relationships. Additionally, is it good practice to not use trailing forward slashes (/ at the end of URLs) as it does not have any semantic value.
+If you've ever decided to look up what a REST (Representational State Transfer) API is supposed to do, you might have come across the four functions which use HTTP requests to: GET, PUT, POST, and DELETE data. REST APIs consist of data objects, called "resources" in REST terms, which all have unique addresses (the URL). For example, with the notes app that we've been working with, the URL **/notes/3** would return the note in the notes collection with an ID of 3 whereas a request to the URL **/notes** would return a resource collection of _all_ the notes. Forward slashes (/) typically indicate hierarchical relationships. Additionally, is it good practice to not use trailing forward slashes (/ at the end of URLs) as it does not have any semantic value.
 
 Resources are fetched via HTTP GET requests to the server. In our above app, we retrieved a resource collection containing all the notes through a HTTP GET request to our /notes URL. If we wanted to store a new note, instead of making a HTTP GET request, we would have to make an HTTP POST request. The following update to our `addNote` handler is an example of how we might make a HTTP POST request to a server
 
 ```jsx
 const addNote = (event) => {
-  event.preventDefault()
+  event.preventDefault();
   const newNoteObject = {
     content: noteField,
     date: new Date(),
     flagged: Math.random() > 0.5,
-  }
+  };
 
-  axios
-    .post('http://localhost:3001/notes', newNoteObject)
-    .then(response => {
-      console.log('Received Response', response)
-      setNotes(notes.concat(response.data))
-    })
-  setNoteField('Enter a new note here...')
-}
+  axios.post("http://localhost:3001/notes", newNoteObject).then((response) => {
+    console.log("Received Response", response);
+    setNotes(notes.concat(response.data));
+  });
+  setNoteField("Enter a new note here...");
+};
 ```
 
 Here, you'll notice that we no longer create the `id` property in the object representing our new note since the server should keep track of IDs considering that the client does not have information pertaining to the IDs of the rest of the notes. We then added and event handler to handle the response from the server and assigned it to our promise using the `then` method. This event handler takes the response and logs it to the console; it also concatenates our new note that we received from the server in the `data` property of the `response` object to our array of notes, to which we use `setNotes` to update our `notes` piece of state and trigger a re-render. Upon submitting a note and receiving the response from the server, you should see the following in your console
@@ -3176,7 +2984,7 @@ You might have noticed something interesting about our `response` object's `data
 
 ![image-20191102182414821](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191102182414821.png)
 
-Looking under 'Request Headers', we can see that our `content-type` is indeed `application/json`. 
+Looking under 'Request Headers', we can see that our `content-type` is indeed `application/json`.
 
 ### Toggles (MAYBE REORGANIZE TOGGLES AND THE SHALLOW COPY SECTION)
 
@@ -3188,11 +2996,11 @@ First, let's edit our `Note` component to reflect the ability to toggle whether 
 const Note = ({ note, toggleFlagged }) => {
   return (
     <li>
-    <input type="checkbox" checked={note.flagged} onChange={toggleFlagged} />
-    {note.content}
+      <input type="checkbox" checked={note.flagged} onChange={toggleFlagged} />
+      {note.content}
     </li>
-  )
-}
+  );
+};
 ```
 
 Here, we simply added a checkbox whose `checked` property is set to the `flagged` property of the `note` passed in as a prop. Thus, if the `note` object's `flagged` property is true, the given list element for that `note` will have a checked checkbox and vice versa for a `note` object whose `flagged` property is false. We also set the `onChange` property of our checkbox to a `toggleFlagged` event handler that we'll implement next. The `onChange` event occurs whenever our checkbox is checked or unchecked.
@@ -3210,10 +3018,10 @@ const App = (props) => {
   const toggleFlagged = id => {
     console.log(`To change ${id}'s flagged property`)
   }
-  
+
   // ...
-  
-  const noteList = () => filteredNotes.map(note => 
+
+  const noteList = () => filteredNotes.map(note =>
   	<Note
       key={note.id}
       note={note}
@@ -3226,32 +3034,32 @@ Here, you'll see our `toggleFlagged` event handler simply just outputs a stateme
 
 ```jsx
 const toggleFlagged = () => {
-    console.log(`To change 4's flagged property`)
-  }
+  console.log(`To change 4's flagged property`);
+};
 ```
 
-Another thing you might have noticed is the use of the *template strings* or *template literal* in our `toggleFlagged` event handler. With this, you can embed expressions into your strings through the use of simple syntax as follows ``` `Here is a template literal ${expression}` ```. Make note of how you must wrap your template literals in grave accents '`' rather than quotation marks. 
+Another thing you might have noticed is the use of the _template strings_ or _template literal_ in our `toggleFlagged` event handler. With this, you can embed expressions into your strings through the use of simple syntax as follows `` `Here is a template literal ${expression}` ``. Make note of how you must wrap your template literals in grave accents '`' rather than quotation marks.
 
 Now, when trying to toggle the checkboxes in our app, you'll notice that the specific event handler functions for each given `Note` component is executed, telling you that a given note's flagged property is to be chained. You'll also notice that our checkboxes aren't actually changing with regard to being checked or not. This is because they depend on the `Note`'s `flagged` property, and we actually aren't updating this property in our `toggleFlagged` event handler.
 
 Let's update our event handler function to make a HTTP POST request to our server and update the given `note`'s `flagged` property.
 
 ```jsx
- const toggleFlagged = id => {
-    const noteURL = `http://localhost:3001/notes/${id}`
-    const referencedNote = notes.find(note => note.id === id)
-    const updatedNote = { ...referencedNote, flagged: !referencedNote.flagged }
+const toggleFlagged = (id) => {
+  const noteURL = `http://localhost:3001/notes/${id}`;
+  const referencedNote = notes.find((note) => note.id === id);
+  const updatedNote = { ...referencedNote, flagged: !referencedNote.flagged };
 
-    axios.put(noteURL, updatedNote).then(response => {
-      setNotes(notes.map(note => note.id === id ? response.data : note)) // Explained
-      console.log(`Changed ${id}'s flagged property`)
-    })
-  }
+  axios.put(noteURL, updatedNote).then((response) => {
+    setNotes(notes.map((note) => (note.id === id ? response.data : note))); // Explained
+    console.log(`Changed ${id}'s flagged property`);
+  });
+};
 ```
 
-Here, you'll see the combination of a few concepts that we have talked about previously. First, we reference the specific resource URL of the `note` that we want to update by creating a `noteURL` constant that makes use of the `id` parameter variable in order to access the `note` resource that we want. 
+Here, you'll see the combination of a few concepts that we have talked about previously. First, we reference the specific resource URL of the `note` that we want to update by creating a `noteURL` constant that makes use of the `id` parameter variable in order to access the `note` resource that we want.
 
-We then use the array's `find` method in order to find the note with the `id` that we're looking for  (we could've passed the entire `note` in as a parameter, but that makes for a messier solution when it comes to the comparisons that we'll do later). We then store the `note` with the desired `id` in the `referencedNote` constant.
+We then use the array's `find` method in order to find the note with the `id` that we're looking for (we could've passed the entire `note` in as a parameter, but that makes for a messier solution when it comes to the comparisons that we'll do later). We then store the `note` with the desired `id` in the `referencedNote` constant.
 
 From this, we create a new object that "copies" everything from the old `note` object using the spread syntax (...) except the `flagged` property from which we apply a logical negation `!` to toggle the property. We store this updated note object in the `updatedNote` constant.
 
@@ -3263,24 +3071,24 @@ From this, we create a new object that "copies" everything from the old `note` o
 
 #### Shallow Copies/Clones
 
-When we create a new `note` in this fashion with regard to using the spread syntax. We create a *shallow copy/clone*. Shallow copying only copies over field values over to our `updatedNote` object, so that the values of the properties of our new object still reference the same objects that `referencedNote` referenced. The only difference being that there is a new object that contains all of these fields and that we can make changes without mutating the original object by assigning new objects in place of these properties. In short, this means that if our original note had a reference to an object in one of its properties and we created a new note, `copiedNote` that utilized the spread syntax, the same property would reference the exact same object that the original note referenced. This is something to consider, because if you accidentally mutate the state of the referenced object, you mutate the object of the original note's property. Consider the following code snippet
+When we create a new `note` in this fashion with regard to using the spread syntax. We create a _shallow copy/clone_. Shallow copying only copies over field values over to our `updatedNote` object, so that the values of the properties of our new object still reference the same objects that `referencedNote` referenced. The only difference being that there is a new object that contains all of these fields and that we can make changes without mutating the original object by assigning new objects in place of these properties. In short, this means that if our original note had a reference to an object in one of its properties and we created a new note, `copiedNote` that utilized the spread syntax, the same property would reference the exact same object that the original note referenced. This is something to consider, because if you accidentally mutate the state of the referenced object, you mutate the object of the original note's property. Consider the following code snippet
 
 ```jsx
 const obj1 = {
-     enabled: true,
-     size: {
-          width:100,
-          height:100
-     }
-}
+  enabled: true,
+  size: {
+    width: 100,
+    height: 100,
+  },
+};
 
-const obj2 = {...obj1} // Shallow copy of obj1 using the spread operator
+const obj2 = { ...obj1 }; // Shallow copy of obj1 using the spread operator
 
-obj2.enabled = false // Updates the enabled property of the original object to false
+obj2.enabled = false; // Updates the enabled property of the original object to false
 
-obj1.size.width = 200 // Changes a property of an object that the original object refers to
+obj1.size.width = 200; // Changes a property of an object that the original object refers to
 
-console.log(obj2)
+console.log(obj2);
 ```
 
 ![image-20191104223920660](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191104223920660.png) Seeing the output of `console.log(obj2)` and diving into the `size` property of that object, you'll see how updating it via `obj1` still affected the object referenced by a property of `obj2` since both `obj1` and `obj2` refer to the exact same object with only the references being copied over to our new, distinct object (shallow copy). In the above snippet, you'll notice that the output of `obj2` uncovers that the `width` property of the `size` property of `obj2` is set to 200, even though we made the changes to `obj1`.
@@ -3296,7 +3104,7 @@ Going back to what our event handler does here, we make a HTTP PUT request to ou
 Then, in our callback function from our HTTP PUT request, we use `setNotes()` to update our `notes` piece of state to a new array created by mapping over our original array and replacing the note that matches the `id` in our parameter variable with the `data` property of our response, essentially updating our state to reflect our backend and the change that we had just made.
 
 ```jsx
-setNotes(notes.map(note => note.id === id ? response.data : note)) // Explained
+setNotes(notes.map((note) => (note.id === id ? response.data : note))); // Explained
 ```
 
 Here, you can see how we map over the `notes` array in order to create a new array. Notice how we use a conditional (ternary) operator in order to see whether we should be replacing a given object with the updated object we had received in our response. If our `id` parameter variable (the ID of the note that we had just updated) matches the `id` of the note that we are currently mapping over in our `notes` array, then we will replace it with the updated object.
@@ -3307,7 +3115,7 @@ After this, we just log our changes to the console, explaining that we had succe
 
 ### Organzing Backend Communication Services
 
-An important computer programming principle to keep in mind while making these applications is the *single responsibility principle* which states that every single module, class, or function should have responsiblility over only a single part of the functionality of our overall application. Looking at our `App` component, you might have noticed that we're cramming quite a lot of code in this singular component and that it violates the single responsibility principle in that it also does the job of communicating with the backend. Let's look at moving our code involved with communicating with our backend server into its own module. 
+An important computer programming principle to keep in mind while making these applications is the _single responsibility principle_ which states that every single module, class, or function should have responsiblility over only a single part of the functionality of our overall application. Looking at our `App` component, you might have noticed that we're cramming quite a lot of code in this singular component and that it violates the single responsibility principle in that it also does the job of communicating with the backend. Let's look at moving our code involved with communicating with our backend server into its own module.
 
 In our project structure, we'll put all of our services in the directory **src/services**.
 
@@ -3316,82 +3124,77 @@ Within **src/services**, we'll create a **notes.js** file
 **./services/notes.js**
 
 ```jsx
-import axios from 'axios'
-const baseUrl = 'http://localhost:3001/notes'
+import axios from "axios";
+const baseUrl = "http://localhost:3001/notes";
 
 const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
-}
+  const request = axios.get(baseUrl);
+  return request.then((response) => response.data);
+};
 
-const create = newObject => {
-  const request = axios.post(baseUrl, newObject)
-  return request.then(response => response.data)
-}
+const create = (newObject) => {
+  const request = axios.post(baseUrl, newObject);
+  return request.then((response) => response.data);
+};
 
 const update = (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject)
-  return request.then(response => response.data)
-}
+  const request = axios.put(`${baseUrl}/${id}`, newObject);
+  return request.then((response) => response.data);
+};
 
-export default { 
-  getAll: getAll, 
-  create: create, 
-  update: update 
-}
+export default {
+  getAll: getAll,
+  create: create,
+  update: update,
+};
 ```
 
-Here, you can see how we used a default export to export an object that contains three functions defined earlier in this file (`getAll`, `create`, and `update`) with these functions representing the actions that we have used in our application already to communicate with our backend. 
+Here, you can see how we used a default export to export an object that contains three functions defined earlier in this file (`getAll`, `create`, and `update`) with these functions representing the actions that we have used in our application already to communicate with our backend.
 
 Also, note how we're returning the `then` method of our original promise; this will allow us to write cleaner solutions later in our `App` component so that we won't have to reference the `data` property but rather just the returned object. We accomplish this by storing our promise in the `request` constant and then using the `then` method to assign a callback function that returns the `data` property of the `response` and then returning this new promise. When the promise returned by the `then()` method is resolved, it executes the respective handler function an returns a promise that resolves to the returned value. In short, this behaves as if we received only the data as a response and are returning that response instead of the entire response in a promise.
 
 Now, in our `App` component, we can import this service and use it to talk to our backend rather than writing all of the functions within our `App` component as follows
 
 ```jsx
-import noteService from './services/notes'
+import noteService from "./services/notes";
 
 //...
 
 const App = () => {
-  
   //...
-  
-  useEffect(() => {
-    noteService
-      .getAll()
-        .then(initialNotes => { // Promise Chaining, explained
-        setNotes(initialNotes)
-      })
-  }, [])
-  
-  const toggleFlagged = id => {
-    const referencedNote = notes.find(n => n.id === id)
-    const updatedNote = { ...referencedNote, flagged: !referencedNote.flagged }
 
-    noteService
-    	.update(id, updatedNote)
-    		.then(responseNote => { // Promise Chaining, explained
-     	setNotes(notes.map(note => note.id === id ? updatedNote : note))
-    })
-  }
-  
+  useEffect(() => {
+    noteService.getAll().then((initialNotes) => {
+      // Promise Chaining, explained
+      setNotes(initialNotes);
+    });
+  }, []);
+
+  const toggleFlagged = (id) => {
+    const referencedNote = notes.find((n) => n.id === id);
+    const updatedNote = { ...referencedNote, flagged: !referencedNote.flagged };
+
+    noteService.update(id, updatedNote).then((responseNote) => {
+      // Promise Chaining, explained
+      setNotes(notes.map((note) => (note.id === id ? updatedNote : note)));
+    });
+  };
+
   const addNote = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const newNoteObject = {
       content: noteField,
       date: new Date(),
       flagged: Math.random() > 0.5,
-    }
-    
-    noteService
-    	.create(newNoteObject)
-   			.then(responseNote => { // Promise Chaining, explained
-      setNotes(notes.concat(responseNote))
-      setNoteField('Enter a new note here...')
-    })
-  }
+    };
 
-}
+    noteService.create(newNoteObject).then((responseNote) => {
+      // Promise Chaining, explained
+      setNotes(notes.concat(responseNote));
+      setNoteField("Enter a new note here...");
+    });
+  };
+};
 ```
 
 Here, we transitioned from making direct calls to `axios` methods to using our note service module to make requests for us and provide a layer of abstraction. You'll also notice instances of 'Promise Chaining' (demarcated by `// Promise Chaining, explained`). Here, we 'chain' another `then()` method to the previous promise returned by the functions in our notes function.
@@ -3400,31 +3203,26 @@ Here, we transitioned from making direct calls to `axios` methods to using our n
 
 The following diagram illustrates the act of a function creating an `axios` promise, calling its `then()` method in which upon resolving, the callback function that we have specified is executed, returning only the `response`'s data property rather than the entire response object in the form of a promise. When we call any of these functions in our `App` component, we get the `response`'s `data` property returned in the form of a promise that resolves to the `data`; we then 'chain' onto this and use its `then()` method that resolves and executes a callback that performs the appropriate operations with the returned data.
 
-![IMG_2596AFD77492-1](/Users/josephsemrai/Downloads/IMG_2596AFD77492-1.jpeg)
+TODO: Replace with actual diagram
 
-To explain things as simply as possible and to provide an example, a call to a promise's `then()` method returns a promise, so that we can also call its  `then()` method and use the return value of its handler in our next promise. The following example illustrates how we access and use the return values of previous promises in subsequent promises
+To explain things as simply as possible and to provide an example, a call to a promise's `then()` method returns a promise, so that we can also call its `then()` method and use the return value of its handler in our next promise. The following example illustrates how we access and use the return values of previous promises in subsequent promises
 
 ```js
-new Promise(function(resolve, reject) {
-  
-  setTimeout(() => resolve(1), 1000) // (*)
-  
-}).then((result) => {
-
-  console.log(result) // Alerts 1
-  return result * 2;
-
-}).then((result) => {
-
-  console.log(result) // Alerts 2
-  return result * 2
-
-}).then((result) => {
-
-  console.log(result) // Alerts 4
-  return result * 2;
-  
-});
+new Promise(function (resolve, reject) {
+  setTimeout(() => resolve(1), 1000); // (*)
+})
+  .then((result) => {
+    console.log(result); // Alerts 1
+    return result * 2;
+  })
+  .then((result) => {
+    console.log(result); // Alerts 2
+    return result * 2;
+  })
+  .then((result) => {
+    console.log(result); // Alerts 4
+    return result * 2;
+  });
 ```
 
 Here, the first promise resolves and in the handler that we specified in our first `then()` call, the number 1 is printed to the console. Then at the end of the handler, we return the result that our first promise resolved to multiplied by 2. The return is returned in the form of a promise that resolves to the value that we returned. As the returned value was a promise, we can make another `then()` call upon this new handler, only this new promise resolved to the value that was returned in handler of the promise mentioned one before in the chain. We then use this returned value in our new handler and return it again in the form of another promise so that we can use it in another `then() ` handler.
@@ -3438,21 +3236,21 @@ Looking back to the code snippet, notice how we no longer have to specify the UR
 We can also make our code a bit cleaner in respect to using shortened syntax. There are many instances in JavaScript where we can take advantage of the object-property value shorthand introduced in ES6. This object-property value shorthand allows us to take something like
 
 ```js
-const year = 1995
-const model = 'apple'
+const year = 1995;
+const model = "apple";
 
 const car = {
   year: year,
-  model: model
-}
+  model: model,
+};
 ```
 
 and turn it into
 
 ```js
-const year = 1995
-const model = 'apple'
-const car = { year, model }
+const year = 1995;
+const model = "apple";
+const car = { year, model };
 ```
 
 Thus, whenever both the property and variable reference name is the same, you can just write the name of the variable reference so that the variable reference will be stored in a property with the same name.
@@ -3462,30 +3260,30 @@ Applying this shorthand to our 'notes' service that we wrote earlier, we can now
 **./services/notes.js**
 
 ```jsx
-import axios from 'axios'
-const baseUrl = 'http://localhost:3001/notes'
+import axios from "axios";
+const baseUrl = "http://localhost:3001/notes";
 
 const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
-}
+  const request = axios.get(baseUrl);
+  return request.then((response) => response.data);
+};
 
-const create = newObject => {
-  const request = axios.post(baseUrl, newObject)
-  return request.then(response => response.data)
-}
+const create = (newObject) => {
+  const request = axios.post(baseUrl, newObject);
+  return request.then((response) => response.data);
+};
 
 const update = (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject)
-  return request.then(response => response.data)
-}
+  const request = axios.put(`${baseUrl}/${id}`, newObject);
+  return request.then((response) => response.data);
+};
 
-export default { getAll, create, update } // Taking advantage of the shorthand here
+export default { getAll, create, update }; // Taking advantage of the shorthand here
 ```
 
 ## Dealing With Promise Errors
 
-If we ever encounter unexpected behavior in our web apps, we should be able to handle error messages gracefully and make the user aware that their request had not succeded. The console informing us of an error is simply not enough. Recall that there are three different 'states' of a promise, we have already discussed handling fulfilled promises, but now let's talk about when a given promise is  rejected.
+If we ever encounter unexpected behavior in our web apps, we should be able to handle error messages gracefully and make the user aware that their request had not succeded. The console informing us of an error is simply not enough. Recall that there are three different 'states' of a promise, we have already discussed handling fulfilled promises, but now let's talk about when a given promise is rejected.
 
 One thing we can do here is terminate our `json-server` process so that when our React app tries to retrieve notes or interface with our backend in any way, it is unable to. Do this by closing the associated terminal/console window that you have ran the `npm run server` script in or by pressing `control` + `c` in the associated window.
 
@@ -3498,21 +3296,20 @@ Here, you can see how we do not handle this error in any way. When our HTTP requ
 We can handle the rejection of a promise by providing our promise chain with a `catch()` method which returns a promise and deals with rejected cases.
 
 ```jsx
-examplePromise.catch(onRejected) // where onRejected is a function that is called when the promise is rejected
+examplePromise.catch(onRejected); // where onRejected is a function that is called when the promise is rejected
 ```
 
 In terms of an `axios` request, using the `catch()` method would probably look somewhat like the following
 
 ```jsx
 axios
-	.put('totallyfakeurl.com/will_fail')
-	.then(response => {
-  console.log("This actually didn't fail")
+  .put("totallyfakeurl.com/will_fail")
+  .then((response) => {
+    console.log("This actually didn't fail");
   })
-	.catch(error => {
-  console.log('This failed as expected!')
-	})
-
+  .catch((error) => {
+    console.log("This failed as expected!");
+  });
 ```
 
 Here, when the promise is rejected, the callback function provided to the `catch()` method in our promise chain will be execute with whatever return value that the promise had being passed in as `error`.
@@ -3524,15 +3321,17 @@ Putting this into practice, let's write a rejection handler for when we can't re
 ```jsx
 //...
 const effectHook = () => {
-    noteService
-      .getAll()
-        .then(initialNotes => { 
-        setNotes(initialNotes)
-      })
-      .catch(error => {
-        alert(`${error}: Something went wrong while trying to retrieve data from the server.`)
-      })
-  }
+  noteService
+    .getAll()
+    .then((initialNotes) => {
+      setNotes(initialNotes);
+    })
+    .catch((error) => {
+      alert(
+        `${error}: Something went wrong while trying to retrieve data from the server.`
+      );
+    });
+};
 //...
 ```
 
@@ -3545,13 +3344,13 @@ When we lay everything out in our promise chain as such in the following code sn
 ```jsx
 axios
   .put(`${baseUrl}/${id}`, newObject)
-  .then(response => response.data)
-  .then(responseNote => {
+  .then((response) => response.data)
+  .then((responseNote) => {
     // ...
   })
-	.catch(error => {
-    console.log(`${Error}: An error has occured.`)
-  })
+  .catch((error) => {
+    console.log(`${Error}: An error has occured.`);
+  });
 ```
 
 With this, you can now start writing error handlers for your promises that may get rejected.
@@ -3567,7 +3366,7 @@ We can our CSS file to our application by simply importing it similarly to how w
 **./index.js**
 
 ```jsx
-import './index.css'
+import "./index.css";
 ```
 
 Now that we have our CSS file and it imported, we can start writing styles for our app! Let's first try styling our header with the text of 'Notes'
@@ -3576,11 +3375,11 @@ Now that we have our CSS file and it imported, we can start writing styles for o
 
 ```css
 h1 {
-    color: darkcyan; 
+  color: darkcyan;
 }
 ```
 
-Now, as a quick overview of CSS, CSS consists of **selectors** (such as `h1`) and **declarations** (such as `color: darkcyan`). In the above snippet, the selector allows us to select all of the `h1` elements in our application and apply styling information to them. Then, within the **declaration block** (denoted by curly braces and contains declarations), we included a declaration tasked with setting the color of these elements to 'darkcyan'. CSS is very powerful; as such, there are many CSS selectors, declarations, and other features that this book will not cover. If you are interested in learning about how to style your web apps, I would suggest using the many resources available online for free to further your understanding. 
+Now, as a quick overview of CSS, CSS consists of **selectors** (such as `h1`) and **declarations** (such as `color: darkcyan`). In the above snippet, the selector allows us to select all of the `h1` elements in our application and apply styling information to them. Then, within the **declaration block** (denoted by curly braces and contains declarations), we included a declaration tasked with setting the color of these elements to 'darkcyan'. CSS is very powerful; as such, there are many CSS selectors, declarations, and other features that this book will not cover. If you are interested in learning about how to style your web apps, I would suggest using the many resources available online for free to further your understanding.
 
 Using element selectors is usually not recommended as they would be applied to every element under an element selector; thus, class selectors and id selectors are used.
 
@@ -3589,18 +3388,18 @@ Class selectors allow us to give elements a class name to be targeted by via the
 **./components/Note.js**
 
 ```jsx
-import React from 'react'
+import React from "react";
 
 const Note = ({ note, toggleFlagged }) => {
   return (
     <li className="mainNote">
-    <input type="checkbox" checked={note.flagged} onChange={toggleFlagged} />
-    {note.content}
+      <input type="checkbox" checked={note.flagged} onChange={toggleFlagged} />
+      {note.content}
     </li>
-  )
-}
+  );
+};
 
-export default Note
+export default Note;
 ```
 
 > Here, we use camelCase for our class names; it is common in the CSS world to use kebab-case (putting dashes between tokens). Most naming conventions are enabled by React, however, so it is up to your preferences and the style guide that you (and/or your team) are following.
@@ -3610,7 +3409,7 @@ Then, we can add the following snippet to our **index.css** file to target this 
 ```css
 .mainNote {
   font-size: large;
-  color: red
+  color: red;
 }
 ```
 
@@ -3619,30 +3418,30 @@ We can also add multiple classes to a given element as follows
 **./components/Note.js**
 
 ```jsx
-import React from 'react'
+import React from "react";
 
 const Note = ({ note, toggleFlagged }) => {
   return (
     <li className="mainNote card">
-    <input type="checkbox" checked={note.flagged} onChange={toggleFlagged} />
-    {note.content}
+      <input type="checkbox" checked={note.flagged} onChange={toggleFlagged} />
+      {note.content}
     </li>
-  )
-}
+  );
+};
 
-export default Note
+export default Note;
 ```
 
 We can now add the CSS class to target this new class that we have added to the `li` element above
 
 ```css
 .card {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    border-radius: 5px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
 ```
 
@@ -3661,21 +3460,17 @@ First, let's create the actual notification component
 **./components/Notification.js**
 
 ```jsx
-import React from 'react'
+import React from "react";
 
 const Notification = ({ message }) => {
-    if (message === null) {
-      return null
-    }
-  
-    return (
-      <div className="error">
-        {message}
-      </div>
-    )
-}
+  if (message === null) {
+    return null;
+  }
 
-export default Notification
+  return <div className="error">{message}</div>;
+};
+
+export default Notification;
 ```
 
 Then, we can add a piece of state to our application that keeps track of the current message that should be displayed by our notification component (as you can see in our `Notification` component, if the message parameter passed to it is `null` the component will not render in that it will return `null`). Also, take note of how we gave the `div` element that our component returns a class name of 'error'; this will be used to target this `div` via a class selector for styling.
@@ -3714,15 +3509,15 @@ Let's now use our `Notification` component in the `div` that our `App` component
       <Notification message={notificationMessage} /> {/* Notification Component */}
       <div>
         <button onClick={() => setShowAll(!showAll)}>
-          Show {showAll ? 'Flagged' : 'All' } 
+          Show {showAll ? 'Flagged' : 'All' }
         </button>
       </div>
       <ul>
         {noteList()}
       </ul>
       <form onSubmit={addNote}>
-      	<input 
-          value={noteField} 
+      	<input
+          value={noteField}
           onChange={handleInputChange} />
         <button type="submit">Add Note</button>
       </form>
@@ -3753,7 +3548,7 @@ const App = (props) => {
   )
   const [showAll, setShowAll] = useState(true)
   const [notificationMessage, setNotificationMessage] = useState()
-  
+
   //...
 
   const effectHook = () => {
@@ -3764,10 +3559,10 @@ const App = (props) => {
       })
       .catch(error => {
         setNotificationMessage(`${error}: Something went wrong while trying to retrieve data from the server.`) // Here we replace our alert() call with a call to setNotificationMessage()
-      
+
       })
   }
-  
+
   //...
 ```
 
@@ -3775,10 +3570,10 @@ We can now add styles that target the class of the `div` returned by our `Notifi
 
 ```css
 .error {
-    margin: 10px 0px;
- 		padding: 12px;
-    color: #D8000C;
-    background-color: #FFD2D2;
+  margin: 10px 0px;
+  padding: 12px;
+  color: #d8000c;
+  background-color: #ffd2d2;
 }
 ```
 
@@ -3793,11 +3588,11 @@ React also allows us to define styles from within our JavaScript code playing in
 When using inline styles, we provide React components/elements with a JavaScript object containing all of the CSS properties that we would want the component to be styled to. For example, taking our CSS properties for our error message:
 
 ```css
-{
+ {
   margin: 10px;
   padding: 12px;
-  color: #D8000C;
-  background-color: #FFD2D2;
+  color: #d8000c;
+  background-color: #ffd2d2;
 }
 ```
 
@@ -3819,25 +3614,25 @@ We can now use inline styles in creating a `Separator` component as such
 **./components/Separator.js**
 
 ```jsx
-import React from 'react'
+import React from "react";
 
 const Separator = () => {
   const separatorStyle = {
-    color: 'white',
+    color: "white",
     padding: 15,
-    fontStyle: 'bold',
+    fontStyle: "bold",
     fontSize: 16,
-    backgroundColor: '#05386B'
-  }
+    backgroundColor: "#05386B",
+  };
 
   return (
     <div style={separatorStyle}>
       <p>This is the end of the above content</p>
-    </div> 
-  )
-}
+    </div>
+  );
+};
 
-export default Separator
+export default Separator;
 ```
 
 Notice how we have passed the inline style object, `separatorStyle`, into the `style` property of the `div` element.
@@ -3845,47 +3640,41 @@ Notice how we have passed the inline style object, `separatorStyle`, into the `s
 Now, we can simply add our `Separator` component into the `div` element that our `App` component returns.
 
 ```jsx
-import React, { useState, useEffect } from 'react'
-import Note from './components/Note'
-import Notification from './components/Notification'
-import Separator from './components/Separator' // Separator Import
+import React, { useState, useEffect } from "react";
+import Note from "./components/Note";
+import Notification from "./components/Notification";
+import Separator from "./components/Separator"; // Separator Import
 
-import axios from 'axios'
+import axios from "axios";
 
-import noteService from './services/notes'
+import noteService from "./services/notes";
 
 const App = (props) => {
-  
- 	//...
-  
+  //...
+
   return (
     <div>
       <h1>Notes</h1>
-      
+
       <Notification message={notificationMessage} />
-      
+
       <div>
         <button onClick={() => setShowAll(!showAll)}>
-          Show {showAll ? 'Flagged' : 'All' } 
+          Show {showAll ? "Flagged" : "All"}
         </button>
       </div>
-      
-      <ul>
-        {noteList()}
-      </ul>
-      
+
+      <ul>{noteList()}</ul>
+
       <form onSubmit={addNote}>
-      	<input 
-          value={noteField} 
-          onChange={handleInputChange} />
+        <input value={noteField} onChange={handleInputChange} />
         <button type="submit">Add Note</button>
       </form>
-      
+
       <Separator />
-      
     </div>
-  )
-}
+  );
+};
 ```
 
 This updated code results in the following (assuming that we still have `json-server` terminated)
@@ -3948,7 +3737,7 @@ Now let's add a `console.log()` statement in our **index.js** file just so that 
 **/index.js**
 
 ```js
-console.log("Hello World, this is my Node application!")
+console.log("Hello World, this is my Node application!");
 ```
 
 Now, to run our node application, we can run the following command
@@ -3974,47 +3763,47 @@ Let's use Node's built-in web server module to convert this application into a w
 **index.js**
 
 ```js
-const http = require('http')
+const http = require("http");
 
 const webApp = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' })
-  res.end('Hello World, this is my Node application!')
-})
+  res.writeHead(200, { "Content-Type": "text/plain" });
+  res.end("Hello World, this is my Node application!");
+});
 
-const port = 3001
-webApp.listen(port)
-console.log(`Web server running on port ${port}`)
+const port = 3001;
+webApp.listen(port);
+console.log(`Web server running on port ${port}`);
 ```
 
-Looking at this code, you'll see how we use Node's built-in web server via 'importing' it. 
+Looking at this code, you'll see how we use Node's built-in web server via 'importing' it.
 
 ```js
-const http = require('http')
+const http = require("http");
 ```
 
-This syntax probably looks slightly odd to you. This is because most applications in Node.js still use CommonJS modules (since Node applications needed a solution for modules before the official specification with ES6 modules came out). Recently, with Node.js 12, support for ESM modules was released. Unfortuneately, it still is quite a pain to deal with over the support we have for it in browsers as (at the time of writing) you still have to enable the ``--experimental-modules` flag and use either the `.mjs` extension or add  `"type": "module"` to **package.json**. Because of this, we will still stick to using CommonJS modules.
+This syntax probably looks slightly odd to you. This is because most applications in Node.js still use CommonJS modules (since Node applications needed a solution for modules before the official specification with ES6 modules came out). Recently, with Node.js 12, support for ESM modules was released. Unfortuneately, it still is quite a pain to deal with over the support we have for it in browsers as (at the time of writing) you still have to enable the ``--experimental-modules` flag and use either the `.mjs` extension or add `"type": "module"` to **package.json**. Because of this, we will still stick to using CommonJS modules.
 
 Moving to the next block of code
 
 ```jsx
 const webApp = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' })
-  res.end('Hello World, this is my Node application!')
-})
+  res.writeHead(200, { "Content-Type": "text/plain" });
+  res.end("Hello World, this is my Node application!");
+});
 ```
 
-Here, we call the `createServer()` method of the `http` module that we have imported to create our server. This method takes in an event handler as a parameter which is called upon every single HTTP request to the server. 
+Here, we call the `createServer()` method of the `http` module that we have imported to create our server. This method takes in an event handler as a parameter which is called upon every single HTTP request to the server.
 
-This event handler takes in objects pertaining to the request, `req`, and the response, `res`. We then assign the response code and other header information (the content-type) through a call to the `writeHead()` method of `res`. 
+This event handler takes in objects pertaining to the request, `req`, and the response, `res`. We then assign the response code and other header information (the content-type) through a call to the `writeHead()` method of `res`.
 
 Finally, we pass in a string argument to the `end()` method which adds the string to the response body. Our response will then be sent.
 
 Moving to the next block of code
 
 ```jsx
-const PORT = 3001
-webApp.listen(PORT)
-console.log(`Web server running on port ${PORT}`)
+const PORT = 3001;
+webApp.listen(PORT);
+console.log(`Web server running on port ${PORT}`);
 ```
 
 We assign the port that we want our server to listen on to the `PORT` constant. We make our HTTP server listen to requests on the port 3001 instead of 3000 as create-react-app typically runs the React development server on the port 3000. We then call the `listen()` method of the HTTP server that we stored in the `webApp` constant and pass in the port that we wish to use as a parameter. After this, we simply log that we have ran the web server listening on `PORT` successfully.
@@ -4030,37 +3819,37 @@ Let's make another stride toward our goal of writing our notes app in Node by ha
 **index.js**
 
 ```js
-const http = require('http')
+const http = require("http");
 
 let notes = [
   {
-      id: 1,
-      content: 'First Note',
-      date: '2019-09-30T17:32:41.199Z',
-      flagged: true
+    id: 1,
+    content: "First Note",
+    date: "2019-09-30T17:32:41.199Z",
+    flagged: true,
   },
   {
-      id: 2,
-      content: 'Second Note!',
-      date: '2019-08-30T12:13:24.091Z',
-      flagged: false
+    id: 2,
+    content: "Second Note!",
+    date: "2019-08-30T12:13:24.091Z",
+    flagged: false,
   },
   {
-      id: 3,
-      content: 'This is our third note.',
-      date: '2019-08-30T12:20:14.998Z',
-      flagged: true
-  }
-]
+    id: 3,
+    content: "This is our third note.",
+    date: "2019-08-30T12:20:14.998Z",
+    flagged: true,
+  },
+];
 
 const webApp = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'application/json' })
-  res.end(JSON.stringify(notes))
-})
+  res.writeHead(200, { "Content-Type": "application/json" });
+  res.end(JSON.stringify(notes));
+});
 
-const PORT = 3001
-webApp.listen(PORT)
-console.log(`Web server running on port ${PORT}`)
+const PORT = 3001;
+webApp.listen(PORT);
+console.log(`Web server running on port ${PORT}`);
 ```
 
 Notice how we changed the `Content-Type` of our response to `'application/json'`. Also, notice how we added our notes array to the response body by using the `JSON.stringify()` method which converts a JavaScript object/value into a JSON string that can be included in our response.
@@ -4085,7 +3874,7 @@ npm install express
 
 #### Dependencies
 
-This will install the `express` module to our **node_modules** folder (should only be kept locally, this will be discussed later)  and add `express` to our `dependencies` object in our **package.json** file.
+This will install the `express` module to our **node_modules** folder (should only be kept locally, this will be discussed later) and add `express` to our `dependencies` object in our **package.json** file.
 
 **/package.json**
 
@@ -4105,15 +3894,14 @@ This will install the `express` module to our **node_modules** folder (should on
     "express": "^4.17.1" // Here is the addition of the express module
   }
 }
-
 ```
 
 Next to the `"express"` property/key value, you'll find the string value of `"^4.17.1"`; this string represents the version of Express. Packages follow the **semantic versioning spec** which involves:
 
-* The first release of a package starting with 1.0.0 (For example, 1.0.0)
-* Increments of the third digit being bug fixes that **are** backwards compatible. (For example, 1.0.1)
-* Increments of the second digit being new features that **are** backwards compatible. (For example, 1.1.0)
-* Increments of the first digit and resets of the second and third being major releases and changes that break backwards compatability (For example, 2.0.0)
+- The first release of a package starting with 1.0.0 (For example, 1.0.0)
+- Increments of the third digit being bug fixes that **are** backwards compatible. (For example, 1.0.1)
+- Increments of the second digit being new features that **are** backwards compatible. (For example, 1.1.0)
+- Increments of the first digit and resets of the second and third being major releases and changes that break backwards compatability (For example, 2.0.0)
 
 You might also wonder what the caret in front of the version number means. The caret basically signifies that the version number must be **at least** `4.17.1` but can have higher second and third numbers (versions with bug fixes and new features that are backwards compatible).
 
@@ -4125,7 +3913,7 @@ Diving into the **/node_modules** folder, you'll find that the installation of `
 
 ![image-20191105215233352](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191105215233352.png)
 
- Typically when using a service like GitHub to keep track of our source code or transferring our source code in any manner, we would **not** upload our node_modules folder as it takes up way too much space and can be installed with a simple command. To exclude our folder from being tracked and pushed by git, we could create a **.gitignore** file in the root of our project directory that contained the following two records
+Typically when using a service like GitHub to keep track of our source code or transferring our source code in any manner, we would **not** upload our node_modules folder as it takes up way too much space and can be installed with a simple command. To exclude our folder from being tracked and pushed by git, we could create a **.gitignore** file in the root of our project directory that contained the following two records
 
 **/.gitignore**
 
@@ -4153,44 +3941,44 @@ Going back to our Node application, we can make the following changes in order t
 **/index.js**
 
 ```jsx
-const http = require('http')
-const express = require('express')
+const http = require("http");
+const express = require("express");
 
-const app = express()
+const app = express();
 
 let notes = [
   {
-      id: 1,
-      content: 'First Note',
-      date: '2019-09-30T17:32:41.199Z',
-      flagged: true
+    id: 1,
+    content: "First Note",
+    date: "2019-09-30T17:32:41.199Z",
+    flagged: true,
   },
   {
-      id: 2,
-      content: 'Second Note!',
-      date: '2019-08-30T12:13:24.091Z',
-      flagged: false
+    id: 2,
+    content: "Second Note!",
+    date: "2019-08-30T12:13:24.091Z",
+    flagged: false,
   },
   {
-      id: 3,
-      content: 'This is our third note.',
-      date: '2019-08-30T12:20:14.998Z',
-      flagged: true
-  }
-]
+    id: 3,
+    content: "This is our third note.",
+    date: "2019-08-30T12:20:14.998Z",
+    flagged: true,
+  },
+];
 
-app.get('/', (req, res) => {
-  res.send('<h1>Hello World!</h1>')
-})
+app.get("/", (req, res) => {
+  res.send("<h1>Hello World!</h1>");
+});
 
-app.get('/notes', (req, res) => {
-  res.json(notes)
-})
+app.get("/notes", (req, res) => {
+  res.json(notes);
+});
 
-const PORT = 3001
+const PORT = 3001;
 app.listen(PORT, () => {
-  console.log(`Express: Server running on port ${PORT}`)
-})
+  console.log(`Express: Server running on port ${PORT}`);
+});
 ```
 
 Here, you'll notice quite a few changes. First, we import `express` (which turns out to be a function) and store it in a constant, `express`. We then create another constant, `app` and call the `express()` function which is used to create an express application.
@@ -4200,21 +3988,21 @@ Then, moving down to the calls to the `get()` method of our `app`, you'll notice
 The first route that we register involves HTTP GET requests to the route of our application (/).
 
 ```jsx
-app.get('/', (req, res) => {
-  res.send('<h1>Welcome to our Notes Application Backend!</h1>')
-})
+app.get("/", (req, res) => {
+  res.send("<h1>Welcome to our Notes Application Backend!</h1>");
+});
 ```
 
 You'll notice that we provide an event handler as the second parameter to our `get()` method call. This event handler takes in a `request` parameter which contains the information pertaining to the HTTP request and a `response` parameter which allows us to define how to respond to the request. `req` is short for `request` and `res` is short for `request`.
 
-In the above snippet, we utilize the `send()` method of the `res` object in order to respond to the specified HTTP request with a body that contains the string `"<h1>Welcome to our Notes Application Backend!</h1>"`. We do not have to manually set the `Content-Type` header as Express automatically does so after seeing that the parameter of the `send()` method was a string. Additionally, we do not need to set the status code of the response as it defaults to 200 automatically. 
+In the above snippet, we utilize the `send()` method of the `res` object in order to respond to the specified HTTP request with a body that contains the string `"<h1>Welcome to our Notes Application Backend!</h1>"`. We do not have to manually set the `Content-Type` header as Express automatically does so after seeing that the parameter of the `send()` method was a string. Additionally, we do not need to set the status code of the response as it defaults to 200 automatically.
 
 In the following code block, we define an event handler that handles HTTP GET requests to the '/notes' path.
 
 ```jsx
-app.get('/notes', (req, res) => {
-  res.json(notes)
-})
+app.get("/notes", (req, res) => {
+  res.json(notes);
+});
 ```
 
 Here, we respond to the request by using the `json()` method of the `res` object which automatically sends the notes array that was passed to it as a JSON formatted string with all the appropriate header values.
@@ -4269,7 +4057,7 @@ Now, in order for `nodemon` to actually do its job, we need to start our applica
 node_modules/.bin/nodemon index.js
 ```
 
-This above command starts **index.js** using `nodemon` via executing it directly. 
+This above command starts **index.js** using `nodemon` via executing it directly.
 
 Now, as this command is quite long, we can write a **npm scrip** for it (as we did earlier for `start`) in our **package.json** file
 
@@ -4306,18 +4094,18 @@ Let's go a step further in covering the REST functionality that `json-server` co
 
 First, let's talk about creating a REST interface so that our frontend can operate on individual note resources. We can do this by creating a route to fetch a single given resource.
 
-When we used `json-server` we could fetch individual notes by fetching the notes path followed by the  ID number of the individual note. For example, if we wanted to interact with the note of ID 2, we would make a request to `host` +`/notes/2`.
+When we used `json-server` we could fetch individual notes by fetching the notes path followed by the ID number of the individual note. For example, if we wanted to interact with the note of ID 2, we would make a request to `host` +`/notes/2`.
 
 We can add this functionality through the use of parameters in Express routes that allow us to take in values from the URL. Let's add the following to our application
 
 **/index.js**
 
 ```js
-app.get('/notes/:id', (req, res) => {
-  const id = req.params.id // Takes in the parameter from the URL
-  const note = notes.find(note => note.id === id) // Finds the note that matches the parameter
-  res.json(note)
-})
+app.get("/notes/:id", (req, res) => {
+  const id = req.params.id; // Takes in the parameter from the URL
+  const note = notes.find((note) => note.id === id); // Finds the note that matches the parameter
+  res.json(note);
+});
 ```
 
 Parameters are defined with the above colon syntax, `:PARAMETER`. This above block will handle all requests made to the path `/notes/ANY_STRING` where ANY_STRING can be any string where this string will be passed in as a parameter. These parameters can be accessed via the `params` property of the `req` object. We then find the particular note with the ID passed in as a parameter using the `find()` array method that we have used earlier. Finally, we convert the `note` object into JSON and add it to our response.
@@ -4325,11 +4113,11 @@ Parameters are defined with the above colon syntax, `:PARAMETER`. This above blo
 Now, if you tried to execute your application and interact with an individual note, you'd find that our application isn't actually returning any notes. Some `console.log()` debugging later and you might find that our application simply isn't finding any matching notes, even if we provide the parameter with an ID that we do have. This is because we're using a strict equality comparison to check if we have matching IDs which takes into account the data type of the object. This leads to a failed comparison as our request parameter is a string while our `id`s are numbers. We can easily fix this by casting our parameter string into a number before making the comparison as follows
 
 ```js
-app.get('/notes/:id', (req, res) => {
-  const id = Number(req.params.id) // Takes in the parameter from the URL and casts it to a number
-  const note = notes.find(note => note.id === id) // Finds the note that matches the parameter
-  res.json(note)
-})
+app.get("/notes/:id", (req, res) => {
+  const id = Number(req.params.id); // Takes in the parameter from the URL and casts it to a number
+  const note = notes.find((note) => note.id === id); // Finds the note that matches the parameter
+  res.json(note);
+});
 ```
 
 With this, we can now successfully fetch an individual note.
@@ -4339,16 +4127,17 @@ Let's go over some other problems that we should fix with the above block. Recal
 Let's add a way to handle an invalid ID (not finding the note) and returning the correct response
 
 ```js
-app.get('/notes/:id', (req, res) => {
-  const id = Number(req.params.id) // Takes in the parameter from the URL and casts it to a number
-  const note = notes.find(note => note.id === id) // Finds the note that matches the parameter
-  
-  if (note) { // If we actually found a note
-    res.json(note)
+app.get("/notes/:id", (req, res) => {
+  const id = Number(req.params.id); // Takes in the parameter from the URL and casts it to a number
+  const note = notes.find((note) => note.id === id); // Finds the note that matches the parameter
+
+  if (note) {
+    // If we actually found a note
+    res.json(note);
   } else {
-    res.status(404).end() // Sets the appropriate status for not finding the note
+    res.status(404).end(); // Sets the appropriate status for not finding the note
   }
-})
+});
 ```
 
 Here, we add a if-else statement that sends `note` and the correct response code, `200`, if we actually find a note. If we do not find the note, we set the status of the response to `404` in which this response code signifies that the specified resource was not found. We then use the `end()` method to respond to the request without sending data (other than the actual response information itself).
@@ -4361,19 +4150,17 @@ On our front end, we can display a user-friendly interface for when we encounter
 
 Continued
 
-
-
 ## Resource Deletion (HTTP DELETE)
 
 We've gone over adding, modifying, and requesting resources, but now let's go over the act of deleting a resource. We can delete an object by making a HTTP DELETE request to a given resource. We would handle this in Express with a route as follows
 
 ```jsx
-app.delete('/notes/:id', (req, res) => {
-  const id = Number(req.params.id)
-  notes = notes.filter(note => note.id !== id) // Filters out the specified note from `notes`
+app.delete("/notes/:id", (req, res) => {
+  const id = Number(req.params.id);
+  notes = notes.filter((note) => note.id !== id); // Filters out the specified note from `notes`
 
-  res.status(204).end()
-})
+  res.status(204).end();
+});
 ```
 
 Here, upon a HTTP DELETE request to the above path, we take in the `id` parameter and set `notes` equal to a new array with the note that matches `id` filtered out. We then return the request with the response code `204` which signifies 'No Content' (we picked this obscure status code as there is not really a designated status code for a DELETE request). We also return no data with the response as shown by the call to `end()` without any parameters.
@@ -4388,20 +4175,20 @@ The first important property to consider is that GET and HEAD HTTP requests shou
 
 **Idempotent**
 
-All HTTP requests (other than HTTP POST) be **idempotent**. This means that they should cause the exact same side effects regardless of how many times a given request is sent. For example, if we use a HTTP PUT request to update/replace a specific resource, duplicating this request would not give any other side effects other than replacing the resource for the first time. This is just to safeguard against duplicate requests so that we have a *fault-tolerant API* that doesn't leave our system unstable if there were a duplicate request.
+All HTTP requests (other than HTTP POST) be **idempotent**. This means that they should cause the exact same side effects regardless of how many times a given request is sent. For example, if we use a HTTP PUT request to update/replace a specific resource, duplicating this request would not give any other side effects other than replacing the resource for the first time. This is just to safeguard against duplicate requests so that we have a _fault-tolerant API_ that doesn't leave our system unstable if there were a duplicate request.
 
 HTTP POST is not safe nor idempotent. We can send an HTTP POST request and it'll cause a side effect in our database in that it'll create a resource. We can also duplicate an HTTP POST request and watch it have side effects for every duplicate request. For example, if we sent 5 HTTP POST requests requesting that we create a new note, we'll end up with 5 new notes in our notes collection.
 
 ### Backend Development Tools
 
-#### Postman 
+#### Postman
 
 We can test simple HTTP get requests via the browser, but testing other types of requests is not so easy. We could write an application that implements these functions and makes the appropriate requests, but that is not the ideal situation when in development (especially in team settings). There are various tools that allow us to test backends; one of these tools is **Postman**.
 
 First, let's install Postman from 'getpostman.com' or via a package manager. If you're running macOS and have `brew` installed, simply run the following command
 
 ```bash
-brew cask install postman	
+brew cask install postman
 ```
 
 Then, open Postman up and press `Cmd`/`CTRL` + `T` to create a new request.
@@ -4469,8 +4256,8 @@ Middleware functions receive three parameters: the `request` object, the `respon
 ```jsx
 const exampleMiddleware = (request, response, next) => {
   //...
-  next()
-}
+  next();
+};
 ```
 
 We have already discussed the `request` and `response` objects. The `next` function, which is a new concept, simply gives control and execution over to the next middleware that was bound (in order of the `use()` calls in the program that we will discuss next). The main takeaway for middleware functions is that they allow us to do things with the `request` and `response` objects before our `route` handlers are actually called, allowing all `route` handlers to take advantage of their functionality.
@@ -4478,7 +4265,7 @@ We have already discussed the `request` and `response` objects. The `next` funct
 We can use middleware in our app by binding them through our Express app's `use()` method as follows
 
 ```jsx
-app.use(exampleMiddleware)
+app.use(exampleMiddleware);
 ```
 
 where we use the above middleware function that we have defined.
@@ -4486,20 +4273,20 @@ where we use the above middleware function that we have defined.
 For every request, before the execution of our route handlers, middleware functions are called in the order they were bound through the `use()` method of our Express server. For example, if we bound the following middleware in this order
 
 ```jsx
-app.use(bodyParser.json())
-app.use(exampleMiddleware)
+app.use(bodyParser.json());
+app.use(exampleMiddleware);
 ```
 
 the `bodyParser.json()` middleware function will be executed before `exampleMiddleware` where `bodyParser.json()` hands control over to `exampleMiddleware` through a call to `next()`. This order also allows us to use the `body` property of `request`/`req` in `exampleMiddleware` as it was executed beforehand and defines the property.
 
-For most cases, we would define and bind our middleware before our routes (placing the `use()` calls before our route definitions), but there are a few cases where we can put our `use()` calls after our route definitions to achieve a desired behavior. 
+For most cases, we would define and bind our middleware before our routes (placing the `use()` calls before our route definitions), but there are a few cases where we can put our `use()` calls after our route definitions to achieve a desired behavior.
 
 One practical use would be if we wanted to call a middleware function if no route had handled the HTTP request. The middleware function might look something like the following
 
 ```jsx
 const notFound = (req, res) => {
-  res.status(404).send({ error: 'Your request did not match any endpoint.' })
-}
+  res.status(404).send({ error: "Your request did not match any endpoint." });
+};
 ```
 
 This function simply sends a response with the status code of `404` (not found) and gives an error message that the request did not match any endpoint covered by our routes.
@@ -4507,7 +4294,7 @@ This function simply sends a response with the status code of `404` (not found) 
 We then can put the following snippet after all of our routes
 
 ```jsx
-app.use(notFound)
+app.use(notFound);
 ```
 
 so that the `notFound` middleware function will be called if no route handled the HTTP request.
@@ -4519,20 +4306,20 @@ We can import `body-parser` and lay out our HTTP POST route as follows
 **/index.js**
 
 ```js
-const express = require('express')
-const app = express()
-const bodyParser = require('body-parser')
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
 
-app.use(bodyParser.json()) // Imports bodyParser
+app.use(bodyParser.json()); // Imports bodyParser
 
 //...
 
-app.post('/notes', (req, res) => {
-  const note = req.body
-  console.log(note)
+app.post("/notes", (req, res) => {
+  const note = req.body;
+  console.log(note);
 
-  res.json(note)
-})
+  res.json(note);
+});
 
 //...
 ```
@@ -4571,9 +4358,9 @@ Sending this request yields the following result
 
 ![image-20191107004016132](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191107004016132.png)
 
-The explorer bar on the right provides some detail as to our current project structure. 
+The explorer bar on the right provides some detail as to our current project structure.
 
-At the expense of some user friendliness, REST Client offers some huge advantages involving collaboration and availability. These requests are available right in the project directory and do not require opening up another application. Additionally, these requests can be easily shared between a team (included in the project directory and do not require additional setup other than installing the extension). The documentation for REST Client could prove to be very helpful and powerful should this be the tool that you choose to use. 
+At the expense of some user friendliness, REST Client offers some huge advantages involving collaboration and availability. These requests are available right in the project directory and do not require opening up another application. Additionally, these requests can be easily shared between a team (included in the project directory and do not require additional setup other than installing the extension). The documentation for REST Client could prove to be very helpful and powerful should this be the tool that you choose to use.
 
 One thing to keep in mind is that blank lines can cause issues with how the REST Client interprets the file (for example, a blank line before the row specifying the HTTP headers can cause the client to interpret this as the headers being empty). With these potential issues surrounding incorrect headers, it may be wise to save some headache by logging the `headers` property (`console.log(req.headers)`) of the `req` object whenever you use it, allowing you to quickly verify whether the headers are correct.
 
@@ -4584,20 +4371,20 @@ Now, going back to adding the ability to add new notes to our server, we can fin
 ```jsx
 //...
 
-const generateNoteId = () => { // Helper function to generate ID #s
-  const maxId = notes.length > 0
-    ? Math.max(...notes.map(note => note.id))
-    : 0
-  return maxId + 1
-}
+const generateNoteId = () => {
+  // Helper function to generate ID #s
+  const maxId =
+    notes.length > 0 ? Math.max(...notes.map((note) => note.id)) : 0;
+  return maxId + 1;
+};
 
-app.post('/notes', (req, res) => {
-  const body = req.body
+app.post("/notes", (req, res) => {
+  const body = req.body;
 
   if (!body.content) {
-    return res.status(400).json({ 
-      error: 'No content specified in note body' 
-    })
+    return res.status(400).json({
+      error: "No content specified in note body",
+    });
   }
 
   const newNote = {
@@ -4605,12 +4392,12 @@ app.post('/notes', (req, res) => {
     flagged: body.flagged || false,
     date: new Date(),
     id: generateNoteId(),
-  }
+  };
 
-  notes = notes.concat(newNote)
+  notes = notes.concat(newNote);
 
-  res.json(newNote)
-})
+  res.json(newNote);
+});
 
 //...
 ```
@@ -4618,12 +4405,12 @@ app.post('/notes', (req, res) => {
 Here, you'll notice a few things. First, we have defined a helper function that will generate the ID for our new note by simply taking the largest ID number in the current list and then returning that `maxId` + 1 to give us a new 'maximum'. With 'actual' applications, this method of dealing with IDs is not recommended, but it will serve us just fine for now. Taking a closer look at the body of code, you'll notice the usage of a few new functions
 
 ```jsx
-const generateNoteId = () => { // Helper function to generate ID #s
-  const maxId = notes.length > 0
-    ? Math.max(...notes.map(note => note.id))
-    : 0
-  return maxId + 1
-}
+const generateNoteId = () => {
+  // Helper function to generate ID #s
+  const maxId =
+    notes.length > 0 ? Math.max(...notes.map((note) => note.id)) : 0;
+  return maxId + 1;
+};
 ```
 
 Here, we call the `map` method of our `notes` array to create a new array with just the `id`s of our array of notes. We achieve this by passing in a function to `notes.map()` that takes in the `note` object and just returns its `id` property. Then, we use `Math.max()` upon the array that we have destructured to give us the maximum `id` value currently in our array. We destructured our array as `Math.max()` takes in many numbers as its parameters rather than an array. Finally, we return the value of `maxId` (the maximum `id` value that we have found) + 1. We also used the ternary operator, `expression ? ifTrue : ifFalse`, to give us a default value of `0` if `notes.length` is not greater than 0.
@@ -4632,9 +4419,9 @@ You'll also notice that we handle having a missing value for `body.content` by s
 
 ```jsx
 if (!body.content) {
-  return res.status(400).json({ 
-    error: 'No content specified in note body' 
-  })
+  return res.status(400).json({
+    error: "No content specified in note body",
+  });
 }
 ```
 
@@ -4644,11 +4431,11 @@ We then create a new note via the following block of code
 
 ```jsx
 const newNote = {
-    content: body.content,
-    flagged: body.flagged || false,
-    date: new Date(),
-    id: generateNoteId(),
-  }
+  content: body.content,
+  flagged: body.flagged || false,
+  date: new Date(),
+  id: generateNoteId(),
+};
 ```
 
 Here, you'll notice that we take in the `content` property of the `body` constant which was created via a reference to `req.body`. We know for certain that there is a `content` property via the logical check that we performed earlier in the handler.
@@ -4659,10 +4446,10 @@ You might have wondered, what do we do if another value was missing such as a th
 flagged: body.flagged || false,
 ```
 
-The logic of this statement depends on the fact that `undefined` has a falsy value. Thus, if `body.flagged` is `undefined` it will evaluate to false and the value on the right, `false`, will be assigned to the `flagged` property. It may be helpful to think of the OR logical operator as a *selection* operator with the following rules:
+The logic of this statement depends on the fact that `undefined` has a falsy value. Thus, if `body.flagged` is `undefined` it will evaluate to false and the value on the right, `false`, will be assigned to the `flagged` property. It may be helpful to think of the OR logical operator as a _selection_ operator with the following rules:
 
-* If the 1st expression (left side) evaluates to true, it will always be the one *selected* and 'returned' from the comparison
-* If the 1st expression (left side) evaluates to false, the 2nd expression (right side) will be the value returned 'returned' from the comparison **even if the 2nd expression is falsy** (like in the above example)
+- If the 1st expression (left side) evaluates to true, it will always be the one _selected_ and 'returned' from the comparison
+- If the 1st expression (left side) evaluates to false, the 2nd expression (right side) will be the value returned 'returned' from the comparison **even if the 2nd expression is falsy** (like in the above example)
 
 > This way of providing defaults can have some unintended outcomes. For example, if you wanted to assign 0 or an empty string as the value for a property with a default specified with the logical OR operator, it would actually fall back to the default as empty strings and 0 are falsy.
 >
@@ -4670,7 +4457,7 @@ The logic of this statement depends on the fact that `undefined` has a falsy val
 >
 > This is being solved with the Nullish Coalescing Operator (`??`) which returns the left operand if the value provided is a falsy value that is not `null` or `undefined`, so it will only return the right hand expression if the left expression is `null` or `undefined`.
 
-Finally, we concatenate the new note object that we have created to our `notes` array and send the new note that we have created in the response through a call to `res.json()`. 
+Finally, we concatenate the new note object that we have created to our `notes` array and send the new note that we have created in the response through a call to `res.json()`.
 
 # Connecting to the Backend
 
@@ -4702,9 +4489,9 @@ Then we can bind the middleware by adding the following to **index.js**
 
 ```jsx
 //...
-const cors = require('cors')
+const cors = require("cors");
 
-app.use(cors())
+app.use(cors());
 //...
 ```
 
@@ -4715,8 +4502,6 @@ Now, upon reloading our backend server (or saving the file if you ran the server
 Now that we have our frontend and backend talking to each other, how might we emulate what's happening on our local machine on the internet? Let's first move our backend to the internet using Heroku.
 
 Heroku is a cloud platform as a service (provides infrastructure) that allows developers to deploy, manage, and scale modern apps using a variety of services. If you wish to follow along, create an account on Heroku and then continue (or just keep reading and just see what we'll be doing).
-
-
 
 ### Installing the Heroku Command Line Interface
 
@@ -4761,10 +4546,10 @@ Heroku will try to dynamically configure an application port via the definition 
 **/Backend/index.js**
 
 ```jsx
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+  console.log(`Server running on port ${PORT}`);
+});
 ```
 
 Here, we try to use the `PORT` environment variable, but if it is undefined, we fallback to the default port of `3001`.
@@ -4817,7 +4602,7 @@ Upon encountering this error, simply press any key and sign into the Heroku acco
 
 This creates a Heroku-hosted **remote** and automatically sets it as the remote for our local repository. **Git remotes** are versions of our repository that live on other computers/servers.
 
-Finally, we can run `git push heroku master` to 'push' our commit up to the remote Heroku server. The `git push` command is used to 'push' (transfer commits) from our local repository to a remote repository (in this case, our remote repository is heroku). Thus, in this command, the first argument is the remote repository/destination, `heroku`,  with the second argument being the name of the branch that we want to push, `master` (since we have committed all our changes to the `master` branch)
+Finally, we can run `git push heroku master` to 'push' our commit up to the remote Heroku server. The `git push` command is used to 'push' (transfer commits) from our local repository to a remote repository (in this case, our remote repository is heroku). Thus, in this command, the first argument is the remote repository/destination, `heroku`, with the second argument being the name of the branch that we want to push, `master` (since we have committed all our changes to the `master` branch)
 
 ![image-20191110012319712](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191110012319712.png)
 
@@ -4859,7 +4644,7 @@ We can then observe from the logs that our application is indeed 'up'.
 
 Now, let's talk about how we would move and host our frontend on the Internet.
 
-First, we'll need to create the *production build* of our React app. In the past, when we've been working with our React app, we've been running the code in *development mode* which displays clear error messages, automatically reloads and renders code changes, and more; however, the production version includes extra performance optimizations, a minified version of the code, and no detailed error messages (for security reasons).
+First, we'll need to create the _production build_ of our React app. In the past, when we've been working with our React app, we've been running the code in _development mode_ which displays clear error messages, automatically reloads and renders code changes, and more; however, the production version includes extra performance optimizations, a minified version of the code, and no detailed error messages (for security reasons).
 
 `create-react-app` comes with a script that will create the production build for us with one simple command. Let's run the command at the root of our frontend project
 
@@ -4871,7 +4656,7 @@ npm run build
 
 We'll then see output similar to the above. You'll also notice a message describing how the project was built to be hosted as the server's root directory. We'll talk about what this means in a moment.
 
-After taking a look at our project directory, you'll notice that our build script created a directory, **build**, in the root of our frontend directory (the directory from which we ran the build command). This directory contains a few files, the **index.html** file that provides some meta information and references the JavaScript files needed to run our application, and a **static** directory. This **static** directory contains the minified versions of our JavaScript code that was generated by the build process. Minified code is simply the result of removing all unnecessary characters from the source code without changing any  of the functionality; this allows for our files to be faster served over the Internet since there is less data to transmit. 
+After taking a look at our project directory, you'll notice that our build script created a directory, **build**, in the root of our frontend directory (the directory from which we ran the build command). This directory contains a few files, the **index.html** file that provides some meta information and references the JavaScript files needed to run our application, and a **static** directory. This **static** directory contains the minified versions of our JavaScript code that was generated by the build process. Minified code is simply the result of removing all unnecessary characters from the source code without changing any of the functionality; this allows for our files to be faster served over the Internet since there is less data to transmit.
 
 ### Serving Our Static Files from the Backend
 
@@ -4891,7 +4676,7 @@ First, we need to add a middleware called `express.static` in order to be able t
 
 ```js
 //...
-app.use(express.static('build'))
+app.use(express.static("build"));
 //...
 ```
 
@@ -4902,8 +4687,8 @@ We'll also need to update the `baseUrl` constant in our notes service as the URL
 **/Frontend/src/services/notes.js**
 
 ```jsx
-import axios from 'axios'
-const baseUrl = '/notes'
+import axios from "axios";
+const baseUrl = "/notes";
 
 //...
 ```
@@ -4918,22 +4703,20 @@ Upon making these changes, we'll need to re-build our frontend and move over the
 
 ```json
 //...
-{
-  
-}
+{}
 //...
 ```
 
-We can run multiple commands in a script by simply adding another command after `&&` in the sequence. For now, our scripts only work on *nix systems (unfortunately, some of these commands will not work on Windows unless you install `cygwin` or some other alternative). This is because we use  the `rm` command to remove the **build** directory in our backend (in preparation for the new directory that will be copied over) and the `cp` command to copy our **build** directory over to the root of our backend in our `build:ui` script.
+We can run multiple commands in a script by simply adding another command after `&&` in the sequence. For now, our scripts only work on \*nix systems (unfortunately, some of these commands will not work on Windows unless you install `cygwin` or some other alternative). This is because we use the `rm` command to remove the **build** directory in our backend (in preparation for the new directory that will be copied over) and the `cp` command to copy our **build** directory over to the root of our backend in our `build:ui` script.
 
 Notice how we can run npm scripts from within a script as with our `deploy:full` script which runs our `build:ui ` and `deploy` scripts.
 
 To sum the scripts up,
 
-* The `build:ui` script first deletes the **build** directory in our backend (as it will be updated via a new copy). Then, it changes our directory (using the `cd` command) over to the **/Frontend** directory using a relative path. After this, since we're in the **/Frontend** directory, it'll run the `npm run build --prod` command to build our production React app. Finally, we use the `cp` command in order to copy the **build** directory over to the **/Backend** directory.
-* The `deploy` script simply pushes our committed changes to the Heroku remote (assuming that we have already staged and committed some changes).
-* The `deploy:full` script first executes the `build:ui` script as described earlier. Then, we stage all of the changes in our directory by executing `git add .`. After this, we commit our changes with the message `'UIBuild'` by executing `git commit -m UIBuild`. Finally, we run the `deploy` script as described earlier which simply pushes these committed changes to our Heroku remote.
-* The `logs:prod` script simply executes the Heroku log command that we talked about earlier, allowing for easy access to the live logs of our Heroku container.
+- The `build:ui` script first deletes the **build** directory in our backend (as it will be updated via a new copy). Then, it changes our directory (using the `cd` command) over to the **/Frontend** directory using a relative path. After this, since we're in the **/Frontend** directory, it'll run the `npm run build --prod` command to build our production React app. Finally, we use the `cp` command in order to copy the **build** directory over to the **/Backend** directory.
+- The `deploy` script simply pushes our committed changes to the Heroku remote (assuming that we have already staged and committed some changes).
+- The `deploy:full` script first executes the `build:ui` script as described earlier. Then, we stage all of the changes in our directory by executing `git add .`. After this, we commit our changes with the message `'UIBuild'` by executing `git commit -m UIBuild`. Finally, we run the `deploy` script as described earlier which simply pushes these committed changes to our Heroku remote.
+- The `logs:prod` script simply executes the Heroku log command that we talked about earlier, allowing for easy access to the live logs of our Heroku container.
 
 With this, if we make any updates and want the changes reflected on our remote/production server, we can just run `npm run deploy:full` which automates the entire process for us.
 
@@ -4945,7 +4728,7 @@ When we visit the address of our Heroku app (in this case, `hidden-chamber-09544
 
 ![image-20191110203717388](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191110203717388.png)
 
-AFTER THIS, UPDATE THE CODE AND GO BACK TO WHEN THEY INITIALLY SERVED THE APP**\\
+AFTER THIS, UPDATE THE CODE AND GO BACK TO WHEN THEY INITIALLY SERVED THE APP\*\*\\
 
 ### API Conventions
 
@@ -4962,11 +4745,11 @@ For example, we would convert the update routing method handler function
 ```js
 //...
 
-app.get('/notes/:id', (req, res) => {
-  const id = Number(req.params.id) // Takes in the parameter from the URL and casts it to a number
-  const note = notes.find(note => note.id === id) // Finds the note that matches the parameter
-  res.json(note)
-})
+app.get("/notes/:id", (req, res) => {
+  const id = Number(req.params.id); // Takes in the parameter from the URL and casts it to a number
+  const note = notes.find((note) => note.id === id); // Finds the note that matches the parameter
+  res.json(note);
+});
 
 //...
 ```
@@ -4976,11 +4759,11 @@ to
 ```js
 //...
 
-app.get('/api/notes/:id', (req, res) => {
-  const id = Number(req.params.id) // Takes in the parameter from the URL and casts it to a number
-  const note = notes.find(note => note.id === id) // Finds the note that matches the parameter
-  res.json(note)
-})
+app.get("/api/notes/:id", (req, res) => {
+  const id = Number(req.params.id); // Takes in the parameter from the URL and casts it to a number
+  const note = notes.find((note) => note.id === id); // Finds the note that matches the parameter
+  res.json(note);
+});
 
 //...
 ```
@@ -4992,8 +4775,8 @@ After this, we can update the `baseUrl` constant in our frontend in order to poi
 **/Frontend/src/services/notes.js**
 
 ```jsx
-import axios from 'axios'
-const baseUrl = '/api/notes'
+import axios from "axios";
+const baseUrl = "/api/notes";
 
 //...
 ```
@@ -5009,9 +4792,9 @@ We can easily fix this issue by adding a `proxy` value to the **package.json** f
 ```json
 {
   //...
-  
+
   "proxy": "http://localhost:3001"
-  
+
   //...
 }
 ```
@@ -5120,7 +4903,7 @@ In this case, the connection string that MongoDB Atlas provided us with is
 mongodb+srv://exampleuser:<password>@cluster0-nfeqs.mongodb.net/test?retryWrites=true&w=majority
 ```
 
-which is the *MongoDB URI*, where URI stands for Uniform Resource Identifier. A URI String of characters that identify resources on the Internet. For example, a URL is an example of a URI.
+which is the _MongoDB URI_, where URI stands for Uniform Resource Identifier. A URI String of characters that identify resources on the Internet. For example, a URL is an example of a URI.
 
 ### Using MongoDB in Express
 
@@ -5133,7 +4916,7 @@ To illustrate the higher level nature of Mongoose and how it might ease the deve
 Using Mongoose:
 
 ```js
-Book.find({ 'released_in_year': 2015 }, 'title author')
+Book.find({ released_in_year: 2015 }, "title author");
 ```
 
 Using the native driver
@@ -5155,20 +4938,20 @@ Then add the following to **/Backend/index.js**
 ```js
 //...
 
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const url =
-  'mongodb+srv://exampleuser:examplepassword@cluster0-nfeqs.mongodb.net/note-app?retryWrites=true&w=majority'
+  "mongodb+srv://exampleuser:examplepassword@cluster0-nfeqs.mongodb.net/note-app?retryWrites=true&w=majority";
 
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const noteSchema = new mongoose.Schema({
   content: String,
   date: Date,
   flagged: Boolean,
-})
+});
 
-const Note = mongoose.model('Note', noteSchema)
+const Note = mongoose.model("Note", noteSchema);
 
 //...
 ```
@@ -5180,7 +4963,7 @@ First, we store the URI referencing the location of our database in the `url` co
 Then, we define the `noteSchema` by using a JavaScript object constructor to create a new `mongoose.Schema` object (based off a constructor function where construction functions are tasked with creating new JavaScript objects based off of parameters) with the appropriate fields and data types. Then we use our schema definition by converting our `noteSchema` into a model that we can actually work with. We do this with the following line
 
 ```jsx
-const Note = mongoose.model('Note', noteSchema)
+const Note = mongoose.model("Note", noteSchema);
 ```
 
 When you call `mongoose.model()` upon a schema, Mongoose will compile a model for you. The above code creates a model with the singular name of 'Note'. Mongoose will name the collection for these `Note` models as 'notes' by convention where Mongoose automatically names collections as the plural in lowercase with the schema referring to each document in the singular.
@@ -5190,14 +4973,14 @@ Keep in mind that document databases (like the one we're using now) are schemale
 Additionally, you might also encounter the common practice of storing `mongoose.Schema()` within a variable or constant to make our code look slightly better with the usage of `mongoose.Schema()` as follows
 
 ```js
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const noteSchema = new Schema({
   content: String,
   date: Date,
   flagged: Boolean,
-})
+});
 ```
 
 Notice how we were able to just use the constant `Schema` rather than directly calling `mongoose.Schema()`.
@@ -5210,19 +4993,19 @@ As our models are actually constructor functions, all of our instances of models
 
 ```js
 const noteDocument = new Note({
-  content: 'This document was created using the Note model',
+  content: "This document was created using the Note model",
   date: new Date(),
-  flagged: false
-})
+  flagged: false,
+});
 ```
 
 We can now save this document to our database by calling its `save()` instance method which can be provided with an event handler that is called upon a fulfillment of its promise (if the note is successfully saved)
 
 ```js
-noteDocument.save().then(result => {
-  console.log('noteDocument has been saved')
-  mongoose.connection.close()
-})
+noteDocument.save().then((result) => {
+  console.log("noteDocument has been saved");
+  mongoose.connection.close();
+});
 ```
 
 Now, when the promise is fulfilled (the note being saved successfully), our event handler provided to the `then()` method of our promise will get called. This event handler prints a message and closes the database connection.
@@ -5234,12 +5017,12 @@ In the context of our example application, we would find a given note by referen
 For example, if we wanted to find only notes with the `flagged` property set to true, we would write
 
 ```js
-Note.find({ flagged: true }).then(result => {
-  result.forEach(note => {
-    console.log('Match found: ', note)
-  })
-  mongoose.connection.close()
-})
+Note.find({ flagged: true }).then((result) => {
+  result.forEach((note) => {
+    console.log("Match found: ", note);
+  });
+  mongoose.connection.close();
+});
 ```
 
 Upon the fulfillment of this promise (the query being completed), our handler function prints out the results.
@@ -5249,20 +5032,20 @@ Upon the fulfillment of this promise (the query being completed), our handler fu
 Let's introduce a database to our notes application so that its state is persistent. First, let's just copy the code that we used above to 'connect' to our database (and define our Note model) and paste it in **/Backend/index.js**
 
 ```js
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const url =
-  'mongodb+srv://exampleuser:examplepassword@cluster0-nfeqs.mongodb.net/note-app?retryWrites=true&w=majority'
+  "mongodb+srv://exampleuser:examplepassword@cluster0-nfeqs.mongodb.net/note-app?retryWrites=true&w=majority";
 
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const noteSchema = new mongoose.Schema({
   content: String,
   date: Date,
   flagged: Boolean,
-})
+});
 
-const Note = mongoose.model('Note', noteSchema)
+const Note = mongoose.model("Note", noteSchema);
 ```
 
 Let's also go ahead and delete our `notes` array that we store in memory.
@@ -5270,19 +5053,19 @@ Let's also go ahead and delete our `notes` array that we store in memory.
 Now, we can start rewriting our handler functions to use our database. For example, instead of having the following handler function
 
 ```js
-app.get('/api/notes', (req, res) => {
-  res.json(notes)
-})
+app.get("/api/notes", (req, res) => {
+  res.json(notes);
+});
 ```
 
 We would write the following handler to use our database as follows
 
 ```js
-app.get('/api/notes', (req, res) => {
-  Note.find({}).then(notes => {
-    res.json(notes)
-  })
-})
+app.get("/api/notes", (req, res) => {
+  Note.find({}).then((notes) => {
+    res.json(notes);
+  });
+});
 ```
 
 Here, we use the `find` method on our `Note` model to find all notes that match the parameter that we passed to it. When we use an empty object as our parameter, we get all of the documents in the collection. Then, in our handler function for the promise that the `find` method had returned, we take in the collection of objects that it returns as our `notes` parameter. We then take the parameter variable and send it as our response using our `res` object's `json` method.
@@ -5293,58 +5076,58 @@ Upon converting this one routing method handler, we can observe the changes by u
 
 Doing so yields us an empty page. This is because we don't actually have any notes in our database just yet. We can add some test data to our database by running the following code in a new file
 
-**/Backend/create-test-data.js
+\*\*/Backend/create-test-data.js
 
 ```js
-const express = require('express')
-const mongoose = require('mongoose')
-const app = express()
+const express = require("express");
+const mongoose = require("mongoose");
+const app = express();
 
 const url =
-  'mongodb+srv://exampleuser:examplepassword@cluster0-nfeqs.mongodb.net/note-app?retryWrites=true&w=majority'
+  "mongodb+srv://exampleuser:examplepassword@cluster0-nfeqs.mongodb.net/note-app?retryWrites=true&w=majority";
 
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const noteSchema = new mongoose.Schema({
   content: String,
   date: Date,
   flagged: Boolean,
-})
+});
 
-const Note = mongoose.model('Note', noteSchema)
+const Note = mongoose.model("Note", noteSchema);
 
 const firstTestNote = new Note({
-    content: 'This is our first note in our database!',
-    date: new Date(),
-    flagged: false
-})
+  content: "This is our first note in our database!",
+  date: new Date(),
+  flagged: false,
+});
 
-firstTestNote.save().then(result => {
-    console.log('Successfully saved!')
-    mongoose.connection.close()
-})
+firstTestNote.save().then((result) => {
+  console.log("Successfully saved!");
+  mongoose.connection.close();
+});
 
 const secondTestNote = new Note({
-    content: 'This is our second note in our database!',
-    date: new Date(),
-    flagged: true
-})
+  content: "This is our second note in our database!",
+  date: new Date(),
+  flagged: true,
+});
 
-secondTestNote.save().then(result => {
-    console.log('Successfully saved!')
-    mongoose.connection.close()
-})
+secondTestNote.save().then((result) => {
+  console.log("Successfully saved!");
+  mongoose.connection.close();
+});
 
 const thirdTestNote = new Note({
-    content: 'This is our third note in our database!',
-    date: new Date(),
-    flagged: true
-})
+  content: "This is our third note in our database!",
+  date: new Date(),
+  flagged: true,
+});
 
-thirdTestNote.save().then(result => {
-    console.log('Successfully saved!')
-    mongoose.connection.close()
-})
+thirdTestNote.save().then((result) => {
+  console.log("Successfully saved!");
+  mongoose.connection.close();
+});
 ```
 
 Upon running this 'application' with Node, we should see the following as console output
@@ -5358,7 +5141,7 @@ This means that we have successfully created three test note objects that live o
 Notice how we did not have to provide a name for our collection. As stated earlier, Mongoose will automatically take our model name and make it lowercase and plural. For example, documents created under the 'Splotch' model would fall under the 'splotches' collection. If you need to, you can explicitly name the collection when creating a model by passing it as a third model. For example, if we wanted our notes to be stored in a collection called 'notesCollection', we would use the following to create our model
 
 ```js
-const Note = mongoose.model('Note', noteSchema, 'notesCollection')
+const Note = mongoose.model("Note", noteSchema, "notesCollection");
 ```
 
 Going back to our application, after initializing our database with some test data, visiting **localhost:3001/api/notes** now yields the following result
@@ -5367,7 +5150,7 @@ Going back to our application, after initializing our database with some test da
 
 Here, you'll notice the introduction of a few strange fields (`_id` and `__v`).
 
-`__v` is simply the version key of our document. The version key is a property set on each document when it is created by Mongoose. It represents the *internal revision* of the document (basically keeps track of how many modifications had happened that may change the position of an element in an array); this mitigates the issue of referring to the wrong sub-document or document when dealing with arrays that may have elements with changing indexes. With this, we can refer to elements that match the version number  as well as the document we're looking for to mitigate some issues with targeting the wrong document and more.
+`__v` is simply the version key of our document. The version key is a property set on each document when it is created by Mongoose. It represents the _internal revision_ of the document (basically keeps track of how many modifications had happened that may change the position of an element in an array); this mitigates the issue of referring to the wrong sub-document or document when dealing with arrays that may have elements with changing indexes. With this, we can refer to elements that match the version number as well as the document we're looking for to mitigate some issues with targeting the wrong document and more.
 
 Now, the frontend doesn't have much use for the `__v` property and it is looking for an `id` field rather than `_id`, so how might we go about sending objects in the correct 'format' to our frontend?
 
@@ -5378,20 +5161,20 @@ We can do this by updating the `toJSON` method of our documents of our note sche
 ```js
 //...
 
-noteSchema.set('toJSON', {
+noteSchema.set("toJSON", {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString() // Just in case, we convert the _id field of our object to a string as it is in fact an object (even though it is displayed like a string)
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
+    returnedObject.id = returnedObject._id.toString(); // Just in case, we convert the _id field of our object to a string as it is in fact an object (even though it is displayed like a string)
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
 
 //...
 ```
 
 Here, we updated the `toJSON()` method of our `Note` documents by specifying the method as our first parameter and the updated object property as the second parameter to the `set()` method of `noteSchema`.
 
-This `transform` property now has a function that takes in the  `returnedObject`, sets the `id` property to the `_id` property converted to a string, and deletes the `_id` and `__v` fields as its value.
+This `transform` property now has a function that takes in the `returnedObject`, sets the `id` property to the `_id` property converted to a string, and deletes the `_id` and `__v` fields as its value.
 
 This new `id` field is quite similar to a virtual. A virtual field is essentially an attribute that is nice to have (for sending data to the client, etc.) but isn't actually persisted (saved) to MongoDB. This applies to our `id` field as we aren't actually saving the `id` field to our database, but we are creating it when calling the `toJSON()` method in order to make things easier on the frontend.
 
@@ -5402,12 +5185,11 @@ We can then use this in our routing event handler by formatting every note with 
 ```js
 //...
 
-app.get('/api/notes', (req, res) => {
-  Note.find({}).then(notes => {
-    res.json(notes.map(note => note.toJSON()))
-  })
-})
-
+app.get("/api/notes", (req, res) => {
+  Note.find({}).then((notes) => {
+    res.json(notes.map((note) => note.toJSON()));
+  });
+});
 
 //...
 ```
@@ -5425,34 +5207,35 @@ Since things are getting pretty messy again, let's take advantage of our ability
 **/Backend/models/note.js**
 
 ```js
-const mongoose = require('mongoose')
-const uri = process.env.MONGODB_URI
+const mongoose = require("mongoose");
+const uri = process.env.MONGODB_URI;
 
-console.log('Connecting to: ', uri)
+console.log("Connecting to: ", uri);
 
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose
+  .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    console.log('Connected to MongoDB')
+    console.log("Connected to MongoDB");
   })
   .catch((error) => {
-    console.log('Error connecting to MongoDB:', error.message)
-  })
+    console.log("Error connecting to MongoDB:", error.message);
+  });
 
 const noteSchema = new mongoose.Schema({
   content: String,
   date: Date,
   flagged: Boolean,
-})
+});
 
-noteSchema.set('toJSON', {
+noteSchema.set("toJSON", {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
 
-module.exports = mongoose.model('Note', noteSchema)
+module.exports = mongoose.model("Note", noteSchema);
 ```
 
 In this module, we simply define the schema for a note and assign it to the `noteSchema` constant. Then we update the note schema's `toJSON()` method as we did earlier. We also handle connecting to the database within this module. Take a look at the `url` constant. We no longer 'hardcode' the address, password and all, within the code as that is not wise with regard to security if we were to share our code or upload it. We now pull in the address through the use of an environment variable. We'll talk about defining environment variables in just a moment.
@@ -5465,7 +5248,7 @@ Now, we can make use of this model (which happens to be the only thing we really
 
 ```js
 //...
-const Note = require('./models/note')
+const Note = require("./models/note");
 //...
 ```
 
@@ -5520,25 +5303,25 @@ Let's start transitioning the other routing handlers to use our database. Let's 
 ```js
 //...
 
-app.post('/api/notes', (req, res) => {
-  const body = req.body
+app.post("/api/notes", (req, res) => {
+  const body = req.body;
 
   if (!body.content) {
-    return res.status(400).json({ 
-      error: 'No content specified in note body' 
-    })
+    return res.status(400).json({
+      error: "No content specified in note body",
+    });
   }
 
   const newNote = new Note({
     content: body.content,
     flagged: body.flagged || false,
     date: new Date(),
-  })
+  });
 
-  newNote.save().then(savedNote => {
-    res.json(savedNote.toJSON())
-  })
-})
+  newNote.save().then((savedNote) => {
+    res.json(savedNote.toJSON());
+  });
+});
 
 //...
 ```
@@ -5554,11 +5337,11 @@ Let's also quickly update our handler for fetching an individual note
 ```js
 //...
 
-app.get('/api/notes/:id', (req, res) => {
-  Note.findById(req.params.id).then(note => {
-    res.json(note.toJSON())
-  })
-})
+app.get("/api/notes/:id", (req, res) => {
+  Note.findById(req.params.id).then((note) => {
+    res.json(note.toJSON());
+  });
+});
 
 //...
 ```
@@ -5578,16 +5361,16 @@ This error points to us not handling the rejection of our promise (in this case,
 ```js
 //...
 
-app.get('/api/notes/:id', (req, res) => {
+app.get("/api/notes/:id", (req, res) => {
   Note.findById(req.params.id)
-    .then(note => {
-    	res.json(note.toJSON())
-  	})
-  	.catch(error => {
-    	console.log(error)
-    	response.status(404).end()
-  	})
-})
+    .then((note) => {
+      res.json(note.toJSON());
+    })
+    .catch((error) => {
+      console.log(error);
+      response.status(404).end();
+    });
+});
 
 //...
 ```
@@ -5615,20 +5398,20 @@ Let's now change our code to take advantage of these two different error types i
 ```js
 //...
 
-app.get('/api/notes/:id', (req, res) => {
+app.get("/api/notes/:id", (req, res) => {
   Note.findById(req.params.id)
-    .then(note => {
-    	if (note) {
-        res.json(note.toJSON())
+    .then((note) => {
+      if (note) {
+        res.json(note.toJSON());
       } else {
-        res.status(404).end() // Condition fail
+        res.status(404).end(); // Condition fail
       }
-  	})
-  	.catch(error => {
-    	console.log(error)
-    	res.status(400).send({ error: 'Incorrect format for id parameter'})
-  	})
-})
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(400).send({ error: "Incorrect format for id parameter" });
+    });
+});
 
 //...
 ```
@@ -5648,17 +5431,17 @@ We can do this by making use of the `next()` function that we have discussed ear
 ```js
 //...
 
-app.get('/api/notes/:id', (req, res, next) => {
+app.get("/api/notes/:id", (req, res, next) => {
   Note.findById(req.params.id)
-    .then(note => {
-    	if (note) {
-        res.json(note.toJSON())
+    .then((note) => {
+      if (note) {
+        res.json(note.toJSON());
       } else {
-        res.status(404).end() // Condition fail
+        res.status(404).end(); // Condition fail
       }
-  	})
-  	.catch(error => next(error))
-})
+    })
+    .catch((error) => next(error));
+});
 
 //...
 ```
@@ -5673,16 +5456,16 @@ Express comes with a built-in error handler that tries to take care of any error
 //...
 
 const errorHandler = (err, req, res, next) => {
-  console.error(err.message)
+  console.error(err.message);
 
-  if (err.name === 'CastError' && err.kind === 'ObjectId') {
-    return res.status(400).send({ error: 'Incorrect format for id parameter' })
-  } 
+  if (err.name === "CastError" && err.kind === "ObjectId") {
+    return res.status(400).send({ error: "Incorrect format for id parameter" });
+  }
 
-  next(error)
-}
+  next(error);
+};
 
-app.use(errorHandler)
+app.use(errorHandler);
 
 //...
 ```
@@ -5697,13 +5480,11 @@ Let's also define another middleware function that handles requests to endpoints
 //...
 
 const unknownEndpoint = (req, res) => {
-  res.status(404).send({ error: 'Endpoint does not exist (Unknown Endpoint)' })
-}
+  res.status(404).send({ error: "Endpoint does not exist (Unknown Endpoint)" });
+};
 
 //...
 ```
-
-
 
 With the addition of new middleware, it is important to be aware of the order that we are loading them into Express as they are executed in the same order. Thus, the order of loading middleware should resemble the following
 
@@ -5712,32 +5493,31 @@ With the addition of new middleware, it is important to be aware of the order th
 ```js
 //...
 
-app.use(express.static('build'))
-app.use(cors())
-app.use(bodyParser.json())
+app.use(express.static("build"));
+app.use(cors());
+app.use(bodyParser.json());
 
 //...
 // ROUTING METHODS
 //...
 
 const unknownEndpoint = (req, res) => {
-  res.status(404).send({ error: 'Endpoint does not exist (Unknown Endpoint)' })
-}
+  res.status(404).send({ error: "Endpoint does not exist (Unknown Endpoint)" });
+};
 
-app.use(unknownEndpoint)
+app.use(unknownEndpoint);
 
 const errorHandler = (err, req, res, next) => {
-  console.error(err.message)
+  console.error(err.message);
 
-  if (err.name === 'CastError' && err.kind === 'ObjectId') {
-    return res.status(400).send({ error: 'Incorrect format for id parameter' })
-  } 
+  if (err.name === "CastError" && err.kind === "ObjectId") {
+    return res.status(400).send({ error: "Incorrect format for id parameter" });
+  }
 
-  next(error)
-}
+  next(error);
+};
 
-app.use(errorHandler)
-
+app.use(errorHandler);
 ```
 
 We define and use the `unknownEndpoint` and `errorHandler` after all of our routing methods since we don't want them to be loaded before them since they'll be executed before all of our routing method requests leading to undesirable behavior. For example, if we wrote the following loading order
@@ -5767,13 +5547,13 @@ The `findByIdAndRemove()` method provides us with an easy way to find a specific
 **/Backend/index.js**
 
 ```js
-app.delete('/api/notes/:id', (req, res, next) => {
+app.delete("/api/notes/:id", (req, res, next) => {
   Note.findByIdAndRemove(req.params.id)
     .then((result) => {
-      res.status(204).end()
+      res.status(204).end();
     })
-    .catch(error => next(error))
-})
+    .catch((error) => next(error));
+});
 ```
 
 Here, even if we attempt to delete a note that does not exist (via an invalid `id` parameter), we respond with the status code `204` (No Content) unless the promise is rejected. If we wanted to provide two different status codes depending on if we actually deleted a note or if there is no note that matches the provided `id`, we could make use of the `result` object that is passed into our callback function provided to the `then()` method. You can also see how we pass on our error to the `next()` function were our promise rejected.
@@ -5781,20 +5561,20 @@ Here, even if we attempt to delete a note that does not exist (via an invalid `i
 We can employ a similar function in order to update the `flagged` property of a given `Note` document in our database. Using the `findByIdAndUpdate` method, we can fetch a specific note and update it by writing the following
 
 ```js
-app.put('/api/notes/:id', (req, res, next) => {
-  const body = req.body
+app.put("/api/notes/:id", (req, res, next) => {
+  const body = req.body;
 
   const note = {
     content: body.content,
     flagged: body.flagged,
-  }
+  };
 
   Note.findByIdAndUpdate(req.params.id, note, { new: true })
-    .then(updatedNote => {
-      res.json(updatedNote.toJSON())
+    .then((updatedNote) => {
+      res.json(updatedNote.toJSON());
     })
-    .catch(error => next(error))
-})
+    .catch((error) => next(error));
+});
 ```
 
 Here, we create a new `note` object using the request object's body. This note object was not created using the `Note` model constructor function as this note is not directly involved with the database, but rather is used as a regular JavaScript object to replace an object in our database. Then, we find the note object in our `notes` collection that matches the `id` request parameter and replace it with our `note` object.
@@ -5812,8 +5592,8 @@ Upon looking at the error message and the relevant documentation provided, we ca
 **/Backend/models/note.js**
 
 ```js
-const mongoose = require('mongoose')
-mongoose.set('useFindAndModify', false)
+const mongoose = require("mongoose");
+mongoose.set("useFindAndModify", false);
 
 //...
 ```
@@ -5823,22 +5603,23 @@ As Mongoose had a `findOneAndUpdate()` function before the native MongoDB driver
 As this is a global option, instead of adding the above code snippet to **note.js** we can also just add it to our connection options as follows
 
 ```js
-const mongoose = require('mongoose')
-const uri = process.env.MONGODB_URI
+const mongoose = require("mongoose");
+const uri = process.env.MONGODB_URI;
 
-console.log('Connecting to: ', uri)
+console.log("Connecting to: ", uri);
 
-mongoose.connect(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true, 
-  useFindAndModify: false
- })
+mongoose
+  .connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
   .then(() => {
-    console.log('Connected to MongoDB')
+    console.log("Connected to MongoDB");
   })
   .catch((error) => {
-    console.log('Error connecting to MongoDB:', error.message)
-  })
+    console.log("Error connecting to MongoDB:", error.message);
+  });
 
 //...
 ```
@@ -5858,11 +5639,11 @@ app.post('/api/notes', (req, res) => {
   const body = req.body
 
   if (!body.content) {
-    return res.status(400).json({ 
-      error: 'No content specified in note body' 
+    return res.status(400).json({
+      error: 'No content specified in note body'
     })
   }
-  
+
 //...
 ```
 
@@ -5875,14 +5656,14 @@ const noteSchema = new mongoose.Schema({
   content: {
     type: String,
     minlength: 1,
-    required: true
+    required: true,
   },
-  date: { 
+  date: {
     type: Date,
-    required: true
+    required: true,
   },
   flagged: Boolean,
-})
+});
 ```
 
 Validation is middleware. Delving deeper into Mongoose, there are four types of middleware in Mongoose: document middleware, model middleware, aggregate middleware, and query middleware. Mongoose comes with several built-in validators that we can define in the `SchemaType`. We use the `required` and `minlength` validators above. The `required` validator ensures that the value of this property cannot be missing, meaning that it must be defined. The `minlength` validator sets the minimum length that the string value can have, where we set it at 1. This also implicitly defines the `required` validator as the minimum length logically sets that there should be a definition; thus, we would not have to explicitly define the `required` validator.
@@ -5896,26 +5677,28 @@ Now, attempting to store an object that breaks any of the above restrictions in 
 ```js
 //...
 
-app.post('/api/notes', (req, res) => {
-  const body = req.body
+app.post("/api/notes", (req, res) => {
+  const body = req.body;
 
   if (!body.content) {
-    return res.status(400).json({ 
-      error: 'No content specified in note body' 
-    })
+    return res.status(400).json({
+      error: "No content specified in note body",
+    });
   }
 
   const newNote = new Note({
     content: body.content,
     flagged: body.flagged || false,
     date: new Date(),
-  })
+  });
 
-  newNote.save().then(savedNote => {
-    res.json(savedNote.toJSON())
-  })
-  .catch(error => next(error))
-})
+  newNote
+    .save()
+    .then((savedNote) => {
+      res.json(savedNote.toJSON());
+    })
+    .catch((error) => next(error));
+});
 
 //...
 ```
@@ -5928,16 +5711,16 @@ Let's also add a condition in our error handler to provide a specific response f
 //...
 
 const errorHandler = (err, req, res, next) => {
-    console.error(err.message)
+  console.error(err.message);
 
-    if (err.name === 'CastError' && err.kind === 'ObjectId') {
-        return res.status(400).send({ error: 'Incorrect format for id parameter' })
-    } else if (err.name === 'ValidationError') {
-        return res.status(400).json({ error: err.message })
-    }
+  if (err.name === "CastError" && err.kind === "ObjectId") {
+    return res.status(400).send({ error: "Incorrect format for id parameter" });
+  } else if (err.name === "ValidationError") {
+    return res.status(400).json({ error: err.message });
+  }
 
-    next(err)
-}
+  next(err);
+};
 
 //...
 ```
@@ -5957,28 +5740,29 @@ We can format the above code with this in mind as follows
 **/Backend/index.js**
 
 ```js
-app.post('/api/notes', (req, res) => {
-  const body = req.body
+app.post("/api/notes", (req, res) => {
+  const body = req.body;
 
   if (!body.content) {
-    return res.status(400).json({ 
-      error: 'No content specified in note body' 
-    })
+    return res.status(400).json({
+      error: "No content specified in note body",
+    });
   }
 
   const newNote = new Note({
     content: body.content,
     flagged: body.flagged || false,
     date: new Date(),
-  })
+  });
 
-  newNote.save()
-  .then(savedNote => savedNote.toJSON())
-  .then(formattedSavedNote => {
-    response.json(formattedSavedNote)
-  })
-  .catch(error => next(error))
-})
+  newNote
+    .save()
+    .then((savedNote) => savedNote.toJSON())
+    .then((formattedSavedNote) => {
+      response.json(formattedSavedNote);
+    })
+    .catch((error) => next(error));
+});
 ```
 
 This makes it much easier to follow along and see what's happening in a linear fashion. Here, we simply save the note and take in the `savedNote` object that was returned by Mongoose. This `savedNote` object is then formatted by our `toJSON()` function in the callback function and is returned (taking advantage of the compact arrow function syntax that returns the evaluation of the expression to the right). This creates a new promise who receives the formatted note as its value. We then access the `then()` method of this new promise and in its handler, we actually send the response using `response.json()`.
@@ -6005,7 +5789,7 @@ You'll notice the following in our logs
 
 It looks like the variable for our connection string is evaluating to `undefined`. This is because, as mentioned earlier, our **.env** file is not tracked, so our remote does not have it. Thus, the server on the Heroku remote tries to pull its value from the file when it runs into it in the code but is unable to. We can remedy this by specifying environment variables system-wide using the Heroku CLI:
 
-``` bash
+```bash
 heroku config:set MONGODB_URI=mongodb+srv://exampleuser:examplepassword@cluster0-nfeqs.mongodb.net/note-app?retryWrites=true&w=majority
 ```
 
@@ -6041,38 +5825,26 @@ This creates a file called **.eslintrc.js** within the directory that we have ex
 
 ```js
 module.exports = {
-    'env': {
-        'commonjs': true,
-        'es6': true,
-        'node': true
-    },
-    'extends': 'eslint:recommended',
-    'globals': {
-        'Atomics': 'readonly',
-        'SharedArrayBuffer': 'readonly'
-    },
-    'parserOptions': {
-        'ecmaVersion': 2018
-    },
-    'rules': {
-        'indent': [
-            'error',
-            4
-        ],
-        'linebreak-style': [
-            'error',
-            'unix'
-        ],
-        'quotes': [
-            'error',
-            'single'
-        ],
-        'semi': [
-            'error',
-            'never'
-        ]
-    }
-}
+  env: {
+    commonjs: true,
+    es6: true,
+    node: true,
+  },
+  extends: "eslint:recommended",
+  globals: {
+    Atomics: "readonly",
+    SharedArrayBuffer: "readonly",
+  },
+  parserOptions: {
+    ecmaVersion: 2018,
+  },
+  rules: {
+    indent: ["error", 4],
+    "linebreak-style": ["error", "unix"],
+    quotes: ["error", "single"],
+    semi: ["error", "never"],
+  },
+};
 ```
 
 Let's also add a few additional rules to make our code cleaner
@@ -6087,7 +5859,7 @@ Let's also add a few additional rules to make our code cleaner
       'always'
     ],
     'arrow-spacing': [
-      'error', 
+      'error',
       { 'before': true, 'after': true }
     ],
     'no-console': 0
@@ -6119,7 +5891,7 @@ This reduces the number of errors that we have to deal with dramatically.
 
 ![image-20191117131335166](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191117131335166.png)
 
-Let's deal with these errors progressively. A smarter way of dealing with these errors is to install a lint plugin that allows us to see our errors immediately in our editor. 
+Let's deal with these errors progressively. A smarter way of dealing with these errors is to install a lint plugin that allows us to see our errors immediately in our editor.
 
 Let's install the 'ESLint' plugin available on Visual Studio Code.
 
@@ -6156,22 +5928,22 @@ As our product scales in complexity, you'll find that our project quickly become
 │   └── ...
 ```
 
-You'll notice the addition of a few new folders and files in our root directory here. Let's start discussing their  functions and the various changes that we'll have to make to our notes application.
+You'll notice the addition of a few new folders and files in our root directory here. Let's start discussing their functions and the various changes that we'll have to make to our notes application.
 
 First, one change that we'll make is to put everything that isn't involved with starting our application into **app.js**. Then, **index.js** will import our `app` and start the server using that component as follows
 
 **/Backend/index.js**
 
 ```js
-const app = require('./app') // Our `app` module that is started by this file
-const http = require('http')
-const config = require('./utils/config')
+const app = require("./app"); // Our `app` module that is started by this file
+const http = require("http");
+const config = require("./utils/config");
 
-const server = http.createServer(app) // Creates the server using the `app` module
+const server = http.createServer(app); // Creates the server using the `app` module
 
 server.listen(config.PORT, () => {
-  console.log(`Server running on port ${config.PORT}`)
-})
+  console.log(`Server running on port ${config.PORT}`);
+});
 ```
 
 Here, you'll notice references to a `config` constant that seems to be imported from the file **./utils/config**.
@@ -6179,100 +5951,102 @@ Here, you'll notice references to a `config` constant that seems to be imported 
 **/Backend/utils/config.js**
 
 ```js
-require('dotenv').config()
+require("dotenv").config();
 
-let PORT = process.env.PORT
-let MONGODB_URI = process.env.MONGODB_URI
+let PORT = process.env.PORT;
+let MONGODB_URI = process.env.MONGODB_URI;
 
 module.exports = {
   MONGODB_URI,
-  PORT
-}
+  PORT,
+};
 ```
 
 Here is where we handle our environment variables and export them for use in other modules via importing this configuration module.
 
-We also moved the routes dealing with our `notes` end point to its own file under the **/controllers** directory. The handlers for our route methods are known as *controllers*, thus they will now fall under the **/controllers** directory for the sake of organization. We also take advantage of a few more Express features here as shown below
+We also moved the routes dealing with our `notes` end point to its own file under the **/controllers** directory. The handlers for our route methods are known as _controllers_, thus they will now fall under the **/controllers** directory for the sake of organization. We also take advantage of a few more Express features here as shown below
 
 **/Backend/controllers/notes.js**
 
 ```js
-const notesRouter = require('express').Router()
-const Note = require('../models/note')
+const notesRouter = require("express").Router();
+const Note = require("../models/note");
 
-notesRouter.post('/', (req, res) => {
-    const body = req.body
+notesRouter.post("/", (req, res) => {
+  const body = req.body;
 
-    if (!body.content) {
-        return res.status(400).json({
-            error: 'No content specified in note body'
-        })
-    }
+  if (!body.content) {
+    return res.status(400).json({
+      error: "No content specified in note body",
+    });
+  }
 
-    const newNote = new Note({
-        content: body.content,
-        flagged: body.flagged || false,
-        date: new Date(),
+  const newNote = new Note({
+    content: body.content,
+    flagged: body.flagged || false,
+    date: new Date(),
+  });
+
+  newNote
+    .save()
+    .then((savedNote) => {
+      res.json(savedNote.toJSON());
     })
+    .catch((error) => next(error));
+});
 
-    newNote.save().then(savedNote => {
-        res.json(savedNote.toJSON())
+notesRouter.get("/", (req, res) => {
+  res.send("<h1>Welcome to our Notes Application Backend!</h1>");
+});
+
+notesRouter.get("/", (req, res) => {
+  Note.find({}).then((notes) => {
+    res.json(notes.map((note) => note.toJSON()));
+  });
+});
+
+notesRouter.delete("/:id", (req, res, next) => {
+  Note.findByIdAndRemove(req.params.id)
+    .then((result) => {
+      res.status(204).end();
     })
-        .catch(error => next(error))
-})
+    .catch((error) => next(error));
+});
 
-notesRouter.get('/', (req, res) => {
-    res.send('<h1>Welcome to our Notes Application Backend!</h1>')
-})
-
-notesRouter.get('/', (req, res) => {
-    Note.find({}).then(notes => {
-        res.json(notes.map(note => note.toJSON()))
+notesRouter.get("/:id", (req, res, next) => {
+  Note.findById(req.params.id)
+    .then((note) => {
+      if (note) {
+        res.json(note.toJSON());
+      } else {
+        res.status(404).end(); // Condition fail
+      }
     })
-})
+    .catch((error) => next(error));
+});
 
-notesRouter.delete('/:id', (req, res, next) => {
-    Note.findByIdAndRemove(req.params.id)
-        .then((result) => {
-            res.status(204).end()
-        })
-        .catch(error => next(error))
-})
+notesRouter.put("/:id", (req, res, next) => {
+  const body = req.body;
 
-notesRouter.get('/:id', (req, res, next) => {
-    Note.findById(req.params.id)
-        .then(note => {
-    	if (note) {
-                res.json(note.toJSON())
-            } else {
-                res.status(404).end() // Condition fail
-            }
-  	})
-  	.catch(error => next(error))
-})
+  const note = {
+    content: body.content,
+    flagged: body.flagged,
+  };
 
-notesRouter.put('/:id', (req, res, next) => {
-    const body = req.body
+  Note.findByIdAndUpdate(req.params.id, note, { new: true })
+    .then((updatedNote) => {
+      res.json(updatedNote.toJSON());
+    })
+    .catch((error) => next(error));
+});
 
-    const note = {
-        content: body.content,
-        flagged: body.flagged,
-    }
-
-    Note.findByIdAndUpdate(req.params.id, note, { new: true })
-        .then(updatedNote => {
-            res.json(updatedNote.toJSON())
-        })
-        .catch(error => next(error))
-})
-
-modules.exports = notesRouter
+modules.exports = notesRouter;
 ```
 
 Here, you'll notice how we took in the `Note` model so that we could reference our database from within these controllers. We also took advantage of `Router` in Express. A `Router` is like its own mini Express application by providing us with context-specific routing APIs (like `get()` and `put()`). Routers are actually a piece of middleware which can be used for defining and associating related routes.
 
 ```js
-const notesRouter = require('express').Router()
+const notesRouter = require("express").Router();
 
 //...
 ```
@@ -6284,43 +6058,44 @@ We can then make use of this router in our `app` module where we also register t
 **/Backend/app.js**
 
 ```js
-const config = require('./utils/config')
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
-const cors = require('cors')
-const notesRouter = require('./controllers/notes')
-const middleware = require('./utils/middleware')
-const mongoose = require('mongoose')
+const config = require("./utils/config");
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
+const cors = require("cors");
+const notesRouter = require("./controllers/notes");
+const middleware = require("./utils/middleware");
+const mongoose = require("mongoose");
 
-console.log('Connecting to:', config.MONGODB_URI)
+console.log("Connecting to:", config.MONGODB_URI);
 
-mongoose.connect(config.MONGODB_URI, {
+mongoose
+  .connect(config.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
-})
+    useFindAndModify: false,
+  })
   .then(() => {
-    console.log('Connected to MongoDB')
+    console.log("Connected to MongoDB");
   })
   .catch((error) => {
-    console.log('Error connecting to MongoDB:', error.message)
-  })
+    console.log("Error connecting to MongoDB:", error.message);
+  });
 
 // Middleware
-app.use(cors())
-app.use(express.static('build'))
-app.use(bodyParser.json())
-app.use(middleware.requestLogger)
+app.use(cors());
+app.use(express.static("build"));
+app.use(bodyParser.json());
+app.use(middleware.requestLogger);
 
 // Routers
-app.use('/api/notes', notesRouter)
+app.use("/api/notes", notesRouter);
 
 // After router middleware
-app.use(middleware.unknownEndpoint)
-app.use(middleware.errorHandler)
+app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
-module.exports = app
+module.exports = app;
 ```
 
 In our app component, you'll notice quite a few changes from our app's last checkpoint. First, you'll notice that we now import all of our middleware from **/utils/middleware.js** to which it contains:
@@ -6329,25 +6104,25 @@ In our app component, you'll notice quite a few changes from our app's last chec
 
 ```js
 const unknownEndpoint = (req, res) => {
-    res.status(404).send({ error: 'Endpoint does not exist (Unknown Endpoint)' })
-}
+  res.status(404).send({ error: "Endpoint does not exist (Unknown Endpoint)" });
+};
 
 const errorHandler = (err, req, res, next) => {
-    console.error(err.message)
+  console.error(err.message);
 
-    if (err.name === 'CastError' && err.kind === 'ObjectId') {
-        return res.status(400).send({ error: 'Incorrect format for id parameter' })
-    } else if (error.name === 'ValidationError') {
-        return response.status(400).json({ error: error.message })
-    }
+  if (err.name === "CastError" && err.kind === "ObjectId") {
+    return res.status(400).send({ error: "Incorrect format for id parameter" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
+  }
 
-    next(error)
-}
+  next(error);
+};
 
 module.exports = {
-    unknownEndpoint,
-    errorHandler
-}
+  unknownEndpoint,
+  errorHandler,
+};
 ```
 
 Then, you'll notice how we now connect to our database from within our `app` module as we only need to maintain one connection to the database for our entire app for now. Our other approach which involved connecting to the database for each model is not ideal. This results in an updated **/models/note.js** file since we no longer need to connect to our database within each module:
@@ -6355,30 +6130,30 @@ Then, you'll notice how we now connect to our database from within our `app` mod
 **/Backend/models/note.js**
 
 ```js
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const noteSchema = new mongoose.Schema({
-    content: {
-        type: String,
-        minlength: 1,
-        required: true
-    },
-    date: {
-        type: Date,
-        required: true
-    },
-    flagged: Boolean,
-})
+  content: {
+    type: String,
+    minlength: 1,
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
+  flagged: Boolean,
+});
 
-noteSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
-        returnedObject.id = returnedObject._id.toString()
-        delete returnedObject._id
-        delete returnedObject.__v
-    }
-})
+noteSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
 
-module.exports = mongoose.model('Note', noteSchema)
+module.exports = mongoose.model("Note", noteSchema);
 ```
 
 This should mark all the changes with moving to a more structured project structure. Making good use of modules and organizing them will prove to make development for larger applications much easier. Keep in mind that the structure that we demonstrated here is only one of the many recommended project structures.
@@ -6397,25 +6172,22 @@ Let's first start with unit tests. Now, our notes application does not consist o
 **Backend/utils/test_example.js**
 
 ```js
-const palindrome = string => {
-  return string
-    .split('')
-    .reverse()
-    .join('')
-}
+const palindrome = (string) => {
+  return string.split("").reverse().join("");
+};
 
-const average = array => {
+const average = (array) => {
   const reducer = (sum, addition) => {
-    return sum + addition
-  }
+    return sum + addition;
+  };
 
-  return array.reduce(reducer, 0) / array.length
-}
+  return array.reduce(reducer, 0) / array.length;
+};
 
 module.exports = {
   palindrome,
   average,
-}
+};
 ```
 
 You might not recognize the `reduce()` array method used above, with this, let's talk about and review some concepts in functional programming (with JavaScript).
@@ -6430,29 +6202,29 @@ In JavaScript, all functions are 'values' to which you can create an anonymous f
 
 ```js
 var double = (x) => {
-  return x * 2
-}
+  return x * 2;
+};
 
-var test = double
+var test = double;
 
-test(2) // returns 4
+test(2); // returns 4
 ```
 
 Here, you can see how we manipulate this function as if it were a value, because it is in fact a value just like strings, numbers, etc. This also allows us to **pass functions into other functions**.
 
-Functions that take functions as parameters are typically referred to as *higher-order functions*. This allows for **composition** to where we can make a bunch of functions that achieve small tasks and *compose* them into bigger functions that achieve a bigger task.
+Functions that take functions as parameters are typically referred to as _higher-order functions_. This allows for **composition** to where we can make a bunch of functions that achieve small tasks and _compose_ them into bigger functions that achieve a bigger task.
 
-We've dealt with higher order functions in the past, `filter()`, `map()`, etc. 
+We've dealt with higher order functions in the past, `filter()`, `map()`, etc.
 
 For example, let's just say that we wanted to filter an array by a property's value, in this case, we'll be looking to filter for only people whose favorite color is red.
 
 Attempting that filter with a regular for-loop would look something like this:
 
 ```js
-var filtered = []
+var filtered = [];
 for (var i = 0; i < people.length; i++) {
-  if (people[i].favoriteColor === 'red') {
-    filtered.push(people[i])
+  if (people[i].favoriteColor === "red") {
+    filtered.push(people[i]);
   }
 }
 ```
@@ -6460,7 +6232,7 @@ for (var i = 0; i < people.length; i++) {
 Now, attempting to do the above in a functional way using a higher-order function would be written as follows:
 
 ```js
-var filtered = people.filter(person => person.favoriteColor === 'red')
+var filtered = people.filter((person) => person.favoriteColor === "red");
 ```
 
 > Recall that the `filter()` higher-order function appends the current iterable object if the function (passed in as a property) returns true. It will pass in every single object through the function provided as a property.
@@ -6470,14 +6242,14 @@ These functions allow us to write much cleaner code than we would usually be abl
 Taking advantage of composition (although its benefits are not too apparent in this example as these functions are quite simple), we can separate out the callback and compose everything together later in the code as follows:
 
 ```js
-var isFavoriteColorRed = person => person.favoriteColor === 'red'
-var filtered = people.filter(isFavoriteColorRed)
+var isFavoriteColorRed = (person) => person.favoriteColor === "red";
+var filtered = people.filter(isFavoriteColorRed);
 ```
 
 Aside from being easier to read, this also allows for the easier reuse of logic and functionality. For example, let's say that we wanted to now filter **out** people with the favorite color red (instead of only including them). We could pass in the `isFavoriteColorRed` function to the `reject()` higher-order function to achieve that as follows
 
 ```js
-var filteredOut = people.reject(isFavoriteColorRed)
+var filteredOut = people.reject(isFavoriteColorRed);
 ```
 
 Using the traditional for-loop approach would require rewriting multiple lines of code and would result in logic that is harder to follow. Looking at the `isFavoriteColorRed` function, you'll also notice that we never write `return` but rather take advantage of implicit returns to which if our logic for our function fits in one line, we can implicitly return the evaluation of the expression to the right of our 'arrow'.
@@ -6489,17 +6261,17 @@ Now, let's talk about a higher-order function that you have not been previously 
 For example, let's just say we wanted to transform an array of number values (in an array called `numbers`) into one figure that represented the sum of the array. Let's look into doing that with a traditional for-loop first:
 
 ```js
-var total = 0
+var total = 0;
 
 for (var i = 0; i < numbers.length; i++) {
-  total += numbers[i]
+  total += numbers[i];
 }
 ```
 
 Using `reduce()`, we can convert the above functionality into:
 
 ```js
-var total = numbers.reduce((sum, number) => sum + number, 0)
+var total = numbers.reduce((sum, number) => sum + number, 0);
 ```
 
 Just like `map()` and `filter()`, `reduce()` still takes in a callback function, but it also takes in an object to be used as a 'starting point'. Basically, what's happening here is that our first parameter of our callback function, `sum`, is being initialized with the value provided as the second parameter of the `reduce()` method. Then, for each iteration upon `numbers` we are passing the current object pertaining to our iteration into the second parameter of our callback function, to which this number is added to `sum`. This continues throughout the array, to which `sum` is added to every time. Every time an iteration is completed, the new `sum` value will be passed to the callback function for the next iteration with the next object in the array passed as the second parameter.
@@ -6515,13 +6287,13 @@ Looking at our previous test code, you'll now be able to understand how our `ave
 ```js
 //...
 
-const average = array => {
+const average = (array) => {
   const reducer = (sum, addition) => {
-    return sum + addition
-  }
+    return sum + addition;
+  };
 
-  return array.reduce(reducer, 0) / array.length
-}
+  return array.reduce(reducer, 0) / array.length;
+};
 
 //...
 ```
@@ -6551,7 +6323,7 @@ Now that we have `jest` installed, we can make an npm script so that we won't ha
     "logs:prod": "heroku logs --tail",
     "test": "jest --verbose"
   },
-    
+
 //...
 ```
 
@@ -6575,30 +6347,30 @@ First, let's create a new directory to organize and hold all of our tests called
 **/Backend/tests/palindrome.test.js**
 
 ```js
-const palindrome = require('../utils/test_example').palindrome // Grabs the `palindrome` function from our 'for_testing' module
+const palindrome = require("../utils/test_example").palindrome; // Grabs the `palindrome` function from our 'for_testing' module
 
-test('Palindrome of z', () => {
-    const result = palindrome('z')
+test("Palindrome of z", () => {
+  const result = palindrome("z");
 
-    expect(result).toBe('z')
-})
+  expect(result).toBe("z");
+});
 
-test('Palindrome of test', () => {
-    const result = palindrome('test')
+test("Palindrome of test", () => {
+  const result = palindrome("test");
 
-    expect(result).toBe('tset')
-})
+  expect(result).toBe("tset");
+});
 
-test('Palindrome of palindrome', () => {
-    const result = palindrome('palindrome')
+test("Palindrome of palindrome", () => {
+  const result = palindrome("palindrome");
 
-    expect(result).toBe('emordnilap')
-})
+  expect(result).toBe("emordnilap");
+});
 ```
 
 Upon viewing this code in the editor, we're faced with the following:
 
-![image-20191126131154686](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191126131154686.png)
+TODO: Find image image-20191126131154686.png
 
 It seems that ESLint is complaining about `test` and `expect` not being defined previously (es-noundef). We can fix this by adding the following property to our `module.exports` object in **.eslintrc.js**
 
@@ -6620,17 +6392,17 @@ Let's take a look at our test file here. We define tests by calling the `test()`
 
 ```js
 () => {
-    const result = palindrome('z')
+  const result = palindrome("z");
 
-    expect(result).toBe('z')
-}
+  expect(result).toBe("z");
+};
 ```
 
 This function performs the function that we want to test, `palindrome`, upon a predetermined value. We then store this result so that we can compare and verify the result with an expected value. We do this by calling the `expect()` function which takes in the result of our test. We then can compare it by using **matcher functions** (made available to us via methods upon the `expect()` function). In this case, since we're just comparing two strings together, we can just use the `toBe()` matcher function to which we pass in our expected value.
 
 With this, we can execute all our tests and see if our application behaves as expected.
 
-![image-20191126134650097](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191126134650097.png)
+TODO: Find image image-20191126134650097.png
 
 From this, we can see that all of our unit tests have passed.
 
@@ -6638,15 +6410,15 @@ Now, you might be wondering what Jest gives us were a test to fail. Let's provid
 
 ```js
 () => {
-    const result = palindrome('z')
+  const result = palindrome("z");
 
-    expect(result).toBe('a') // Incorrect
-}
+  expect(result).toBe("a"); // Incorrect
+};
 ```
 
 Running our tests now yields the following output
 
-![image-20191126141051765](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191126141051765.png)
+TODO: Find image-20191126141051765.png
 
 Here, you can see that Jest provides us with rich error messages relating to the test that failed, the received value, the expectation involved, and more. These error messages are particularly useful when dealing with errors that may not be easy to identity. Let's look into an example of this in our tests relating to the `average` function.
 
@@ -6655,33 +6427,31 @@ Let's create a test file **average.test.js** and add the following to the file
 **/Backend/tests/average.test.js**
 
 ```js
-const average = require('../utils/test_example').average
+const average = require("../utils/test_example").average;
 
-describe('Average', () => {
-  test('of one value is the same value', () => {
-    expect(average([1])).toBe(1)
-  })
+describe("Average", () => {
+  test("of one value is the same value", () => {
+    expect(average([1])).toBe(1);
+  });
 
-  test('of many', () => {
-    expect(average([1, 2, 3, 4, 5, 6])).toBe(3.5)
-  })
+  test("of many", () => {
+    expect(average([1, 2, 3, 4, 5, 6])).toBe(3.5);
+  });
 
-  test('of an empty array is 0', () => {
-    expect(average([])).toBe(0)
-  })
-})
+  test("of an empty array is 0", () => {
+    expect(average([])).toBe(0);
+  });
+});
 ```
 
 Here, we introduce a new function, `describe`, which wraps tests into collections to which we can give the group a name
 
 ```js
-describe('Name', () => {
-  
+describe("Name", () => {
   // Test 1
   // Test 2
- 	// Test ...
-  
-})
+  // Test ...
+});
 ```
 
 You'll also notice the descriptions of our unit tests now start with 'of' as Jest in its output will prepend the name of the collection before the test name. This just makes everything much more readable.
@@ -6695,13 +6465,13 @@ Here, Jest's detailed output comes in handy as we can see that our function, in 
 We can fix this by updating our `average` function as follows
 
 ```js
-const average = array => {
+const average = (array) => {
   const reducer = (sum, addition) => {
-    return sum + addition
-  }
+    return sum + addition;
+  };
 
-  return array.length === 0 ? 0 : array.reduce(reducer, 0) / array.length
-}
+  return array.length === 0 ? 0 : array.reduce(reducer, 0) / array.length;
+};
 ```
 
 which is updated to return 0 if `array.length === 0`.
@@ -6738,9 +6508,9 @@ We can change the scripts in **package.json** so that we pass in the right value
 //...
 ```
 
-Here, we updated our `start`, `watch`, and `test` scripts to reflect the environment mode that we're in. Additionally, we added the `runInBand` flag to our `test` script since we don't want our tests running in parallel (the reason for this will be explained later). 
+Here, we updated our `start`, `watch`, and `test` scripts to reflect the environment mode that we're in. Additionally, we added the `runInBand` flag to our `test` script since we don't want our tests running in parallel (the reason for this will be explained later).
 
-One issue that we have is that this method of setting environment variables does not work on Windows.  Most Windows command prompts won't accept environment variables being set like `NODE_ENV=production` as they require them to be set using `set` or `$env:node_env = 'production'`. We can fix this by installing `cross-env` which allows for the cross-platform setting of environment variables. 
+One issue that we have is that this method of setting environment variables does not work on Windows. Most Windows command prompts won't accept environment variables being set like `NODE_ENV=production` as they require them to be set using `set` or `$env:node_env = 'production'`. We can fix this by installing `cross-env` which allows for the cross-platform setting of environment variables.
 
 ```bash
 npm install cross-env --save-dev
@@ -6779,22 +6549,22 @@ With this, we can add some logic to our application pertaining to using a differ
 **/Backend/utils/config.js**
 
 ```js
-require('dotenv').config()
+require("dotenv").config();
 
-let PORT = process.env.PORT
-let MONGODB_URI = process.env.MONGODB_URI
+let PORT = process.env.PORT;
+let MONGODB_URI = process.env.MONGODB_URI;
 
-if (process.env.NODE_ENV === 'test') {
-    MONGODB_URI = process.env.TEST_MONGODB_URI
+if (process.env.NODE_ENV === "test") {
+  MONGODB_URI = process.env.TEST_MONGODB_URI;
 }
 
 module.exports = {
-    MONGODB_URI,
-    PORT
-}
+  MONGODB_URI,
+  PORT,
+};
 ```
 
-Here, we simply assign our `MONGODB_URI` variable that gets exported out of this module with `TEST_MONGODB_URI` if we are running in 'test mode' (indicated by `NODE_ENV === 'test'`). We can now specify the value of `TEST_MONGODB_URI` in our **.env** file (recall that in production mode, these environment variables will not come from our **.env** file but rather the environment variables defined using Heroku). 
+Here, we simply assign our `MONGODB_URI` variable that gets exported out of this module with `TEST_MONGODB_URI` if we are running in 'test mode' (indicated by `NODE_ENV === 'test'`). We can now specify the value of `TEST_MONGODB_URI` in our **.env** file (recall that in production mode, these environment variables will not come from our **.env** file but rather the environment variables defined using Heroku).
 
 **/Backend/.env**
 
@@ -6823,22 +6593,22 @@ Now, we can write our first backend integration test by writing the following to
 **/Backend/tests/notes_api.test.js**
 
 ```js
-const mongoose = require('mongoose')
-const supertest = require('supertest')
-const app = require('../app')
+const mongoose = require("mongoose");
+const supertest = require("supertest");
+const app = require("../app");
 
-const api = supertest(app)
+const api = supertest(app);
 
-test('notes returned as json', async () => {
+test("notes returned as json", async () => {
   await api
-    .get('/api/notes')
+    .get("/api/notes")
     .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
+    .expect("Content-Type", /application\/json/);
+});
 
 afterAll(() => {
-  mongoose.connection.close()
-})
+  mongoose.connection.close();
+});
 ```
 
 Here, you'll notice quite a few new concepts. We'll go through these new concepts one at a time. First, we import our `app` module (as we need this to 'start' our application so that we can interact with it to perform our integration tests). We pass our `app` module into the `supertest()` function which transforms our `app` module into a **superagent** (basically transforms the module into a lightweight, client-side HTTP server that supports HTTP requests). We then assign this superagent to the `api` variable. Now, our tests can use `api` to make HTTP requests to the backend.
@@ -6848,12 +6618,12 @@ Throughout this code, you'll see various references to the `async`/`await` keywo
 You can see how we make these requests and compare the results in the following block of code:
 
 ```js
-test('notes returned as json', async () => {
+test("notes returned as json", async () => {
   await api
-    .get('/api/notes')
+    .get("/api/notes")
     .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
+    .expect("Content-Type", /application\/json/);
+});
 ```
 
 Here, wrapped in a test function, we have a function that performs a HTTP GET request to our backend (/api/notes) through calling the `get()` method upon our `api` variable with the parameter being the endpoint that we want to make our request to.
@@ -6866,8 +6636,8 @@ We do this by utilizing the `afterAll()` method to which a callback is provided 
 
 ```js
 afterAll(() => {
-  mongoose.connection.close()
-})
+  mongoose.connection.close();
+});
 ```
 
 Here, were we not to initialize the `testEnvironment` property with the value of `node` in the `jest` object of **package.json** as we did earlier, we would have encountered the following error:
@@ -6883,34 +6653,34 @@ Let's increase the complexity of our tests by adding two more tests to **notes_a
 **/Backend/tests/notes_api.test.js**
 
 ```js
-const mongoose = require('mongoose')
-const supertest = require('supertest')
-const app = require('../app')
+const mongoose = require("mongoose");
+const supertest = require("supertest");
+const app = require("../app");
 
-const api = supertest(app)
+const api = supertest(app);
 
-test('notes returned as json', async () => {
+test("notes returned as json", async () => {
   await api
-    .get('/api/notes')
+    .get("/api/notes")
     .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
+    .expect("Content-Type", /application\/json/);
+});
 
-test('there are three notes', async () => {
-    const response = await api.get('/api/notes')
-  
-    expect(response.body.length).toBe(3)
-})
+test("there are three notes", async () => {
+  const response = await api.get("/api/notes");
 
-test('the first note is about it being the first note', async () => {
-    const response = await api.get('/api/notes')
+  expect(response.body.length).toBe(3);
+});
 
-    expect(response.body[0].content).toBe('This is the first note!')
-})
+test("the first note is about it being the first note", async () => {
+  const response = await api.get("/api/notes");
+
+  expect(response.body[0].content).toBe("This is the first note!");
+});
 
 afterAll(() => {
-  mongoose.connection.close()
-})
+  mongoose.connection.close();
+});
 ```
 
 You'll notice that our tests not depend on the state of our database. This is not good, because the 'state' of our database persists across separate test runs. This means that the results of one test run could differ from the other without changing any of the tests.
@@ -6924,42 +6694,42 @@ First, let's initialize our database before the tests run by making use of the `
 **/Backend/tests/notes_api.test.js**
 
 ```js
-const mongoose = require('mongoose')
-const supertest = require('supertest')
-const app = require('../app')
-const api = supertest(app)
-const Note = require('../models/note')
+const mongoose = require("mongoose");
+const supertest = require("supertest");
+const app = require("../app");
+const api = supertest(app);
+const Note = require("../models/note");
 
 const initializationNotes = [
   {
-    content: 'This is the first note!',
+    content: "This is the first note!",
     date: new Date(),
     flagged: true,
   },
   {
-    content: 'This is a note that happens to be the second note.',
+    content: "This is a note that happens to be the second note.",
     date: new Date(),
     flagged: false,
   },
   {
-    content: 'This is the third note.',
+    content: "This is the third note.",
     date: new Date(),
     flagged: true,
-  }
-]
+  },
+];
 
 beforeEach(async () => {
-  await Note.deleteMany({})
+  await Note.deleteMany({});
 
-  let noteObject = new Note(initializationNotes[0])
-  await noteObject.save()
+  let noteObject = new Note(initializationNotes[0]);
+  await noteObject.save();
 
-  noteObject = new Note(initializationNotes[1])
-  await noteObject.save()
-  
-  noteObject = new Note(initializationNotes[2])
-  await noteObject.save()
-})
+  noteObject = new Note(initializationNotes[1]);
+  await noteObject.save();
+
+  noteObject = new Note(initializationNotes[2]);
+  await noteObject.save();
+});
 
 // ...
 ```
@@ -6975,19 +6745,19 @@ After this, our database should be set up to perform our tests. With this, let's
 ```js
 //...
 
-test('there are three notes', async () => {
-    const response = await api.get('/api/notes')
-  
-    expect(response.body.length).toBe(initializationNotes.length)
-})
+test("there are three notes", async () => {
+  const response = await api.get("/api/notes");
 
-test('the first note is about it being the first note', async () => {
-    const response = await api.get('/api/notes')
-    
-    const allContents = response.body.map(n => n.content)
+  expect(response.body.length).toBe(initializationNotes.length);
+});
 
-    expect(allContents).toContain('This is the first note!')
-})
+test("the first note is about it being the first note", async () => {
+  const response = await api.get("/api/notes");
+
+  const allContents = response.body.map((n) => n.content);
+
+  expect(allContents).toContain("This is the first note!");
+});
 
 //...
 ```
@@ -7012,18 +6782,19 @@ With this, let's create the **logger.js** utility module.
 
 ```js
 const info = (...params) => {
-  if (process.env.NODE_ENV !== 'test') {
-    console.log(...params)
+  if (process.env.NODE_ENV !== "test") {
+    console.log(...params);
   }
-}
+};
 
 const error = (...params) => {
-  console.error(...params)
-}
+  console.error(...params);
+};
 
 module.exports = {
-  info, error
-}
+  info,
+  error,
+};
 ```
 
 Here, in our `logger` module, we export two functions, the `info` function which contains a check to prevent these log statements from printing if our application is in test mode, and the `error` function which will `console.error` whatever parameter(s) is passed to it and will execute regardless of the environment mode.
@@ -7031,37 +6802,37 @@ Here, in our `logger` module, we export two functions, the `info` function which
 Let's also build a `logRequest` middleware that takes advantage of these new functions.
 
 ```js
-const logger = require('./logger')
+const logger = require("./logger");
 
 const logRequest = (req, res, next) => {
-    logger.info('Method:  ', req.method)
-    logger.info('Path:    ', req.path)
-    logger.info('Body:    ', req.body)
-    logger.info('--------')
-    next()
-}
+  logger.info("Method:  ", req.method);
+  logger.info("Path:    ", req.path);
+  logger.info("Body:    ", req.body);
+  logger.info("--------");
+  next();
+};
 
 const unknownEndpoint = (req, res) => {
-    res.status(404).send({ error: 'Endpoint does not exist (Unknown Endpoint)' })
-}
+  res.status(404).send({ error: "Endpoint does not exist (Unknown Endpoint)" });
+};
 
 const errorHandler = (err, req, res, next) => {
-    logger.error(err.message)
+  logger.error(err.message);
 
-    if (err.name === 'CastError' && err.kind === 'ObjectId') {
-        return res.status(400).send({ error: 'Incorrect format for id parameter' })
-    } else if (err.name === 'ValidationError') {
-        return res.status(400).json({ error: err.message })
-    }
+  if (err.name === "CastError" && err.kind === "ObjectId") {
+    return res.status(400).send({ error: "Incorrect format for id parameter" });
+  } else if (err.name === "ValidationError") {
+    return res.status(400).json({ error: err.message });
+  }
 
-    next(err)
-}
+  next(err);
+};
 
 module.exports = {
-    logRequest,
-    unknownEndpoint,
-    errorHandler
-}
+  logRequest,
+  unknownEndpoint,
+  errorHandler,
+};
 ```
 
 Here, you'll notice how we build the `logRequest` function that logs various bits of information about the request using `logger.info()`. We also updated our `errorHandler` middleware to use `logger.error()` function.
@@ -7073,27 +6844,28 @@ We also need to make the appropriate changes to **app.js** involving our new **l
 ```js
 //...
 
-const logger = require('./utils/logger')
+const logger = require("./utils/logger");
 
-logger.info('Connecting to:', config.MONGODB_URI) // Now uses logger
+logger.info("Connecting to:", config.MONGODB_URI); // Now uses logger
 
-mongoose.connect(config.MONGODB_URI, {
+mongoose
+  .connect(config.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
-})
-    .then(() => {
-        logger.info('Connected to MongoDB') // Now uses logger
-    })
-    .catch((error) => {
-        logger.error('Error connecting to MongoDB:', error.message) // Now uses logger
-    })
+    useFindAndModify: false,
+  })
+  .then(() => {
+    logger.info("Connected to MongoDB"); // Now uses logger
+  })
+  .catch((error) => {
+    logger.error("Error connecting to MongoDB:", error.message); // Now uses logger
+  });
 
 // Middleware
-app.use(cors())
-app.use(express.static('build'))
-app.use(bodyParser.json())
-app.use(middleware.logRequest) // The addition of our `logRequest` middleware
+app.use(cors());
+app.use(express.static("build"));
+app.use(bodyParser.json());
+app.use(middleware.logRequest); // The addition of our `logRequest` middleware
 
 //...
 ```
@@ -7137,22 +6909,23 @@ Circling back to when we first introduced `supertest`, we touched on the introdu
 Let's first look at how we would achieve the task of removing the first note (in a verbose way) using promises.
 
 ```js
-Note.find({}).then(notes => {
-  return notes[0].remove()
-})
-.then(res => {
-  console.log('successfully removed the first note')
-})
+Note.find({})
+  .then((notes) => {
+    return notes[0].remove();
+  })
+  .then((res) => {
+    console.log("successfully removed the first note");
+  });
 ```
 
-Here, we use the `find()` method upon the `Note` model in order to get all of the notes, then we access the result of this promise through registering a callback to the `then()` method which we then remove the first note in. This is an example of a promise chain (which we have discussed in-depth earlier). Another approach to making multiple asynchronous function calls in sequence would be to register callbacks within callbacks, but this is undesirable as it quickly becomes hard to read and leads to what is called *callback hell*.
+Here, we use the `find()` method upon the `Note` model in order to get all of the notes, then we access the result of this promise through registering a callback to the `then()` method which we then remove the first note in. This is an example of a promise chain (which we have discussed in-depth earlier). Another approach to making multiple asynchronous function calls in sequence would be to register callbacks within callbacks, but this is undesirable as it quickly becomes hard to read and leads to what is called _callback hell_.
 
-As syntactic sugar around these promises, **generator functions** were introduced in ES6 as well that provided a way, similar to promises, to write asynchronous code that resembled synchronous code. However, generator functions were never widely used with its awkward syntax. Although, it is interesting to know that generators and promises formed the foundation for the async/await expressions. 
+As syntactic sugar around these promises, **generator functions** were introduced in ES6 as well that provided a way, similar to promises, to write asynchronous code that resembled synchronous code. However, generator functions were never widely used with its awkward syntax. Although, it is interesting to know that generators and promises formed the foundation for the async/await expressions.
 
-Now, let's dive in to doing the above using the asynx/await keywords. We can use the `await` operator to *wait* for a promise (like the one `Note.find({})` returns).
+Now, let's dive in to doing the above using the asynx/await keywords. We can use the `await` operator to _wait_ for a promise (like the one `Note.find({})` returns).
 
 ```js
-const notes = await Note.find({})
+const notes = await Note.find({});
 ```
 
 Now, the execution of our code pauses at this line until the promise (the expression following the `await` keyword) is fulfilled. Once this promise is fulfilled, the execution of our code will continue. Here, you can see how our code looks like synchronous code.
@@ -7160,8 +6933,8 @@ Now, the execution of our code pauses at this line until the promise (the expres
 Now, let's add the removal of the first note.
 
 ```js
-const notes = await Note.find({})
-const res = await notes[0].remove()
+const notes = await Note.find({});
+const res = await notes[0].remove();
 ```
 
 Here, we first await for the promise returned by `Note.find({})` to be fulfilled. Then, we assign the value returned by that promise to `notes`. Then, we access the first element of the array and call `remove()` upon it, to which we wait for the promise returned by that call to be fulfilled and then store the returned result to `res`.
@@ -7186,11 +6959,11 @@ We can rewrite our controllers to use `async`/`await` without changing all too m
 Here is what our controller originally looked like:
 
 ```js
-notesRouter.get('/', (req, res) => {
-    Note.find({}).then(notes => {
-        res.json(notes.map(note => note.toJSON()))
-    })
-})
+notesRouter.get("/", (req, res) => {
+  Note.find({}).then((notes) => {
+    res.json(notes.map((note) => note.toJSON()));
+  });
+});
 ```
 
 This is what the controller looks like using `async`/`await`:
@@ -7198,10 +6971,10 @@ This is what the controller looks like using `async`/`await`:
 **/Backend/controllers/notes.js**
 
 ```js
-notesRouter.get('/', (req, res) => {
-    const notes = await Note.find({})
-    res.json(notes.map(note => note.toJSON()))
-})
+notesRouter.get("/", (req, res) => {
+  const notes = await Note.find({});
+  res.json(notes.map((note) => note.toJSON()));
+});
 ```
 
 Now, with refactoring our code, we must test to see if everything works as encountering **regression** (the breaking of existing functionality) is always a risk when refactoring.
@@ -7217,27 +6990,25 @@ First, let's write a test that tests our HTTP POST controller that creates a new
 ```js
 //...
 
-test('a valid note can be added ', async () => {
+test("a valid note can be added ", async () => {
   const newNote = {
-    content: 'This is a new note!',
+    content: "This is a new note!",
     flagged: true,
-  }
+  };
 
   await api
-    .post('/api/notes')
+    .post("/api/notes")
     .send(newNote)
     .expect(201)
-    .expect('Content-Type', /application\/json/)
+    .expect("Content-Type", /application\/json/);
 
-  const response = await api.get('/api/notes')
+  const response = await api.get("/api/notes");
 
-  const contents = response.body.map(r => r.content)
+  const contents = response.body.map((r) => r.content);
 
-  expect(response.body.length).toBe(initializationNotes.length + 1)
-  expect(contents).toContain(
-    'This is a new note!'
-  )
-})
+  expect(response.body.length).toBe(initializationNotes.length + 1);
+  expect(contents).toContain("This is a new note!");
+});
 
 //...
 ```
@@ -7247,26 +7018,28 @@ Here, you'll notice how we send the note and then await for the response. Upon r
 Upon running this test, we encounter a few issues. Our test does not pass, so we'll have to make some changes to our controller as we had not set the correct status all along. We never set our status code before sending our response using the `json()` method, so we'll just call the `status()` method to do so beforehand. Our updated controller looks like this:
 
 ```js
-notesRouter.post('/', (req, res, next) => {
-  const body = req.body
+notesRouter.post("/", (req, res, next) => {
+  const body = req.body;
 
   if (!body.content) {
     return res.status(400).json({
-      error: 'No content specified in note body'
-    })
+      error: "No content specified in note body",
+    });
   }
 
   const newNote = new Note({
     content: body.content,
     flagged: body.flagged || false,
     date: new Date(),
-  })
+  });
 
-  newNote.save().then(savedNote => {
-    res.status(201).json(savedNote.toJSON())
-  })
-    .catch(error => next(error))
-})
+  newNote
+    .save()
+    .then((savedNote) => {
+      res.status(201).json(savedNote.toJSON());
+    })
+    .catch((error) => next(error));
+});
 ```
 
 Now, our test passes! Let's also test our edge case by writing a test that checks if a note with no content will not be saved into the database.
@@ -7276,20 +7049,17 @@ Now, our test passes! Let's also test our edge case by writing a test that check
 ```js
 //...
 
-test('note without content is not saved', async () => {
+test("note without content is not saved", async () => {
   const newNote = {
-    flagged: true
-  }
+    flagged: true,
+  };
 
-  await api
-    .post('/api/notes')
-    .send(newNote)
-    .expect(400)
+  await api.post("/api/notes").send(newNote).expect(400);
 
-  const response = await api.get('/api/notes')
+  const response = await api.get("/api/notes");
 
-  expect(response.body.length).toBe(initializationNotes.length)
-})
+  expect(response.body.length).toBe(initializationNotes.length);
+});
 
 //...
 ```
@@ -7303,46 +7073,48 @@ Now, you'll notice that we're starting to repeat some code between our tests. Th
 **/Backend/tests/test_helper.js**
 
 ```js
-const Note = require('../models/note')
+const Note = require("../models/note");
 
 const initializationNotes = [
   {
-    content: 'This is the first note!',
+    content: "This is the first note!",
     date: new Date(),
     flagged: true,
   },
   {
-    content: 'This is a note that happens to be the second note.',
+    content: "This is a note that happens to be the second note.",
     date: new Date(),
     flagged: false,
   },
   {
-    content: 'This is the third note.',
+    content: "This is the third note.",
     date: new Date(),
     flagged: true,
-  }
-]
+  },
+];
 
 const deletedNoteId = async () => {
-  const note = new Note({ 
-    content: 'This note was created as part of a test and will be deleted', 
-    date: new Date() 
-  })
-  
-  await note.save()
-  await note.remove()
+  const note = new Note({
+    content: "This note was created as part of a test and will be deleted",
+    date: new Date(),
+  });
 
-  return note._id.toString()
-}
+  await note.save();
+  await note.remove();
+
+  return note._id.toString();
+};
 
 const dbNotes = async () => {
-  const notes = await Note.find({})
-  return notes.map(note => note.toJSON())
-}
+  const notes = await Note.find({});
+  return notes.map((note) => note.toJSON());
+};
 
 module.exports = {
-  initializationNotes, deletedNoteId, dbNotes
-}
+  initializationNotes,
+  deletedNoteId,
+  dbNotes,
+};
 ```
 
 Here, we simply created two helper functions and moved the definition of our `initializationNotes` to this file. In `deletedNoteId`, we create a new note, save the note to our database, and then delete the not. After this, we fetch the `_id` property of the note object that we created using the `Note` model constructor function and return that, representing the ID of a database object that has since been deleted. In `dbNotes` we simply fetch all of the notes and create an array of notes mapped through `toJSON()`.
@@ -7352,89 +7124,84 @@ Now, we can use these helper functions in our tests as follows:
 **/Backend/tests/notes_api.test.js**
 
 ```js
-const mongoose = require('mongoose')
-const supertest = require('supertest')
-const app = require('../app')
-const api = supertest(app)
+const mongoose = require("mongoose");
+const supertest = require("supertest");
+const app = require("../app");
+const api = supertest(app);
 
-const Note = require('../models/note')
+const Note = require("../models/note");
 
-const helper = require('./test_helper')
+const helper = require("./test_helper");
 
 beforeEach(async () => {
-  await Note.deleteMany({})
+  await Note.deleteMany({});
 
-  let noteObject = new Note(helper.initializationNotes[0])
-  await noteObject.save()
+  let noteObject = new Note(helper.initializationNotes[0]);
+  await noteObject.save();
 
-  noteObject = new Note(helper.initializationNotes[1])
-  await noteObject.save()
+  noteObject = new Note(helper.initializationNotes[1]);
+  await noteObject.save();
 
-  noteObject = new Note(helper.initializationNotes[2])
-  await noteObject.save()
-})
+  noteObject = new Note(helper.initializationNotes[2]);
+  await noteObject.save();
+});
 
-test('notes returned as json', async () => {
+test("notes returned as json", async () => {
   await api
-    .get('/api/notes')
+    .get("/api/notes")
     .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
+    .expect("Content-Type", /application\/json/);
+});
 
-test('there are three notes', async () => {
-  const response = await api.get('/api/notes')
+test("there are three notes", async () => {
+  const response = await api.get("/api/notes");
 
-  expect(response.body.length).toBe(helper.initializationNotes.length)
-})
+  expect(response.body.length).toBe(helper.initializationNotes.length);
+});
 
-test('the first note is about it being the first note', async () => {
-  const response = await api.get('/api/notes')
+test("the first note is about it being the first note", async () => {
+  const response = await api.get("/api/notes");
 
-  const allContents = response.body.map(n => n.content)
+  const allContents = response.body.map((n) => n.content);
 
-  expect(allContents).toContain('This is the first note!')
-})
+  expect(allContents).toContain("This is the first note!");
+});
 
-test('a valid note can be added ', async () => {
+test("a valid note can be added ", async () => {
   const newNote = {
-    content: 'This is a new note!',
+    content: "This is a new note!",
     flagged: true,
-  }
+  };
 
   await api
-    .post('/api/notes')
+    .post("/api/notes")
     .send(newNote)
     .expect(201)
-    .expect('Content-Type', /application\/json/)
+    .expect("Content-Type", /application\/json/);
 
-  const allNotes = await helper.dbNotes()
+  const allNotes = await helper.dbNotes();
 
-  const contents = allNotes.map(r => r.content)
+  const contents = allNotes.map((r) => r.content);
 
-  expect(allNotes.length).toBe(helper.initializationNotes.length + 1)
-  expect(contents).toContain(
-    'This is a new note!'
-  )
-})
+  expect(allNotes.length).toBe(helper.initializationNotes.length + 1);
+  expect(contents).toContain("This is a new note!");
+});
 
-test('note without content is not saved', async () => {
+test("note without content is not saved", async () => {
   const newNote = {
-    flagged: true
-  }
+    flagged: true,
+  };
 
-  await api
-    .post('/api/notes')
-    .send(newNote)
-    .expect(400)
+  await api.post("/api/notes").send(newNote).expect(400);
 
-  const allNotes = await helper.dbNotes()
+  const allNotes = await helper.dbNotes();
 
-  expect(allNotes.length).toBe(helper.initializationNotes.length)
-})
+  expect(allNotes.length).toBe(helper.initializationNotes.length);
+});
 
 afterAll(() => {
-  mongoose.connection.close()
-})
+  mongoose.connection.close();
+});
 ```
 
 We can delete our `initializationNotes` constant since we can reference it from the helper file. In the above block, we changed all references to `initializationNotes` to `helper.initializationNotes`. Additionally, in our 'a valid note can be added' test, we use our `dbNotes()` helper function to get all the notes rather than making a HTTP GET request for all the notes and using the response. We also do the same for the ''note without content is not saved" test.
@@ -7448,18 +7215,18 @@ We can change our HTTP POST handler (that handles the adding of notes) to use `a
 ```js
 //...
 
-notesRouter.post('/', async (req, res, next) => {
-  const body = req.body
+notesRouter.post("/", async (req, res, next) => {
+  const body = req.body;
 
   const newNote = new Note({
     content: body.content,
     flagged: body.flagged || false,
     date: new Date(),
-  })
+  });
 
-  const savedNote = await newNote.save()
-  res.status(201).json(savedNote.toJSON())
-})
+  const savedNote = await newNote.save();
+  res.status(201).json(savedNote.toJSON());
+});
 
 //...
 ```
@@ -7479,22 +7246,22 @@ We can add a promise rejection handler through the use of the `try...catch` stat
 ```js
 //...
 
-notesRouter.post('/', async (req, res, next) => {
-  const body = req.body
+notesRouter.post("/", async (req, res, next) => {
+  const body = req.body;
 
   const newNote = new Note({
     content: body.content,
     flagged: body.flagged || false,
     date: new Date(),
-  })
+  });
 
   try {
-    const savedNote = await newNote.save()
-    res.status(201).json(savedNote.toJSON())
-  } catch(exception) {
-    next(exception)
+    const savedNote = await newNote.save();
+    res.status(201).json(savedNote.toJSON());
+  } catch (exception) {
+    next(exception);
   }
-})
+});
 
 //...
 ```
@@ -7508,21 +7275,21 @@ Now, moving on to the functionality regarding fetching a specific note, we can w
 ```js
 //...
 
-test('a specific note can be fetched', async () => {
-  const allNotes = await helper.dbNotes()
+test("a specific note can be fetched", async () => {
+  const allNotes = await helper.dbNotes();
 
-  const noteToFetch = allNotes[0]
+  const noteToFetch = allNotes[0];
 
   // Convert date value to string as the response will contain a string
-  noteToFetch.date = noteToFetch.date.toISOString()
+  noteToFetch.date = noteToFetch.date.toISOString();
 
   const fetchedNote = await api
     .get(`/api/notes/${noteToFetch.id}`)
     .expect(200)
-    .expect('Content-Type', /application\/json/)
+    .expect("Content-Type", /application\/json/);
 
-  expect(fetchedNote.body).toEqual(noteToFetch)
-})
+  expect(fetchedNote.body).toEqual(noteToFetch);
+});
 
 //...
 ```
@@ -7534,60 +7301,55 @@ Additionally, we can write the test surrounding deleting a specific note as foll
 ```js
 //...
 
-test('a specific note can be deleted', async () => {
-  const unalteredNotes = await helper.dbNotes()
-  const noteToDelete = unalteredNotes[0]
+test("a specific note can be deleted", async () => {
+  const unalteredNotes = await helper.dbNotes();
+  const noteToDelete = unalteredNotes[0];
 
-  await api
-    .delete(`/api/notes/${noteToDelete.id}`)
-    .expect(204)
+  await api.delete(`/api/notes/${noteToDelete.id}`).expect(204);
 
-  const alteredNotes = await helper.dbNotes()
+  const alteredNotes = await helper.dbNotes();
 
-  expect(alteredNotes.length).toBe(
-    helper.initializationNotes.length - 1
-  )
+  expect(alteredNotes.length).toBe(helper.initializationNotes.length - 1);
 
-  const contents = alteredNotes.map(r => r.content)
+  const contents = alteredNotes.map((r) => r.content);
 
-  expect(contents).not.toContain(noteToDelete.content)
-})
+  expect(contents).not.toContain(noteToDelete.content);
+});
 
 //...
 ```
 
-Here, these tests simply perform the operation and a comparison to the original state of the database (whether that be the database state being stored in a variable via a call to `dbNotes()` or via a direct comparison to the `initializationNotes` array). 
+Here, these tests simply perform the operation and a comparison to the original state of the database (whether that be the database state being stored in a variable via a call to `dbNotes()` or via a direct comparison to the `initializationNotes` array).
 
 Now, we can go ahead and refactor the routes involving deleting and fetching a specific note as follows:
 
 ```js
 //...
 
-notesRouter.delete('/:id', async (req, res, next) => {
+notesRouter.delete("/:id", async (req, res, next) => {
   try {
-    await Note.findByIdAndDelete(req.params.id)
-    res.status(204).end()
+    await Note.findByIdAndDelete(req.params.id);
+    res.status(204).end();
   } catch (exception) {
-    next(exception)
+    next(exception);
   }
-})
+});
 
-notesRouter.get('/:id', async (req, res, next) => {
+notesRouter.get("/:id", async (req, res, next) => {
   try {
-    const note = await Note.findById(req.params.id)
+    const note = await Note.findById(req.params.id);
 
     if (note) {
-      res.json(note.toJSON())
+      res.json(note.toJSON());
     } else {
-      res.status(404).end()
+      res.status(404).end();
     }
   } catch (exception) {
-    next(exception)
+    next(exception);
   }
-})
+});
 
 //...
-
 ```
 
 Here, the benefits of `async`/`await` is not fully realized. When dealing with multiple asynchronous function calls, these operators come in very handy. However, in situations like this, `async`/`await` does not offer a clear benefit.
@@ -7601,7 +7363,7 @@ We can update our script as follows, adding `cross-env rm -rf build &&` to the b
 **/Backend/package.json**
 
 ```json
-//...  
+//...
 "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "watch": "cross-env NODE_ENV=development nodemon index.js",
@@ -7640,16 +7402,16 @@ We can take advantage of the `forEach` higher-order function in order to store o
 //...
 
 beforeEach(async () => {
-  await Note.deleteMany({})
-  console.log('Deleted all notes!')
+  await Note.deleteMany({});
+  console.log("Deleted all notes!");
 
   helper.initializationNotes.forEach(async (note) => {
-    let newNote = new Note(note)
-    await newNote.save()
-    console.log('Saved the new note!')
-  })
-  console.log('Done with all of the operations!')
-})
+    let newNote = new Note(note);
+    await newNote.save();
+    console.log("Saved the new note!");
+  });
+  console.log("Done with all of the operations!");
+});
 
 //...
 ```
@@ -7674,13 +7436,12 @@ We can fix this by using `Promise.all()` method. This method returns a promise t
 //...
 
 beforeEach(async () => {
-  await Note.deleteMany({})
+  await Note.deleteMany({});
 
-  const allNotes = helper.initializationNotes
-    .map(note => new Note(note))
-  const promiseArray = allNotes.map(note => note.save())
-  await Promise.all(promiseArray)
-})
+  const allNotes = helper.initializationNotes.map((note) => new Note(note));
+  const promiseArray = allNotes.map((note) => note.save());
+  await Promise.all(promiseArray);
+});
 
 //...
 ```
@@ -7693,13 +7454,13 @@ Now, as these promises are executed within the function provided to `allNotes.ma
 
 ```js
 beforeEach(async () => {
-  await Note.deleteMany({})
+  await Note.deleteMany({});
 
   for (let note of helper.initializationNotes) {
-    let newNote = new Note(note)
-    await newNote.save()
+    let newNote = new Note(note);
+    await newNote.save();
   }
-})
+});
 ```
 
 Here, for each note in our `initializationNotes` we just create a new note, save it, and await that promise before continuing to the next iteration.
@@ -7707,166 +7468,143 @@ Here, for each note in our `initializationNotes` we just create a new note, save
 Finally, with this handled, we can go over tests for invalid IDs and non-existent as follows:
 
 ```js
-test('fails with status code 404 if ID does not exist', async () => {
-  const validNonexistentId = await helper.deletedNoteId()
+test("fails with status code 404 if ID does not exist", async () => {
+  const validNonexistentId = await helper.deletedNoteId();
 
-  await api
-    .get(`/api/notes/${validNonexistentId}`)
-    .expect(404)
-})
+  await api.get(`/api/notes/${validNonexistentId}`).expect(404);
+});
 
-test('fails with statuscode 400 if id is invalid', async () => {
-  const invalidId = 'thisisaninvalidid'
+test("fails with statuscode 400 if id is invalid", async () => {
+  const invalidId = "thisisaninvalidid";
 
-  await api
-    .get(`/api/notes/${invalidId}`)
-    .expect(400)
-})
+  await api.get(`/api/notes/${invalidId}`).expect(400);
+});
 ```
 
 With this, our test coverage covers most major functionality of our application and some edge cases. The following is the entire test file with the culmination of all of our tests that we've written:
 
 ```js
-const mongoose = require('mongoose')
-const supertest = require('supertest')
-const app = require('../app')
-const api = supertest(app)
+const mongoose = require("mongoose");
+const supertest = require("supertest");
+const app = require("../app");
+const api = supertest(app);
 
-const Note = require('../models/note')
+const Note = require("../models/note");
 
-const helper = require('./test_helper')
+const helper = require("./test_helper");
 
 beforeEach(async () => {
-  await Note.deleteMany({})
+  await Note.deleteMany({});
 
-  const allNotes = helper.initializationNotes
-    .map(note => new Note(note))
-  const promiseArray = allNotes.map(note => note.save())
-  await Promise.all(promiseArray)
-})
+  const allNotes = helper.initializationNotes.map((note) => new Note(note));
+  const promiseArray = allNotes.map((note) => note.save());
+  await Promise.all(promiseArray);
+});
 
-test('notes returned as json', async () => {
+test("notes returned as json", async () => {
   await api
-    .get('/api/notes')
+    .get("/api/notes")
     .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
+    .expect("Content-Type", /application\/json/);
+});
 
-test('there are three notes', async () => {
-  const response = await api.get('/api/notes')
+test("there are three notes", async () => {
+  const response = await api.get("/api/notes");
 
-  expect(response.body.length).toBe(helper.initializationNotes.length)
-})
+  expect(response.body.length).toBe(helper.initializationNotes.length);
+});
 
-test('the first note is about it being the first note', async () => {
-  const response = await api.get('/api/notes')
+test("the first note is about it being the first note", async () => {
+  const response = await api.get("/api/notes");
 
-  const allContents = response.body.map(n => n.content)
+  const allContents = response.body.map((n) => n.content);
 
-  expect(allContents).toContain('This is the first note!')
-})
+  expect(allContents).toContain("This is the first note!");
+});
 
-test('a valid note can be added ', async () => {
+test("a valid note can be added ", async () => {
   const newNote = {
-    content: 'This is a new note!',
+    content: "This is a new note!",
     flagged: true,
-  }
+  };
 
   await api
-    .post('/api/notes')
+    .post("/api/notes")
     .send(newNote)
     .expect(201)
-    .expect('Content-Type', /application\/json/)
+    .expect("Content-Type", /application\/json/);
 
-  const allNotes = await helper.dbNotes()
+  const allNotes = await helper.dbNotes();
 
-  const contents = allNotes.map(r => r.content)
+  const contents = allNotes.map((r) => r.content);
 
-  expect(allNotes.length).toBe(helper.initializationNotes.length + 1)
-  expect(contents).toContain(
-    'This is a new note!'
-  )
-})
+  expect(allNotes.length).toBe(helper.initializationNotes.length + 1);
+  expect(contents).toContain("This is a new note!");
+});
 
-test('note without content is not saved', async () => {
+test("note without content is not saved", async () => {
   const newNote = {
-    flagged: true
-  }
+    flagged: true,
+  };
 
-  await api
-    .post('/api/notes')
-    .send(newNote)
-    .expect(400)
+  await api.post("/api/notes").send(newNote).expect(400);
 
-  const allNotes = await helper.dbNotes()
+  const allNotes = await helper.dbNotes();
 
-  expect(allNotes.length).toBe(helper.initializationNotes.length)
-})
+  expect(allNotes.length).toBe(helper.initializationNotes.length);
+});
 
-test('a specific note can be fetched', async () => {
-  const allNotes = await helper.dbNotes()
+test("a specific note can be fetched", async () => {
+  const allNotes = await helper.dbNotes();
 
-  const noteToFetch = allNotes[0]
+  const noteToFetch = allNotes[0];
 
   // Convert date value to string as the response will contain a string
-  noteToFetch.date = noteToFetch.date.toISOString()
+  noteToFetch.date = noteToFetch.date.toISOString();
 
   const fetchedNote = await api
     .get(`/api/notes/${noteToFetch.id}`)
     .expect(200)
-    .expect('Content-Type', /application\/json/)
+    .expect("Content-Type", /application\/json/);
 
-  expect(fetchedNote.body).toEqual(noteToFetch)
-})
+  expect(fetchedNote.body).toEqual(noteToFetch);
+});
 
-test('a specific note can be deleted', async () => {
-  const unalteredNotes = await helper.dbNotes()
-  const noteToDelete = unalteredNotes[0]
+test("a specific note can be deleted", async () => {
+  const unalteredNotes = await helper.dbNotes();
+  const noteToDelete = unalteredNotes[0];
 
-  await api
-    .delete(`/api/notes/${noteToDelete.id}`)
-    .expect(204)
+  await api.delete(`/api/notes/${noteToDelete.id}`).expect(204);
 
-  const alteredNotes = await helper.dbNotes()
+  const alteredNotes = await helper.dbNotes();
 
-  expect(alteredNotes.length).toBe(
-    helper.initializationNotes.length - 1
-  )
+  expect(alteredNotes.length).toBe(helper.initializationNotes.length - 1);
 
-  const contents = alteredNotes.map(r => r.content)
+  const contents = alteredNotes.map((r) => r.content);
 
-  expect(contents).not.toContain(noteToDelete.content)
-})
+  expect(contents).not.toContain(noteToDelete.content);
+});
 
-test('fails with status code 404 if ID does not exist', async () => {
-  const validNonexistentId = await helper.deletedNoteId()
+test("fails with status code 404 if ID does not exist", async () => {
+  const validNonexistentId = await helper.deletedNoteId();
 
-  await api
-    .get(`/api/notes/${validNonexistentId}`)
-    .expect(404)
-})
+  await api.get(`/api/notes/${validNonexistentId}`).expect(404);
+});
 
-test('fails with statuscode 400 if id is invalid', async () => {
-  const invalidId = 'thisisaninvalidid'
+test("fails with statuscode 400 if id is invalid", async () => {
+  const invalidId = "thisisaninvalidid";
 
-  await api
-    .get(`/api/notes/${invalidId}`)
-    .expect(400)
-})
-
+  await api.get(`/api/notes/${invalidId}`).expect(400);
+});
 
 afterAll(() => {
-  mongoose.connection.close()
-})
+  mongoose.connection.close();
+});
 ```
 
 We could improve these tests, provide additional code coverage, and improve the readability of these tests (adding describe blocks as an example), but this is a good starting point and should demonstrate how to write integration/unit tests.
 
-
-
 Web Development 4
-
-
 
 ## Authentication
 
@@ -7876,7 +7614,7 @@ To authenticate users, we first need a way to keep track of them and store user 
 
 As an overview of what we'll be doing: our database will hold information pertaining to the user's credentials and the notes that they "own". Users will only be able to modify the notes that they own (similar to how users can only manage their own posts on social media platforms).
 
-Thinking about the relationship between our user database objects and the notes, we would have a one-to-many relationship where one user has many notes. Now, you might have worked with relational databases in the past where implementing the above relationship is quite straightforward. Due to the nature of NoSQL databases (recall that the NO stands for "not only"), we are not restricted to a subset of implementations but rather are given many different ways to model this situation. One approach would be to have a collection of *notes* and a collection of *users*. There are quite a few features found in relational databases that document databases (like MongoDB) do not support to which ODMs such as Mongoose try to emulate. This statement is becoming less true over time, however, as MongoDB and other document databases add more features.
+Thinking about the relationship between our user database objects and the notes, we would have a one-to-many relationship where one user has many notes. Now, you might have worked with relational databases in the past where implementing the above relationship is quite straightforward. Due to the nature of NoSQL databases (recall that the NO stands for "not only"), we are not restricted to a subset of implementations but rather are given many different ways to model this situation. One approach would be to have a collection of _notes_ and a collection of _users_. There are quite a few features found in relational databases that document databases (like MongoDB) do not support to which ODMs such as Mongoose try to emulate. This statement is becoming less true over time, however, as MongoDB and other document databases add more features.
 
 ### Referencing Objects in Other Collections
 
@@ -7887,16 +7625,16 @@ In document databases, like we did earlier, we refer to documents via object IDs
 **Users** collection:
 
 ```js
-[  
-	{
-    username: 'josuff',
+[
+  {
+    username: "josuff",
     _id: 123456,
   },
   {
-    username: 'markus',
+    username: "markus",
     _id: 111111,
   },
-]
+];
 ```
 
 **Notes** collection:
@@ -7929,18 +7667,18 @@ Here, in a relational database, each note object would contain a **reference key
 We could also go about having the users contain an array of the IDs of all of the notes that they "own" as follows:
 
 ```js
-[  
-	{
-    username: 'josuff',
+[
+  {
+    username: "josuff",
     _id: 123456,
     notes: [225533],
   },
   {
-    username: 'markus',
+    username: "markus",
     _id: 111111,
     notes: [223266, 123456],
   },
-]
+];
 ```
 
 Here, we illustrate the one-to-many relationship with that a user can have many notes (with the IDs of these notes being stored in the `notes` property of our user).
@@ -7948,7 +7686,7 @@ Here, we illustrate the one-to-many relationship with that a user can have many 
 We can take either of the above approaches or use both if we truly needed to. The flexibility of document databases also allows us to do things such as nest the actual notes objects within the `notes` property of our user:
 
 ```js
-[  
+[
 	{
     username: 'josuff',
     _id: 123456,
@@ -7976,7 +7714,7 @@ We can take either of the above approaches or use both if we truly needed to. Th
 ]
 ```
 
-Here, our note objects do not have unique IDs given to them by the database as they "belong" to the users in the sense that they are properties of the users rather than independent objects with a relationship to a property of a user. 
+Here, our note objects do not have unique IDs given to them by the database as they "belong" to the users in the sense that they are properties of the users rather than independent objects with a relationship to a property of a user.
 
 As you can see with these various approaches, choosing the structure of a document database is not as clear as it might be with a relational database due to its flexibility. Thus, there may be times where you may have to take some time to explore different implementations without knowing which one may fit your use case the best (as you cannot fully predict the needs and requirements of your project well into the future).
 
@@ -7987,7 +7725,7 @@ Let's actually go about defining the schema for our `User` model. For the next s
 **/Backend/models/user.js**
 
 ```js
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   username: String,
@@ -7996,24 +7734,24 @@ const userSchema = new mongoose.Schema({
   notes: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Note'
-    }
+      ref: "Note",
+    },
   ],
-})
+});
 
-userSchema.set('toJSON', {
+userSchema.set("toJSON", {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
     // For security purposes, the passwordHash of the user should not be sent with the user object (even though it is not the plaintext password, it can still be decrypted)
-    delete returnedObject.passwordHash
-  }
-})
+    delete returnedObject.passwordHash;
+  },
+});
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model("User", userSchema);
 
-module.exports = User
+module.exports = User;
 ```
 
 Here, you'll notice that we specify the schema of the user object as having a `username` of type String, a `name` of type String, a `passwordHash` (hashed version of their password, we'll talk about this more later) of type String, and a `notes` array of a complex type. This `notes` array is specified to contain objects of the type `ObjectId` which simply refers to it containing `ObjectId`s of other database objects; additionally, we provide the model that these `ObjectId`s will reference to as the value of the `ref` parameter.
@@ -8023,34 +7761,35 @@ Now, motivated by the desire to have the ability to lookup the user that owns a 
 **/Backend/models/note.js**
 
 ```js
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const noteSchema = new mongoose.Schema({
   content: {
     type: String,
     minlength: 1,
-    required: true
+    required: true,
   },
   date: {
     type: Date,
-    required: true
+    required: true,
   },
   flagged: Boolean,
-  user: { // Reference to the user that "owns" the note
+  user: {
+    // Reference to the user that "owns" the note
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  }
-})
+    ref: "User",
+  },
+});
 
-noteSchema.set('toJSON', {
+noteSchema.set("toJSON", {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
 
-module.exports = mongoose.model('Note', noteSchema)
+module.exports = mongoose.model("Note", noteSchema);
 ```
 
 In this approach, the user model can reference the notes that "it" owns, and the notes can reference the user who "owns" them. This is in contrast to conventions of most relational databases, but is possible and acceptable with document databases.
@@ -8059,7 +7798,7 @@ In this approach, the user model can reference the notes that "it" owns, and the
 
 Now, let's actually take advantage of our `User` model by creating a controller that will actually create our users.
 
-Recall the mention of `passwordHash` from earlier and how it refers to a hashed version of a user's password. The value of this property will simply be assigned the output of a *one-way hash function* (essentially means that it will be close to impossible to derive the original text from this hashed string). We store this value as it is not proper with regard to security practices to store plaintext passwords. The topic of encryption and hashing as a subset of cryptography are very interesting topics and deserve a read if you are interested in the how and why with regard to how computers take advantage of cryptography and why it is used.
+Recall the mention of `passwordHash` from earlier and how it refers to a hashed version of a user's password. The value of this property will simply be assigned the output of a _one-way hash function_ (essentially means that it will be close to impossible to derive the original text from this hashed string). We store this value as it is not proper with regard to security practices to store plaintext passwords. The topic of encryption and hashing as a subset of cryptography are very interesting topics and deserve a read if you are interested in the how and why with regard to how computers take advantage of cryptography and why it is used.
 
 As with most things in the JavaScript ecosystem, we do not have to write our own functions (especially so in this case as we do not have the acumen nor the resources to maintain all of these functions) to generate our password hashes. We can utilize the `bcrypt` package for doing exactly this:
 
@@ -8067,37 +7806,37 @@ As with most things in the JavaScript ecosystem, we do not have to write our own
 npm install bcrypt
 ```
 
- As we are *creating* a new resource when we create a new user, we'll be making and handling POST requests when creating these users as per RESTful conventions. Let's create the file **users.js** within our **/controllers** directory.
+As we are _creating_ a new resource when we create a new user, we'll be making and handling POST requests when creating these users as per RESTful conventions. Let's create the file **users.js** within our **/controllers** directory.
 
 **/Backend/controllers/users.js**
 
 ```js
-const bcrypt = require('bcrypt')
-const usersRouter = require('express').Router()
-const User = require('../models/user')
+const bcrypt = require("bcrypt");
+const usersRouter = require("express").Router();
+const User = require("../models/user");
 
-usersRouter.post('/', async (req, res, next) => {
+usersRouter.post("/", async (req, res, next) => {
   try {
-    const body = req.body
+    const body = req.body;
 
-    const saltRounds = 10
-    const passwordHash = await bcrypt.hash(body.password, saltRounds)
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(body.password, saltRounds);
 
     const user = new User({
       username: body.username,
       name: body.name,
       passwordHash,
-    })
+    });
 
-    const savedUser = await user.save()
+    const savedUser = await user.save();
 
-    res.json(savedUser)
+    res.json(savedUser);
   } catch (exception) {
-    next(exception)
+    next(exception);
   }
-})
+});
 
-module.exports = usersRouter
+module.exports = usersRouter;
 ```
 
 Now, let's just make use of our new controller by binding the exported router to our application through a call to `app.use()`.
@@ -8106,11 +7845,11 @@ Now, let's just make use of our new controller by binding the exported router to
 ```js
 //...
 
-const usersRouter = require('./controllers/users')
+const usersRouter = require("./controllers/users");
 
 //...
 
-app.use('/api/users', usersRouter)
+app.use("/api/users", usersRouter);
 
 //...
 ```
@@ -8119,7 +7858,7 @@ In the above controller, we never store the plaintext password that was sent ove
 
 You'll notice our call to `bcrypt.hash()` and its parameter `saltRounds`. We specified the value for `saltRounds` earlier in the file as 10. We won't go into too much detail regarding the technical bits of hashing as that would far out-scope the content of this book (while interesting and potentially useful to know, knowledge of the workings of hashing is not required).
 
-Basically, you might have heard of hash functions like MD5, SHA1, SHA2, etc., these are all *general purpose hash functions* that place an emphasis on hashing large amounts of data in a fast manner. This fast manner makes them almost useless for passwords as a modern server (especially one that is GPU accelerated) can calculate the hash extremely fast, making it possible for someone to try every single password combination (given certain constraints). `bcrypt` (based on the Blowfish block cipher cryptomatic algorithm) solves this by introducing a work factor to which we can adjust. `bcrypt` does not simply just hash passwords (as the exact same passwords would have the exact same hash going through the algorithm with the same work factor), but it instead passes in a *salt* (a randomized string) along with the password to hash, so that every single hash is truly unique, giving us an extra layer of security and preventing the use of rainbow tables (described below).
+Basically, you might have heard of hash functions like MD5, SHA1, SHA2, etc., these are all _general purpose hash functions_ that place an emphasis on hashing large amounts of data in a fast manner. This fast manner makes them almost useless for passwords as a modern server (especially one that is GPU accelerated) can calculate the hash extremely fast, making it possible for someone to try every single password combination (given certain constraints). `bcrypt` (based on the Blowfish block cipher cryptomatic algorithm) solves this by introducing a work factor to which we can adjust. `bcrypt` does not simply just hash passwords (as the exact same passwords would have the exact same hash going through the algorithm with the same work factor), but it instead passes in a _salt_ (a randomized string) along with the password to hash, so that every single hash is truly unique, giving us an extra layer of security and preventing the use of rainbow tables (described below).
 
 This random salt is controlled by the adjustable amount of salt rounds that we pass into the function and can compensate for the drastic increase of computing power (that makes it easier for computers to calculate hashes) by simply increasing the work factor. This makes it extremely resistant to hacks, especially involving password cracking using something called a rainbow table (databases of pre-calculated hashes for common passwords) as the hash output differs with work factor and between instances due to the randomly generated salts.
 
@@ -8142,7 +7881,7 @@ Running this on my personal computer (MacBook Pro, 2.3 GHz Intel Core i5 8259U, 
 
 ![image-20191210115205256](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191210115205256.png)
 
-Here, you can see that we go from 71 milliseconds for 10 salt rounds to over 67 *seconds* for 20 salt rounds. This increase in time resembles a exponential relationship which is a good match to counteract the exponential increase of computing power that we experience (for the most part, as the increase in computing power does not rigidly follow Moore's Law as of about a decade).
+Here, you can see that we go from 71 milliseconds for 10 salt rounds to over 67 _seconds_ for 20 salt rounds. This increase in time resembles a exponential relationship which is a good match to counteract the exponential increase of computing power that we experience (for the most part, as the increase in computing power does not rigidly follow Moore's Law as of about a decade).
 
 Finally, it is important to realize that, even with relatively high work values, it is still feasible that a single password could be cracked with enough computing powers. Thus, in the event of a breach where password hashes are released, you should take care to have users reset their passwords (thus producing another hash).
 
@@ -8153,226 +7892,215 @@ Let's write a few initial tests for our new endpoints. We'll add these tests to 
 **/Backend/tests/notes_api.test.js**
 
 ```js
-const mongoose = require('mongoose')
-const supertest = require('supertest')
-const app = require('../app')
-const api = supertest(app)
+const mongoose = require("mongoose");
+const supertest = require("supertest");
+const app = require("../app");
+const api = supertest(app);
 
-const Note = require('../models/note')
-const User = require('../models/user')
+const Note = require("../models/note");
+const User = require("../models/user");
 
-const helper = require('./test_helper')
+const helper = require("./test_helper");
 
-describe('when there are a few initial notes saved to the db', () => {
+describe("when there are a few initial notes saved to the db", () => {
   beforeEach(async () => {
-    await Note.deleteMany({})
+    await Note.deleteMany({});
 
-    const allNotes = helper.initializationNotes
-      .map(note => new Note(note))
-    const promiseArray = allNotes.map(note => note.save())
-    await Promise.all(promiseArray)
-  })
+    const allNotes = helper.initializationNotes.map((note) => new Note(note));
+    const promiseArray = allNotes.map((note) => note.save());
+    await Promise.all(promiseArray);
+  });
 
-  test('notes returned as json', async () => {
+  test("notes returned as json", async () => {
     await api
-      .get('/api/notes')
+      .get("/api/notes")
       .expect(200)
-      .expect('Content-Type', /application\/json/)
-  })
+      .expect("Content-Type", /application\/json/);
+  });
 
-  test('there are three notes', async () => {
-    const response = await api.get('/api/notes')
+  test("there are three notes", async () => {
+    const response = await api.get("/api/notes");
 
-    expect(response.body.length).toBe(helper.initializationNotes.length)
-  })
+    expect(response.body.length).toBe(helper.initializationNotes.length);
+  });
 
-  test('the first note is about it being the first note', async () => {
-    const response = await api.get('/api/notes')
+  test("the first note is about it being the first note", async () => {
+    const response = await api.get("/api/notes");
 
-    const allContents = response.body.map(n => n.content)
+    const allContents = response.body.map((n) => n.content);
 
-    expect(allContents).toContain('This is the first note!')
-  })
+    expect(allContents).toContain("This is the first note!");
+  });
 
-  test('a valid note can be added ', async () => {
+  test("a valid note can be added ", async () => {
     const newNote = {
-      content: 'This is a new note!',
+      content: "This is a new note!",
       flagged: true,
-    }
+    };
 
     await api
-      .post('/api/notes')
+      .post("/api/notes")
       .send(newNote)
       .expect(201)
-      .expect('Content-Type', /application\/json/)
+      .expect("Content-Type", /application\/json/);
 
-    const allNotes = await helper.dbNotes()
+    const allNotes = await helper.dbNotes();
 
-    const contents = allNotes.map(r => r.content)
+    const contents = allNotes.map((r) => r.content);
 
-    expect(allNotes.length).toBe(helper.initializationNotes.length + 1)
-    expect(contents).toContain(
-      'This is a new note!'
-    )
-  })
+    expect(allNotes.length).toBe(helper.initializationNotes.length + 1);
+    expect(contents).toContain("This is a new note!");
+  });
 
-  test('note without content is not saved', async () => {
+  test("note without content is not saved", async () => {
     const newNote = {
-      flagged: true
-    }
+      flagged: true,
+    };
 
-    await api
-      .post('/api/notes')
-      .send(newNote)
-      .expect(400)
+    await api.post("/api/notes").send(newNote).expect(400);
 
-    const allNotes = await helper.dbNotes()
+    const allNotes = await helper.dbNotes();
 
-    expect(allNotes.length).toBe(helper.initializationNotes.length)
-  })
+    expect(allNotes.length).toBe(helper.initializationNotes.length);
+  });
 
-  test('a specific note can be fetched', async () => {
-    const allNotes = await helper.dbNotes()
+  test("a specific note can be fetched", async () => {
+    const allNotes = await helper.dbNotes();
 
-    const noteToFetch = allNotes[0]
+    const noteToFetch = allNotes[0];
 
     // Convert date value to string as the response will contain a string
-    noteToFetch.date = noteToFetch.date.toISOString()
+    noteToFetch.date = noteToFetch.date.toISOString();
 
     const fetchedNote = await api
       .get(`/api/notes/${noteToFetch.id}`)
       .expect(200)
-      .expect('Content-Type', /application\/json/)
+      .expect("Content-Type", /application\/json/);
 
-    expect(fetchedNote.body).toEqual(noteToFetch)
-  })
+    expect(fetchedNote.body).toEqual(noteToFetch);
+  });
 
-  test('a specific note can be deleted', async () => {
-    const unalteredNotes = await helper.dbNotes()
-    const noteToDelete = unalteredNotes[0]
+  test("a specific note can be deleted", async () => {
+    const unalteredNotes = await helper.dbNotes();
+    const noteToDelete = unalteredNotes[0];
 
-    await api
-      .delete(`/api/notes/${noteToDelete.id}`)
-      .expect(204)
+    await api.delete(`/api/notes/${noteToDelete.id}`).expect(204);
 
-    const alteredNotes = await helper.dbNotes()
+    const alteredNotes = await helper.dbNotes();
 
-    expect(alteredNotes.length).toBe(
-      helper.initializationNotes.length - 1
-    )
+    expect(alteredNotes.length).toBe(helper.initializationNotes.length - 1);
 
-    const contents = alteredNotes.map(r => r.content)
+    const contents = alteredNotes.map((r) => r.content);
 
-    expect(contents).not.toContain(noteToDelete.content)
-  })
+    expect(contents).not.toContain(noteToDelete.content);
+  });
 
-  test('fails with status code 404 if ID does not exist', async () => {
-    const validNonexistentId = await helper.deletedNoteId()
+  test("fails with status code 404 if ID does not exist", async () => {
+    const validNonexistentId = await helper.deletedNoteId();
 
-    await api
-      .get(`/api/notes/${validNonexistentId}`)
-      .expect(404)
-  })
+    await api.get(`/api/notes/${validNonexistentId}`).expect(404);
+  });
 
-  test('fails with statuscode 400 if id is invalid', async () => {
-    const invalidId = 'thisisaninvalidid'
+  test("fails with statuscode 400 if id is invalid", async () => {
+    const invalidId = "thisisaninvalidid";
 
-    await api
-      .get(`/api/notes/${invalidId}`)
-      .expect(400)
-  })
-})
+    await api.get(`/api/notes/${invalidId}`).expect(400);
+  });
+});
 
-describe('when there is one initial user in the db', () => {
+describe("when there is one initial user in the db", () => {
   beforeEach(async () => {
-    await User.deleteMany({})
-    const user = new User({ username: 'root', password: 'password' })
-    await user.save()
-  })
+    await User.deleteMany({});
+    const user = new User({ username: "root", password: "password" });
+    await user.save();
+  });
 
-  test('creation of a new user succeeds', async () => {
-    const initialUsersState = await helper.usersInDb()
+  test("creation of a new user succeeds", async () => {
+    const initialUsersState = await helper.usersInDb();
 
     const newUser = {
-      username: 'josuff',
-      name: 'Joseph Semrai',
-      password: 'thisisapassword123',
-    }
+      username: "josuff",
+      name: "Joseph Semrai",
+      password: "thisisapassword123",
+    };
 
     await api
-      .post('/api/users')
+      .post("/api/users")
       .send(newUser)
       .expect(200)
-      .expect('Content-Type', /application\/json/)
+      .expect("Content-Type", /application\/json/);
 
-    const finalUsersState = await helper.dbUsers()
-    expect(finalUsersState.length).toBe(initialUsersState.length + 1)
+    const finalUsersState = await helper.dbUsers();
+    expect(finalUsersState.length).toBe(initialUsersState.length + 1);
 
-    const usernames = finalUsersState.map(u => u.username)
-    expect(usernames).toContain(newUser.username)
-  })
-})
+    const usernames = finalUsersState.map((u) => u.username);
+    expect(usernames).toContain(newUser.username);
+  });
+});
 
 afterAll(() => {
-  mongoose.connection.close()
-})
+  mongoose.connection.close();
+});
 ```
 
 The above code represents our entire test file. It is quite a bit of code, so let's step through it and provide an overview of what's going on and what has changed.
 
 Firstly, we wrapped our original tests pertaining to our notes routes in a `describe` block so that we could register a different `beforeEach()` function. This allows us to set up our initial database state for our notes test and users test where we are expecting different initial states. Then, we specified our 'creation of a new user succeeds' test by comparing our user collection's state after we have created a new user to the original state when the test started. We do this by checking to see if the collection is one greater in length than the starting state and if the collection contains a username matching the user that we have just created.
 
-You'll also notice that we had called a  `dbUsers()` helper function. We elected to make this helper function as we would likely need to fetch all of the users in multiple cases and tests. The function is as follows:
+You'll also notice that we had called a `dbUsers()` helper function. We elected to make this helper function as we would likely need to fetch all of the users in multiple cases and tests. The function is as follows:
 
 **/Backend/tests/test_helper.js**
 
 ```js
-const Note = require('../models/note')
-const User = require('../models/user')
+const Note = require("../models/note");
+const User = require("../models/user");
 
 const initializationNotes = [
   {
-    content: 'This is the first note!',
+    content: "This is the first note!",
     date: new Date(),
     flagged: true,
   },
   {
-    content: 'This is a note that happens to be the second note.',
+    content: "This is a note that happens to be the second note.",
     date: new Date(),
     flagged: false,
   },
   {
-    content: 'This is the third note.',
+    content: "This is the third note.",
     date: new Date(),
     flagged: true,
-  }
-]
+  },
+];
 
 const deletedNoteId = async () => {
   const note = new Note({
-    content: 'This note was created as part of a test and will be deleted',
-    date: new Date()
-  })
+    content: "This note was created as part of a test and will be deleted",
+    date: new Date(),
+  });
 
-  await note.save()
-  await note.remove()
+  await note.save();
+  await note.remove();
 
-  return note._id.toString()
-}
+  return note._id.toString();
+};
 
 const dbNotes = async () => {
-  const notes = await Note.find({})
-  return notes.map(note => note.toJSON())
-}
+  const notes = await Note.find({});
+  return notes.map((note) => note.toJSON());
+};
 
 const dbUsers = async () => {
-  const users = await User.find({})
-  return users.map(u => u.toJSON())
-}
+  const users = await User.find({});
+  return users.map((u) => u.toJSON());
+};
 
 module.exports = {
-  initializationNotes, deletedNoteId, dbNotes, dbUsers
-}
+  initializationNotes,
+  deletedNoteId,
+  dbNotes,
+  dbUsers,
+};
 ```
 
 Now, what would happen if we wrote a test testing our ability to create a user with an existing username?
@@ -8382,36 +8110,35 @@ Now, what would happen if we wrote a test testing our ability to create a user w
 ```js
 //...
 
-describe('when there is one initial user in the db', () => {
-  
+describe("when there is one initial user in the db", () => {
   //...
-  
-  test('user creation fails with statuscode and message if username taken', async () => {
-    const initialUsersState = await helper.dbUsers()
+
+  test("user creation fails with statuscode and message if username taken", async () => {
+    const initialUsersState = await helper.dbUsers();
 
     const newUser = {
-      username: 'root',
-      name: 'some other person',
-      password: 'anotherexamplepassword',
-    }
+      username: "root",
+      name: "some other person",
+      password: "anotherexamplepassword",
+    };
 
     const result = await api
-      .post('/api/users')
+      .post("/api/users")
       .send(newUser)
       .expect(400)
-      .expect('Content-Type', /application\/json/)
+      .expect("Content-Type", /application\/json/);
 
-    expect(result.body.error).toContain('`username` taken')
+    expect(result.body.error).toContain("`username` taken");
 
-    const finalUsersState = await helper.dbUsers()
-    expect(finalUsersState.length).toBe(initialUsersState.length)
-  })
-})
+    const finalUsersState = await helper.dbUsers();
+    expect(finalUsersState.length).toBe(initialUsersState.length);
+  });
+});
 ```
 
 Here, our test expects that we'll receive an error message and a `400` status code response if we create a new user with a taken username. This test will not pass as we have not written the actual logic behind checking if a username is taken in our controller.
 
-This practice of writing tests which defines the requirements of our functionality before writing the code for the functionality is described as *test-driven development*. In test-driven development, we turn our requirements into specific test cases and then improve our code so that our tests pass.
+This practice of writing tests which defines the requirements of our functionality before writing the code for the functionality is described as _test-driven development_. In test-driven development, we turn our requirements into specific test cases and then improve our code so that our tests pass.
 
 ### Unique Validation
 
@@ -8428,38 +8155,38 @@ We can now add this validator to our `user` model.
 **/Backend/models/user.js**
 
 ```js
-const mongoose = require('mongoose')
-const uniqueValidator = require('mongoose-unique-validator')
+const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 
 const userSchema = new mongoose.Schema({
-  username: { 
+  username: {
     type: String,
-    unique: true
+    unique: true,
   },
   name: String,
   passwordHash: String,
   notes: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Note'
-    }
+      ref: "Note",
+    },
   ],
-})
+});
 
-userSchema.set('toJSON', {
+userSchema.set("toJSON", {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-    delete returnedObject.passwordHash
-  }
-})
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+    delete returnedObject.passwordHash;
+  },
+});
 
-userSchema.plugin(uniqueValidator)
+userSchema.plugin(uniqueValidator);
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model("User", userSchema);
 
-module.exports = User
+module.exports = User;
 ```
 
 Here, you'll see how we set the `username` property with an object that sets the type of the property to `String` and makes use of the `unique` validator that is given to us by binding the `uniqueValidator` module as a plugin to our schema.
@@ -8471,14 +8198,14 @@ Finally, we can write a GET route for our users controller so that we can see wh
 ```js
 //...
 
-usersRouter.get('/', async (req, res, next) => {
+usersRouter.get("/", async (req, res, next) => {
   try {
-    const users = User.find({})
-    res.json(users.map(u => u.toJSON()))
+    const users = User.find({});
+    res.json(users.map((u) => u.toJSON()));
   } catch (exception) {
-    next(exception)
+    next(exception);
   }
-})
+});
 
 //...
 ```
@@ -8509,31 +8236,31 @@ We now have to figure out how to build the relationship between the user and its
 ```js
 //...
 
-const User = require('../models/user')
+const User = require("../models/user");
 
 //...
 
-notesRouter.post('/', async (req, res, next) => {
-  const body = req.body
+notesRouter.post("/", async (req, res, next) => {
+  const body = req.body;
 
-  const user = User.findById(body.userId)
+  const user = User.findById(body.userId);
 
   const newNote = new Note({
     content: body.content,
     flagged: body.flagged || false,
     date: new Date(),
-    user: user._id
-  })
+    user: user._id,
+  });
 
   try {
-    const savedNote = await newNote.save()
-    user.notes = user.notes.concat(savedNote._id) // Adds the ID of the note we have just saved to the user's notes
-    await user.save()
-    res.status(201).json(savedNote.toJSON())
+    const savedNote = await newNote.save();
+    user.notes = user.notes.concat(savedNote._id); // Adds the ID of the note we have just saved to the user's notes
+    await user.save();
+    res.status(201).json(savedNote.toJSON());
   } catch (exception) {
-    next(exception)
+    next(exception);
   }
-})
+});
 
 //...
 ```
@@ -8559,7 +8286,7 @@ We manually inserted the userId given to us in the respond that we received from
 
 ![image-20191211164956957](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191211164956957.png)
 
-Upon sending the request to create the note, we receive the following response: 
+Upon sending the request to create the note, we receive the following response:
 
 ![image-20191211165729249](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191211165729249.png)
 
@@ -8579,7 +8306,7 @@ Now, to achieve the final iteration of data structure that we discussed earlier,
 
 In a relational database, we would be able to use a SQL Join statement (used to combine data or rows from two or more tables based on a common field where the common field would be our note ID). While MongoDB in versions >= 3.2 has the `$lookup` aggregation operator which is quite similar to a left-outer join, Mongoose gives us access to `populate()` which lets us reference documents from other collections.
 
-Now, one downside to this is that Mongoose accomplishes this join through multiple queries. In relational databases, join queries are *transactional*, ensuring that the state of the database cannot change while the query is executing. This means that we cannot guarantee that the state of the collections remains the same during our 'join' query, leading to some edge cases where the data that we receive may not match the true state of our database.
+Now, one downside to this is that Mongoose accomplishes this join through multiple queries. In relational databases, join queries are _transactional_, ensuring that the state of the database cannot change while the query is executing. This means that we cannot guarantee that the state of the collections remains the same during our 'join' query, leading to some edge cases where the data that we receive may not match the true state of our database.
 
 With this, let's actually perform the join using the `populate()` method:
 
@@ -8588,12 +8315,11 @@ With this, let's actually perform the join using the `populate()` method:
 ```js
 //...
 
-usersRouter.get('/', async (req, res) => {
-  const users = await User
-    .find({}).populate('notes')
+usersRouter.get("/", async (req, res) => {
+  const users = await User.find({}).populate("notes");
 
-  res.json(users.map(u => u.toJSON()))
-})
+  res.json(users.map((u) => u.toJSON()));
+});
 
 //...
 ```
@@ -8606,17 +8332,17 @@ Mongoose knows that we are referring to the `notes` collection as we had provide
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    unique: true
+    unique: true,
   },
   name: String,
   passwordHash: String,
   notes: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Note' // We provide information as to what collection this ObjectId will refer to here
-    }
+      ref: "Note", // We provide information as to what collection this ObjectId will refer to here
+    },
   ],
-})
+});
 ```
 
 Now, upon visiting this endpoint in our browser, we can see the actual note documents from within our user object:
@@ -8625,17 +8351,20 @@ Now, upon visiting this endpoint in our browser, we can see the actual note docu
 
 Now, let's improve on this implementation. We do not need the `user` field in the note object(s) as we have the relationship visible to us as the notes are now embedded in the user document. Let's filter out this field by specifying the fields that we want to include in an object that is used as the second parameter:
 
- **/Backend/controllers/users.js**
+**/Backend/controllers/users.js**
 
 ```js
 //...
 
-usersRouter.get('/', async (req, res) => {
-  const users = await User
-    .find({}).populate('notes', { content: 1, flagged: 1, date: 1 })
+usersRouter.get("/", async (req, res) => {
+  const users = await User.find({}).populate("notes", {
+    content: 1,
+    flagged: 1,
+    date: 1,
+  });
 
-  res.json(users.map(u => u.toJSON()))
-})
+  res.json(users.map((u) => u.toJSON()));
+});
 
 //...
 ```
@@ -8649,12 +8378,11 @@ Let's apply these steps to our root notes endpoint:
 ```js
 //...
 
-notesRouter.get('/', async (req, res) => {
-  const notes = await Note
-    .find({}).populate('user', { username: 1, name: 1 })
+notesRouter.get("/", async (req, res) => {
+  const notes = await Note.find({}).populate("user", { username: 1, name: 1 });
 
-  res.json(notes.map(note => note.toJSON()))
-})
+  res.json(notes.map((note) => note.toJSON()));
+});
 
 //...
 ```
@@ -8669,7 +8397,7 @@ Some of the content (the content that was not filtered out) is now included unde
 
 Now, you might be wondering, how do we know which user is actually using our app and submitting the notes? Previously, we had just been manually inserting in the desired ID, but we need to add a way for users to log in to our application and for our application to know that this given user is currently signed in from its requests.
 
-With this, we will add *token-based authentication* to our application. Tokens are one of the best ways to handle authentication for multiple users as it is easy to implement across various platforms, allows for stateless and scalable servers, extra security, and much more.
+With this, we will add _token-based authentication_ to our application. Tokens are one of the best ways to handle authentication for multiple users as it is easy to implement across various platforms, allows for stateless and scalable servers, extra security, and much more.
 
 As the HTTP protocol is stateless, even after we authenticate a user, our backend would not know who the user is for every subsequent request unless we tell it so via the request. With this, we will expand upon this concept and create a token that will be passed to the client to which the client can use in every one of its requests.
 
@@ -8682,7 +8410,7 @@ The process of token-based authentication generally follows this sequence:
 5. Client stores the token to be used with its requests.
 6. **Subsequent requests to the server carries the token as a HTTP header** (the server will now respond to sensitive requests if this token is valid)
 
-Here, nothing regarding a user's session state or records of the user's authentication is stored on our server which is a major benefit of token-based authentication. With what is called *server-based authentication*, the server would save user info in a session variable to which the client and server have to store information that is consistently compared for every request. This increases overhead with regard to having to create records of authentications, needing a designated area of session memory for users, having to account for CORS, and having to protect against CSRF (to a greater extent).
+Here, nothing regarding a user's session state or records of the user's authentication is stored on our server which is a major benefit of token-based authentication. With what is called _server-based authentication_, the server would save user info in a session variable to which the client and server have to store information that is consistently compared for every request. This increases overhead with regard to having to create records of authentications, needing a designated area of session memory for users, having to account for CORS, and having to protect against CSRF (to a greater extent).
 
 Let's apply the above logic to our application to see what we would have to do:
 
@@ -8707,39 +8435,38 @@ Next, let's create a file in our **/controllers** directory that handles our log
 **/Backend/controllers/login.js**
 
 ```js
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const loginRouter = require('express').Router()
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const loginRouter = require("express").Router();
 
-const User = require('../models/user')
+const User = require("../models/user");
 
-loginRouter.post('/', async (req, res) => {
-  const body = req.body
+loginRouter.post("/", async (req, res) => {
+  const body = req.body;
 
-  const user = await User.findOne({ username: body.username })
-  const passwordCorrect = user === null // Checks if there is actually a user with the given username
-    ? false
-    : await bcrypt.compare(body.password, user.passwordHash)
+  const user = await User.findOne({ username: body.username });
+  const passwordCorrect =
+    user === null // Checks if there is actually a user with the given username
+      ? false
+      : await bcrypt.compare(body.password, user.passwordHash);
 
   if (!user || !passwordCorrect) {
     return res.status(401).json({
-      error: 'Invalid username or password'
-    })
+      error: "Invalid username or password",
+    });
   }
 
   const userForToken = {
     username: user.username,
     id: user._id,
-  }
+  };
 
-  const token = jwt.sign(userForToken, process.env.SECRET)
+  const token = jwt.sign(userForToken, process.env.SECRET);
 
-  res
-    .status(200)
-    .send({ token, username: user.username, name: user.name })
-})
+  res.status(200).send({ token, username: user.username, name: user.name });
+});
 
-module.exports = loginRouter
+module.exports = loginRouter;
 ```
 
 Here, you can see how we attempt to find a user whose username matches the username that we were given in the body of the request. Then, we check if the `user` constant actually contains an object (indicating a successful find). If the `user` actually exists, then we check the password against the hashed password using the `bcrypt.compare()` method (how `bcrypt` actually goes about comparing the password to the hashed password is quite complex and would not be able to be explained in this book).
@@ -8759,11 +8486,11 @@ Let's bind our login router to our Express application by adding the following t
 ```js
 //...
 
-const loginRouter = require('./controllers/login')
+const loginRouter = require("./controllers/login");
 
 //...
 
-app.use('/api/login', loginRouter)
+app.use("/api/login", loginRouter);
 
 //...
 ```
@@ -8831,54 +8558,53 @@ Bearer exampleTokenContentsDFJ213ixbcajne12udSfhaSFsbDJfbkHBfjhahsbh
 
 Now, let's update our controller involving creating a new note to require a valid token:
 
-**/Backend/controllers/notes.js**C 
+**/Backend/controllers/notes.js**C
 
 ```js
 //...
 
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 
 //...
 
-const getTokenFrom = req => {
-  const authorization = req.get('authorization')
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7)
+const getTokenFrom = (req) => {
+  const authorization = req.get("authorization");
+  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+    return authorization.substring(7);
   }
-  return null
-}
+  return null;
+};
 
 //...
 
-notesRouter.post('/', async (req, res, next) => {
-  const body = req.body
+notesRouter.post("/", async (req, res, next) => {
+  const body = req.body;
 
-  const token = getTokenFrom(req)
+  const token = getTokenFrom(req);
 
   try {
-    const decodedToken = jwt.verify(token, process.env.SECRET)
+    const decodedToken = jwt.verify(token, process.env.SECRET);
     if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'missing or invalid token' })
+      return res.status(401).json({ error: "missing or invalid token" });
     }
 
-    const user = await User.findById(decodedToken.id)
+    const user = await User.findById(decodedToken.id);
 
     const newNote = new Note({
       content: body.content,
       flagged: body.flagged || false,
       date: new Date(),
-      user: user._id
-    })
+      user: user._id,
+    });
 
-
-    const savedNote = await newNote.save()
-    user.notes = user.notes.concat(savedNote._id) // Adds the ID of the note we have just saved to the user's notes
-    await user.save()
-    res.status(201).json(savedNote.toJSON())
+    const savedNote = await newNote.save();
+    user.notes = user.notes.concat(savedNote._id); // Adds the ID of the note we have just saved to the user's notes
+    await user.save();
+    res.status(201).json(savedNote.toJSON());
   } catch (exception) {
-    next(exception)
+    next(exception);
   }
-})
+});
 ```
 
 Here, we define a helper function, `getTokenFrom`, which is purely responsible for retrieving the token from the `Authorization` header. Within this helper function, we check if it is indeed of a `bearer` type/scheme, if it is not, we simply return `null`.
@@ -8921,20 +8647,20 @@ We do not want to leave unhandled exceptions, so we will add support for these e
 
 ```js
 const errorHandler = (err, req, res, next) => {
-  logger.error(err.message)
+  logger.error(err.message);
 
-  if (err.name === 'CastError' && err.kind === 'ObjectId') {
-    return res.status(400).send({ error: 'Incorrect format for id parameter' })
-  } else if (err.name === 'ValidationError') {
-    return res.status(400).json({ error: err.message })
-  } else if (err.name === 'JsonWebTokenError') {
-    return res.status(400).json({ error: 'Invalid token' })
+  if (err.name === "CastError" && err.kind === "ObjectId") {
+    return res.status(400).send({ error: "Incorrect format for id parameter" });
+  } else if (err.name === "ValidationError") {
+    return res.status(400).json({ error: err.message });
+  } else if (err.name === "JsonWebTokenError") {
+    return res.status(400).json({ error: "Invalid token" });
   }
 
-  logger.error(err)
+  logger.error(err);
 
-  next(err)
-}
+  next(err);
+};
 ```
 
 ### Practicality
@@ -8952,42 +8678,40 @@ Let's add a form so that we can sign in:
 **/Frontend/src/app.js**
 
 ```js
-import React, { useState, useEffect } from 'react'
-import Note from './components/Note'
-import Notification from './components/Notification'
-import Separator from './components/Separator'
+import React, { useState, useEffect } from "react";
+import Note from "./components/Note";
+import Notification from "./components/Notification";
+import Separator from "./components/Separator";
 
-import axios from 'axios'
+import axios from "axios";
 
-import noteService from './services/notes'
+import noteService from "./services/notes";
 
 const App = (props) => {
-  const [notes, setNotes] = useState([])
-  const [noteField, setNoteField] = useState(
-  	'Enter a new note here...'
-  )
-  const [showAll, setShowAll] = useState(true)
-  const [notificationMessage, setNotificationMessage] = useState()
-  const [username, setUsername] = useState('') // Add username piece to our state
-  const [password, setPassword] = useState('') // Add password piece to our state
+  const [notes, setNotes] = useState([]);
+  const [noteField, setNoteField] = useState("Enter a new note here...");
+  const [showAll, setShowAll] = useState(true);
+  const [notificationMessage, setNotificationMessage] = useState();
+  const [username, setUsername] = useState(""); // Add username piece to our state
+  const [password, setPassword] = useState(""); // Add password piece to our state
 
   //...
 
-  const handleLogin = (event) => { // Form event handler, prevents page submission upon submitting the form
-    event.preventDefault()
-    console.log('logging in:', username, password)
-  }
+  const handleLogin = (event) => {
+    // Form event handler, prevents page submission upon submitting the form
+    event.preventDefault();
+    console.log("logging in:", username, password);
+  };
 
   //...
 
   return (
     <div>
       <h1>Notes</h1>
-      
       <form onSubmit={handleLogin}>
         <div>
           Username
-            <input
+          <input
             type="text"
             value={username}
             name="Username"
@@ -8996,7 +8720,7 @@ const App = (props) => {
         </div>
         <div>
           Password
-            <input
+          <input
             type="password"
             value={password}
             name="Password"
@@ -9005,19 +8729,17 @@ const App = (props) => {
         </div>
         <button type="submit">Login</button>
       </form>
-      
-			//...
-
+      //...
     </div>
-  )
-}
+  );
+};
 
 export default App;
 ```
 
-Here, we first add two pieces of state to hold our username and password. Then, we add a form, similarly to how we added a form for submitting notes earlier. 
+Here, we first add two pieces of state to hold our username and password. Then, we add a form, similarly to how we added a form for submitting notes earlier.
 
-You'll notice that our `input` elements within our form have handlers assigned to the `onChange` events. This is so that we can update our pieces of state, `username` and `password`, to reflect the changes that the user is attempting to make in the input box. Since these `input` elements have their `value` property set to a piece of state, they are now considered *controlled components* where it takes its current value through props and depends on an external state. Thus, for the user to be able to type and make changes in the `input` element, we have to specify a handler to the `onChange` event so that we can modify the state as such:
+You'll notice that our `input` elements within our form have handlers assigned to the `onChange` events. This is so that we can update our pieces of state, `username` and `password`, to reflect the changes that the user is attempting to make in the input box. Since these `input` elements have their `value` property set to a piece of state, they are now considered _controlled components_ where it takes its current value through props and depends on an external state. Thus, for the user to be able to type and make changes in the `input` element, we have to specify a handler to the `onChange` event so that we can modify the state as such:
 
 ```js
 onChange={({ target }) => setPassword(target.value)}
@@ -9028,10 +8750,11 @@ This event handler simply gets the object that it is given and accesses the valu
 We also provided an event handler to the `onSubmit` event of our `form` element. Right now, the event handler just makes use of the `preventDefault()` method of the event in order to prevent the page from refreshing upon a submission (just like we did with the note submission form). The `handleLogin` handler also logs the `username` and `password` pieces of state upon being calld:
 
 ```js
-const handleLogin = (event) => { // Form event handler, prevents page submission upon submitting the form
-    event.preventDefault()
-    console.log('logging in:', username, password)
-}
+const handleLogin = (event) => {
+  // Form event handler, prevents page submission upon submitting the form
+  event.preventDefault();
+  console.log("logging in:", username, password);
+};
 ```
 
 Recall that we must make a HTTP POST request to **/api/login** in order to authenticate. We must also keep track of the token that is returned from a successful login, with this, as we may reuse this request multiple times, and write a considerable amount of code surrounding the request, we'll create a separate module for this request in **services**:
@@ -9039,15 +8762,15 @@ Recall that we must make a HTTP POST request to **/api/login** in order to authe
 **/Frontend/services/login.js**
 
 ```js
-import axios from 'axios'
-const baseUrl = '/api/login'
+import axios from "axios";
+const baseUrl = "/api/login";
 
-const login = async credentials => {
-  const res = await axios.post(baseUrl, credentials)
-  return res.data
-}
+const login = async (credentials) => {
+  const res = await axios.post(baseUrl, credentials);
+  return res.data;
+};
 
-export default { login }
+export default { login };
 ```
 
 You may notice that we're able to send objects using `axios` by simply passing it as the second parameter.
@@ -9059,33 +8782,33 @@ Now, over in our `App` component, let's make use of this service in our `handleL
 ```jsx
 //...
 
-import loginService from './services/login' 
+import loginService from "./services/login";
 
 //...
 
-const [user, setUser] = useState(null)
+const [user, setUser] = useState(null);
 
 //...
 
 const handleLogin = async (event) => {
-    event.preventDefault()
-    try {
-      const user = await loginService.login({
-        username, password,
-      })
+  event.preventDefault();
+  try {
+    const user = await loginService.login({
+      username,
+      password,
+    });
 
-      setUser(user)
-      setUsername('')
-      setPassword('')
-      
-    } catch (exception) {
-      console.log(exception)
-      setNotificationMessage('Incorrect credentials: ' + exception)
-      setTimeout(() => {
-        setNotificationMessage(null)
-      }, 3000)
-    }
+    setUser(user);
+    setUsername("");
+    setPassword("");
+  } catch (exception) {
+    console.log(exception);
+    setNotificationMessage("Incorrect credentials: " + exception);
+    setTimeout(() => {
+      setNotificationMessage(null);
+    }, 3000);
   }
+};
 
 //...
 ```
@@ -9098,9 +8821,9 @@ Stepping through this method, you'll see that we use our service to log in using
 //...
 
 const App = () => {
-  
+
   //...
-  
+
   const loginForm = () => ( // Login form JSX
     <form onSubmit={handleLogin}>
       <div>
@@ -9122,7 +8845,7 @@ const App = () => {
         />
       </div>
       <button type="submit">Login</button>
-    </form>      
+    </form>
   )
 
   const noteForm = () => ( // Note form JSX
@@ -9132,31 +8855,31 @@ const App = () => {
         onChange={handleInputChange}
       />
       <button type="submit">Add Note</button>
-    </form>  
+    </form>
   )
-  
+
   return (
     <div>
       <h1>Notes</h1>
-      
+
       {user === null && loginForm()} {/* Conditionally render */}
 
       <Notification message={notificationMessage} />
-      
+
       <div>
         <button onClick={() => setShowAll(!showAll)}>
-          Show {showAll ? 'Flagged' : 'All' } 
+          Show {showAll ? 'Flagged' : 'All' }
         </button>
       </div>
-      
+
       <ul>
         {noteList()}
       </ul>
-      
+
       {user !== null && noteForm()} {/* Conditionally render */}
-      
+
       <Separator />
-      
+
     	</div>
   	)
 	}
@@ -9177,7 +8900,7 @@ Let's take this a step further and apply the conditional operator to our code. T
 	return (
     <div>
       <h1>Notes</h1>
-      
+
       {user === null ?
     		loginForm() :
   			<div>
@@ -9187,19 +8910,19 @@ Let's take this a step further and apply the conditional operator to our code. T
     	} {/* Conditionally render */}
 
       <Notification message={notificationMessage} />
-      
+
       <div>
         <button onClick={() => setShowAll(!showAll)}>
-          Show {showAll ? 'Flagged' : 'All' } 
+          Show {showAll ? 'Flagged' : 'All' }
         </button>
       </div>
-      
+
       <ul>
         {noteList()}
       </ul>
-      
+
       <Separator />
-      
+
     	</div>
    )
 }
@@ -9217,40 +8940,40 @@ Let's update our notes POST request:
 **/Frontend/src/services/noteService.js**
 
 ```js
-import axios from 'axios'
-const baseUrl = '/api/notes'
+import axios from "axios";
+const baseUrl = "/api/notes";
 
-let token = null
+let token = null;
 
-const setToken = userToken => {
-  token = `bearer ${userToken}`
-}
+const setToken = (userToken) => {
+  token = `bearer ${userToken}`;
+};
 
 const getAll = () => {
-  const req = axios.get(baseUrl)
-  return req.then(response => response.data)
-}
+  const req = axios.get(baseUrl);
+  return req.then((response) => response.data);
+};
 
-const create = async newObject => {
+const create = async (newObject) => {
   const config = {
     headers: { Authorization: token },
-  }
-  
-  const res = await axios.post(baseUrl, newObject, config)
-  return res.data
-}
+  };
+
+  const res = await axios.post(baseUrl, newObject, config);
+  return res.data;
+};
 
 const update = (id, newObject) => {
-  const req = axios.put(`${baseUrl}/${id}`, newObject)
-  return req.then(res => res.data)
-}
+  const req = axios.put(`${baseUrl}/${id}`, newObject);
+  return req.then((res) => res.data);
+};
 
 export default {
   setToken: setToken,
-  getAll: getAll, 
-  create: create, 
-  update: update
-}
+  getAll: getAll,
+  create: create,
+  update: update,
+};
 ```
 
 Here, we made a few updates, including updating our variable names to their shortened form to better reflect our Express application. With regard to updating our token, we created a `setToken()` function that updates the value of `token` (which is a private variable that belongs to the module).
@@ -9262,27 +8985,27 @@ Our `create()` function now uses `async`/`await` syntax and sets the appropriate
 ```js
 //...
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    try {
-      const user = await loginService.login({
-        username, password,
-      })
+const handleLogin = async (event) => {
+  event.preventDefault();
+  try {
+    const user = await loginService.login({
+      username,
+      password,
+    });
 
-      setUser(user)
-      setUsername('')
-      setPassword('')
-      noteService.setToken(user.token)
-      
-    } catch (exception) {
-      console.log(exception)
-       setNotificationMessage('Incorrect credentials: ' + exception)
-      setTimeout(() => {
-        setNotificationMessage(null)
-      }, 3000)
-    }
+    setUser(user);
+    setUsername("");
+    setPassword("");
+    noteService.setToken(user.token);
+  } catch (exception) {
+    console.log(exception);
+    setNotificationMessage("Incorrect credentials: " + exception);
+    setTimeout(() => {
+      setNotificationMessage(null);
+    }, 3000);
   }
-  
+};
+
 //...
 ```
 
@@ -9299,29 +9022,31 @@ Using the `localStorage`/`Storage` Web API is easy. Let's change our application
 ```jsx
 //...
 
-	const handleLogin = async (event) => {
-    event.preventDefault()
-    try {
-      const user = await loginService.login({
-        username, password,
-      })
+const handleLogin = async (event) => {
+  event.preventDefault();
+  try {
+    const user = await loginService.login({
+      username,
+      password,
+    });
 
-      setUser(user)
-      setUsername('')
-      setPassword('')
-      window.localStorage.setItem( // Saves user information to local storage
-        'noteAppUser', JSON.stringify(user)
-      ) 
-      noteService.setToken(user.token) 
-      
-    } catch (exception) {
-      console.log(exception)
-      setNotificationMessage('Incorrect credentials: ' + exception)
-      setTimeout(() => {
-        setNotificationMessage(null)
-      }, 3000)
-    }
-	}
+    setUser(user);
+    setUsername("");
+    setPassword("");
+    window.localStorage.setItem(
+      // Saves user information to local storage
+      "noteAppUser",
+      JSON.stringify(user)
+    );
+    noteService.setToken(user.token);
+  } catch (exception) {
+    console.log(exception);
+    setNotificationMessage("Incorrect credentials: " + exception);
+    setTimeout(() => {
+      setNotificationMessage(null);
+    }, 3000);
+  }
+};
 
 //...
 ```
@@ -9342,8 +9067,8 @@ const App = (props) => {
   )
   const [showAll, setShowAll] = useState(true)
   const [notificationMessage, setNotificationMessage] = useState()
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
   const loadNotesEffect = () => {
@@ -9356,7 +9081,7 @@ const App = (props) => {
         setNotificationMessage(`${error}: Something went wrong while trying to retrieve data from the server.`)
       })
   }
-  
+
   const signedInEffect = () => {
     const loggedInUserJSON = window.localStorage.getItem('noteAppUser')
     if (loggedInUserJSON) {
@@ -9368,8 +9093,8 @@ const App = (props) => {
 
   useEffect(loadNotesEffect, [])
   useEffect(signedInEffect, [])
-  
-//...  
+
+//...
 ```
 
 Here, we created a function, `signedInEffect`, which uses the local storage API to attempt to fetch the value of the `'noteAppUser'` key in the local storage. If there happens to be a string at that location, we parse the string into an object and set our `user` piece of state as well as change the private `token` variable in our notes service module based off of this information.
@@ -9384,15 +9109,15 @@ With this implementation, a user stays logged in until the browser's local stora
 //...
 
 const handleLogout = async (event) => {
-    event.preventDefault()
-    try {
-      window.localStorage.removeItem('noteAppUser')
-      noteService.setToken(null)
-      setUser(null)
-    } catch (exception) {
-      console.log(exception)
-    }
+  event.preventDefault();
+  try {
+    window.localStorage.removeItem("noteAppUser");
+    noteService.setToken(null);
+    setUser(null);
+  } catch (exception) {
+    console.log(exception);
   }
+};
 
 //...
 ```
@@ -9401,24 +9126,24 @@ Here, we simply created a handler function for our logout button that removes th
 
 **/Frontend/src/App.js**
 
-```jsx
-//...  
+`````````jsx
+//...
 ​````````
 	return (
     <div>
       <h1>Notes</h1>
-      
+
       {user === null ?
     		loginForm() :
   			<div>
-          <p>Welcome, {user.name}</p> 
+          <p>Welcome, {user.name}</p>
         	<button onClick={handleLogout}>Sign Out</button>
           {noteForm()}
 				</div>
     	} {/* Conditionally render */}
-      
+
       {/* ... */}
-```
+`````````
 
 Here, we conditionally render the sign out button if the user is signed in. This button calls the `handleLogout` handler function upon the `onClick` event (when the button is clicked) which logs the user out by removing the user information from local storage.
 
@@ -9428,49 +9153,48 @@ Although we have been writing in a mostly functional side, React resembles an ob
 
 This brings us to two ideas: composition and inheritance. In basic terms, composition is when an object/class utilizes another object to provide some or all of its functionality. Problems are broken down into modular solutions to which components build on top of each other to provide the ultimate solution. Inheritance involves creating a basic structure to which other subclasses inherit the implementation and augment/reuse this basic structure.
 
-With this, React has a powerful composition model and there are almost no cases where one would benefit from using inheritance over composition to reuse code between components. With this, in order to utilize composition, we have to build upon smaller components. 
+With this, React has a powerful composition model and there are almost no cases where one would benefit from using inheritance over composition to reuse code between components. With this, in order to utilize composition, we have to build upon smaller components.
 
-Our current way of dealing with components does not work in some cases as some components don't know their children ahead of time. This is where `props.children` comes in. 
+Our current way of dealing with components does not work in some cases as some components don't know their children ahead of time. This is where `props.children` comes in.
 
 Let's update our application so that the login form is only displayed when the user wants to sign in. We'll achieve this by creating a button that causes the form to appear and also by creating a button that hides the form. For the sake of organization and maintainability, as our **App.js** file is growing too large, we'll extract the login form into its own dedicated component:
 
 **/Frontend/src/components/LoginForm.js**
 
 ```jsx
-import React from 'react'
+import React from "react";
 
 const LoginForm = ({
-    handleLogin,
-    handleUsernameChange,
-    handlePasswordChange,
-    username,
-    password
-    }) => {
-
-    return (
-        <form onSubmit={handleLogin}>
-          <div>
-            Username
-              <input
-              type="text"
-              value={username}
-              name="Username"
-              onChange={handleUsernameChange}
-            />
-          </div>
-          <div>
-            Password
-              <input
-              type="password"
-              value={password}
-              name="Password"
-              onChange={handlePasswordChange}
-            />
-          </div>
-          <button type="submit">Login</button>
-        </form>      
-    )
-}
+  handleLogin,
+  handleUsernameChange,
+  handlePasswordChange,
+  username,
+  password,
+}) => {
+  return (
+    <form onSubmit={handleLogin}>
+      <div>
+        Username
+        <input
+          type="text"
+          value={username}
+          name="Username"
+          onChange={handleUsernameChange}
+        />
+      </div>
+      <div>
+        Password
+        <input
+          type="password"
+          value={password}
+          name="Password"
+          onChange={handlePasswordChange}
+        />
+      </div>
+      <button type="submit">Login</button>
+    </form>
+  );
+};
 
 export default LoginForm;
 ```
@@ -9483,20 +9207,16 @@ For example, instead of writing `this.props.handleLogin` in a class component or
 
 ```jsx
 const example = (props) => (
-	<form onSubmit={props.handleLogin}>
-  	{/* ... */}
-  </form>
-)
+  <form onSubmit={props.handleLogin}>{/* ... */}</form>
+);
 ```
 
 We can instead destructure the `handleLogin` function from the `props` object in the parameter list, so that we can instead write:
 
 ```jsx
-const example = ({handleLogin}) => (
-	<form onSubmit={handleLogin}>
-  	{/* ... */}
-  </form>
-)
+const example = ({ handleLogin }) => (
+  <form onSubmit={handleLogin}>{/* ... */}</form>
+);
 ```
 
 Doing this comes with a number of advantages. Assigning objects to a local variable (doesn't have to just be through destructuring) can allow your code to be minified better when the value is used repeatedly (since the reassigned name can be mangled).
@@ -9508,21 +9228,20 @@ Let's proceed with adding a way to track the visibility of our `LoginForm` in ou
 **/Frontend/src/App.js**
 
 ```jsx
-import LoginForm from './components/LoginForm'
+import LoginForm from "./components/LoginForm";
 
 //...
 
 const App = () => {
-  
   //...
-  
-  const [loginVisible, setLoginVisible] = useState(false)
-  
+
+  const [loginVisible, setLoginVisible] = useState(false);
+
   //...
-  
+
   const loginForm = () => {
-    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
-    const showWhenVisible = { display: loginVisible ? '' : 'none' }
+    const hideWhenVisible = { display: loginVisible ? "none" : "" };
+    const showWhenVisible = { display: loginVisible ? "" : "none" };
 
     return (
       <div>
@@ -9540,12 +9259,11 @@ const App = () => {
           <button onClick={() => setLoginVisible(false)}>Cancel</button>
         </div>
       </div>
-    )
-  }
-  
+    );
+  };
+
   //...
-  
-}
+};
 
 //...
 ```
@@ -9557,8 +9275,8 @@ Stepping through the changes, we added a piece of state called `loginVisible` th
 Then, from within our `loginForm` "component" that returns JSX that takes advantage of our `LoginForm` component, we define two style objects that contain properties that depend on the `loginVisible` state.
 
 ```jsx
- const hideWhenVisible = { display: loginVisible ? 'none' : '' }
- const showWhenVisible = { display: loginVisible ? '' : 'none' }
+const hideWhenVisible = { display: loginVisible ? "none" : "" };
+const showWhenVisible = { display: loginVisible ? "" : "none" };
 ```
 
 `hideWhenVisible` sets `display` to `none` when `loginVisible` is `true` and `showWhenVisible` does the opposite.
@@ -9571,7 +9289,7 @@ return (
         <div style={hideWhenVisible}>
           <button onClick={() => setLoginVisible(true)}>Log In</button>
         </div>
-    
+
     	<div style={showWhenVisible}>
     		{/* ... */}
    			<button onClick={() => setLoginVisible(false)}>Cancel</button>
@@ -9588,7 +9306,7 @@ Now, if we take a step back and think about what we're doing here for a second, 
 Let's create a new component, `Togglable`, that controls the display of a component. For example, instead of the above code that is unique to the `loginForm` "component", we could just write:
 
 ```jsx
-<Togglable buttonLabel='Login'>
+<Togglable buttonLabel="Login">
   <LoginForm
     handleLogin={handleLogin}
     handleUsernameChange={({ target }) => setUsername(target.value)}
@@ -9599,7 +9317,7 @@ Let's create a new component, `Togglable`, that controls the display of a compon
 </Togglable>
 ```
 
-Previously, most of our components had been *singleton tags* or *self-closing tags* where we do not have an opening and closing tag, but rather just one, single tag in the format of `<Element />`.
+Previously, most of our components had been _singleton tags_ or _self-closing tags_ where we do not have an opening and closing tag, but rather just one, single tag in the format of `<Element />`.
 
 Here, `Togglable` has both an opening and closing tag. With this, any elements that fall between the tags `<Togglable>` and `</Togglable>` are considered child components of `Togglable`.
 
@@ -9610,21 +9328,17 @@ Let's actually write our `Togglable` component:
 **/Frontend/src/components/Togglable.js**
 
 ```jsx
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
-const Togglable = ({
-  	buttonLabel,
-  	children
-	}) => {
-  
-  const [visible, setVisible] = useState(false)
+const Togglable = ({ buttonLabel, children }) => {
+  const [visible, setVisible] = useState(false);
 
-  const hideWhenVisible = { display: visible ? 'none' : '' }
-  const showWhenVisible = { display: visible ? '' : 'none' }
+  const hideWhenVisible = { display: visible ? "none" : "" };
+  const showWhenVisible = { display: visible ? "" : "none" };
 
   const toggleVisibility = () => {
-    setVisible(!visible)
-  }
+    setVisible(!visible);
+  };
 
   return (
     <div>
@@ -9636,10 +9350,10 @@ const Togglable = ({
         <button onClick={toggleVisibility}>Cancel</button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Togglable
+export default Togglable;
 ```
 
 Here, our logic involving toggling the visibility of elements has mostly stayed the same with the exception of a dedicated function that now toggles the `visibility` piece of state, and the movement of the piece of state that tracks the visibility of our component into the `Togglable` component itself.
@@ -9648,38 +9362,36 @@ Everything here seems familiar up until the reference to `children` which has be
 
 This entire time, React, in the background, has secretly been adding a `children` property to our `props` object. `props.children` is used in order to reference the child components of our component, so that we can actually include it in our JSX that our component returns. Recall that we discussed some potential limitations with components that might depend on their children or need to know what their children return ahead of time prior to rendering. This is what `props.children` solves.
 
-The `children` property contains an array of all the elements that were defined between the opening and closing brackets of the component. If the component is a singleton, `props.children` will just contain  an empty array.
+The `children` property contains an array of all the elements that were defined between the opening and closing brackets of the component. If the component is a singleton, `props.children` will just contain an empty array.
 
 We can now update our `App` component to simplify our code and make use of this new `Togglable` component:
 
 **/Frontend/src/App.js**
 
 ```jsx
-import Togglable from './components/Togglable'
+import Togglable from "./components/Togglable";
 
 //...
 
 const App = () => {
-
   //...
-  
+
   const loginForm = () => {
     return (
-      <Togglable buttonLabel='Login' >
-          <LoginForm
-            handleLogin={handleLogin}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            username={username}
-            password={password}
-          />
+      <Togglable buttonLabel="Login">
+        <LoginForm
+          handleLogin={handleLogin}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          username={username}
+          password={password}
+        />
       </Togglable>
-    )
-  }
-  
+    );
+  };
+
   //...
-  
-}
+};
 
 //...
 ```
@@ -9689,21 +9401,14 @@ With this, we have drastically simplified the `loginForm` function in our `App` 
 **/Frontend/src/components/NoteForm.js**
 
 ```js
-const noteForm = ({
-    addNote,
-    noteField,
-    handleInputChange
-    }) => (
-    <form onSubmit={addNote}>
-        <input
-        value={noteField}
-        onChange={handleInputChange}
-        />
-        <button type="submit">Add Note</button>
-    </form>  
-)
+const noteForm = ({ addNote, noteField, handleInputChange }) => (
+  <form onSubmit={addNote}>
+    <input value={noteField} onChange={handleInputChange} />
+    <button type="submit">Add Note</button>
+  </form>
+);
 
-export default noteForm
+export default noteForm;
 ```
 
 Now, in our `App` component, we can wrap our new component in a `Togglable` component within a functional component:
@@ -9714,15 +9419,15 @@ Now, in our `App` component, we can wrap our new component in a `Togglable` comp
 //...
 
 const noteForm = () => (
-    <Togglable buttonLabel="Create Note">
-      <NoteForm
-        addNote={addNote}
-        noteField={noteField}
-        handleInputChange={handleInputChange}
-      />
-    </Togglable>
-  )
-  
+  <Togglable buttonLabel="Create Note">
+    <NoteForm
+      addNote={addNote}
+      noteField={noteField}
+      handleInputChange={handleInputChange}
+    />
+  </Togglable>
+);
+
 //...
 ```
 
@@ -9735,18 +9440,18 @@ We can solve this problem by using refs which gives us a reference to the render
 ```jsx
 //...
 
-	const noteFormRef = React.createRef()
-  
-  const noteForm = () => (
-    <Togglable buttonLabel="Create Note" ref={noteFormRef}>
-      <NoteForm
-        addNote={addNote}
-        noteField={noteField}
-        handleInputChange={handleInputChange}
-      />
-    </Togglable>
-  )
-  
+const noteFormRef = React.createRef();
+
+const noteForm = () => (
+  <Togglable buttonLabel="Create Note" ref={noteFormRef}>
+    <NoteForm
+      addNote={addNote}
+      noteField={noteField}
+      handleInputChange={handleInputChange}
+    />
+  </Togglable>
+);
+
 //...
 ```
 
@@ -9757,29 +9462,23 @@ To do this, you'll notice that we had passed in the ref as an attribute. Let's u
 **/Frontend/src/components/Togglable.js**
 
 ```jsx
-import React, { useState, useImperativeHandle } from 'react'
+import React, { useState, useImperativeHandle } from "react";
 
-const Togglable = React.forwardRef(({
-  	buttonLabel,
-  	children
-    }, 
-    ref
-    ) => {
-  
-  const [visible, setVisible] = useState(false)
+const Togglable = React.forwardRef(({ buttonLabel, children }, ref) => {
+  const [visible, setVisible] = useState(false);
 
-  const hideWhenVisible = { display: visible ? 'none' : '' }
-  const showWhenVisible = { display: visible ? '' : 'none' }
+  const hideWhenVisible = { display: visible ? "none" : "" };
+  const showWhenVisible = { display: visible ? "" : "none" };
 
   const toggleVisibility = () => {
-    setVisible(!visible)
-  }
+    setVisible(!visible);
+  };
 
   useImperativeHandle(ref, () => {
     return {
-      toggleVisibility
-    }
-  })
+      toggleVisibility,
+    };
+  });
 
   return (
     <div>
@@ -9791,13 +9490,13 @@ const Togglable = React.forwardRef(({
         <button onClick={toggleVisibility}>Cancel</button>
       </div>
     </div>
-  )
-})
+  );
+});
 
-export default Togglable
+export default Togglable;
 ```
 
-Here, we made a few changes. We first wrapped our functional component inside of a call to `forwardRef`  which will allow our component to access the reference that was passed as an attribute to it. 
+Here, we made a few changes. We first wrapped our functional component inside of a call to `forwardRef` which will allow our component to access the reference that was passed as an attribute to it.
 
 We also call the `useImperativeHandle` hook which takes in the reference and a function that returns an object containing all of the functions that we might want to make accessible via the ref. In this example, we give it an object containing the `toggleVisibility` function, allowing us to call it through the reference available outside of the component.
 
@@ -9808,21 +9507,20 @@ Being able to call `toggleVisibility` within that component from outside of the 
 ```js
 //...
 
-	const addNote = (event) => {
-    event.preventDefault()
-    noteFormRef.current.toggleVisibility()
-    const newNoteObject = {
-      content: noteField,
-      date: new Date(),
-      flagged: Math.random() > 0.5,
-    }
-  
-    noteService.create(newNoteObject)
-    .then(data => {
-      setNotes(notes.concat(data))
-      setNoteField('Enter a new note here...')
-    })
-  }
+const addNote = (event) => {
+  event.preventDefault();
+  noteFormRef.current.toggleVisibility();
+  const newNoteObject = {
+    content: noteField,
+    date: new Date(),
+    flagged: Math.random() > 0.5,
+  };
+
+  noteService.create(newNoteObject).then((data) => {
+    setNotes(notes.concat(data));
+    setNoteField("Enter a new note here...");
+  });
+};
 
 //...
 ```
@@ -9857,14 +9555,14 @@ import PropTypes from 'prop-types'
 const Togglable = React.forwardRef(({
       buttonLabel,
       children
-      }, 
+      },
       ref
     ) => {
-  
+
 Togglable.propTypes = {
   buttonLabel: PropTypes.string.isRequired
 }
-  
+
 export default Togglable
 ```
 
@@ -9877,29 +9575,28 @@ We are not forced to resolve these errors as our application will still continue
 Let's also define `propTypes` for our `LoginForm` component:
 
 ```jsx
-import React from 'react'
-import PropTypes from 'proptypes'
+import React from "react";
+import PropTypes from "proptypes";
 
 const LoginForm = ({
-      handleLogin,
-      handleUsernameChange,
-      handlePasswordChange,
-      username,
-      password
-    }) => {
-
-    return (
-        {/*...*/}
-    )
-}
+  handleLogin,
+  handleUsernameChange,
+  handlePasswordChange,
+  username,
+  password,
+}) => {
+  return {
+    /*...*/
+  };
+};
 
 LoginForm.propTypes = {
   handleLogin: PropTypes.func.isRequired,
   handleUsernameChange: PropTypes.func.isRequired,
   handlePasswordChange: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired
-}
+  password: PropTypes.string.isRequired,
+};
 
 export default LoginForm;
 ```
@@ -9927,7 +9624,7 @@ module.exports = {
       "es6": true,
       "jest/globals": true
   },
-  "extends": [ 
+  "extends": [
       "eslint:recommended",
       "plugin:react/recommended"
   ],
@@ -10018,25 +9715,21 @@ npm install --save-dev @testing-library/react @testing-library/jest-dom
 We can now start writing our tests to **App.test.js** (named by convention) in our **src** directory (tests are stored in the same directory as the component being tested by convention, but it is also acceptable to make a dedicated directory for tests):
 
 ```jsx
-import React from 'react'
-import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
-import Note from './components/Note'
+import React from "react";
+import "@testing-library/jest-dom/extend-expect";
+import { render } from "@testing-library/react";
+import Note from "./components/Note";
 
-test('note renders content', () => {
+test("note renders content", () => {
   const note = {
-    content: 'This is a test note',
-    flagged: true
-  }
+    content: "This is a test note",
+    flagged: true,
+  };
 
-  const noteComponent = render(
-    <Note note={note} toggleFlagged={jest.fn()} />
-  )
+  const noteComponent = render(<Note note={note} toggleFlagged={jest.fn()} />);
 
-  expect(noteComponent.container).toHaveTextContent(
-    'This is a test note'
-  )
-})
+  expect(noteComponent.container).toHaveTextContent("This is a test note");
+});
 ```
 
 Here, we create an object representing the content of our note and pass that into our note component which is wrapped by a call to `render` from `react-testing-library`. We also pass in a placeholder function provided by `jest.fn()` since we will get a warning upon rendering that we had not satisfied the prop that is referenced by the `onChange` property within our component.
@@ -10047,7 +9740,7 @@ With this, we describe an assertion using `expect()` to which we expect the note
 
 #### Default Test Behavior
 
-Upon running `npm test`, you'll find that the test process does not end but rather continues watching for any changes in the directory. 
+Upon running `npm test`, you'll find that the test process does not end but rather continues watching for any changes in the directory.
 
 Here, you may run into a warning that `watchman` is not installed. `watchman` is used to detect when we make changes. With this, follow the instructions provided to install it on your respective OS. If you are on macOS and have `brew` installed, you can simply run the command:
 
@@ -10076,27 +9769,23 @@ The objects returned by `render()` contain a `debug()` method that will log the 
 **/Frontend/src/App.test.js**
 
 ```jsx
-import React from 'react'
-import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
-import Note from './components/Note'
+import React from "react";
+import "@testing-library/jest-dom/extend-expect";
+import { render } from "@testing-library/react";
+import Note from "./components/Note";
 
-test('note renders content', () => {
+test("note renders content", () => {
   const note = {
-    content: 'This is a test note',
-    flagged: true
-  }
+    content: "This is a test note",
+    flagged: true,
+  };
 
-  const noteComponent = render(
-    <Note note={note} toggleFlagged={() => {}} />
-  )
-  
-  noteComponent.debug() // Logs the HTML of the component to the console
+  const noteComponent = render(<Note note={note} toggleFlagged={() => {}} />);
 
-  expect(noteComponent.container).toHaveTextContent(
-    'This is a test note'
-  )
-})
+  noteComponent.debug(); // Logs the HTML of the component to the console
+
+  expect(noteComponent.container).toHaveTextContent("This is a test note");
+});
 ```
 
 Upon running our tests, we receive the following output with the HTML of our component:
@@ -10108,31 +9797,27 @@ Upon running our tests, we receive the following output with the HTML of our com
 Let's import and use `prettyDOM ` manually to inspect the contents of a smaller element from within our component:
 
 ```js
-import React from 'react'
-import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
-import { prettyDOM } from '@testing-library/dom' // prettyDOM import
-import Note from './components/Note'
+import React from "react";
+import "@testing-library/jest-dom/extend-expect";
+import { render } from "@testing-library/react";
+import { prettyDOM } from "@testing-library/dom"; // prettyDOM import
+import Note from "./components/Note";
 
-test('note renders content', () => {
+test("note renders content", () => {
   const note = {
-    content: 'This is a test note',
-    flagged: true
-  }
+    content: "This is a test note",
+    flagged: true,
+  };
 
-  const noteComponent = render(
-    <Note note={note} toggleFlagged={() => {}} />
-  )
-  
-  noteComponent.debug() // Logs the HTML of the component to the console
-  const listElement = noteComponent.container.querySelector('li') // use querySelector to get our list element
+  const noteComponent = render(<Note note={note} toggleFlagged={() => {}} />);
 
-  console.log(prettyDOM(listElement)) // logs the prettyDOM object
+  noteComponent.debug(); // Logs the HTML of the component to the console
+  const listElement = noteComponent.container.querySelector("li"); // use querySelector to get our list element
 
-  expect(noteComponent.container).toHaveTextContent(
-    'This is a test note'
-  )
-})
+  console.log(prettyDOM(listElement)); // logs the prettyDOM object
+
+  expect(noteComponent.container).toHaveTextContent("This is a test note");
+});
 ```
 
 Now, as we begin to write extensive tests, you'll find that things can become quite repetitive with all of the patterns involving checking for an element's attributes, text content, finding by CSS class, etc.
@@ -10142,7 +9827,7 @@ Now, as we begin to write extensive tests, you'll find that things can become qu
 We could import the matchers by adding the following line to our test files:
 
 ```jsx
-import '@testing-library/jest-dom/extend-expect'
+import "@testing-library/jest-dom/extend-expect";
 ```
 
 You'll notice that we are not assigning it to a variable or anything. With this, to prevent the repetitive nature of having to import all of these modules in every test file that we write, let's create a configuration file that imports these modules for us (in newer versions of `create-react-app` the file may already be created):
@@ -10150,7 +9835,7 @@ You'll notice that we are not assigning it to a variable or anything. With this,
 **/Frontend/src/setupTests.js**
 
 ```jsx
-import '@testing-library/jest-dom/extend-expect'
+import "@testing-library/jest-dom/extend-expect";
 ```
 
 > This is only recommended if you are unable to get `jest` to use **setupTests.js**. This method is not supported by some versions of `create-react-app`. By default, `jest` should make use of this configuration file, but we can force it to by adding the following to our `jest` object in our **package.json** file:
@@ -10176,26 +9861,25 @@ In our `Note` component, we feature a checkbox that should fire the `toggleFlagg
 ```js
 //...
 
-test('checking the checkbox fires event handler once', () => {
-    const note = {
-        content: 'This is a test note',
-        flagged: true
-      }
-  
-    const mockHandler = jest.fn()
-  
-    const { getByAltText } = render(
-      <Note note={note} toggleFlagged={mockHandler} />
-    )
-  
-    const checkbox = getByAltText('Toggle Flagged')
-    fireEvent.click(checkbox)
-  
-    expect(mockHandler.mock.calls.length).toBe(1)
-  })
-  
-  
-  //...
+test("checking the checkbox fires event handler once", () => {
+  const note = {
+    content: "This is a test note",
+    flagged: true,
+  };
+
+  const mockHandler = jest.fn();
+
+  const { getByAltText } = render(
+    <Note note={note} toggleFlagged={mockHandler} />
+  );
+
+  const checkbox = getByAltText("Toggle Flagged");
+  fireEvent.click(checkbox);
+
+  expect(mockHandler.mock.calls.length).toBe(1);
+});
+
+//...
 ```
 
 Here, we create a mock handler as we did earlier using `jest.fn()`. This time, we store the mock function in a constant so we can look to see how many times it has been called later (all handled by `jest`).
@@ -10213,16 +9897,10 @@ First, to make the `div` element surrounding the children of the component easie
 **/Frontend/src/components/Togglable.js**
 
 ```jsx
-import React, { useState, useImperativeHandle } from 'react'
-import PropTypes from 'proptypes'
+import React, { useState, useImperativeHandle } from "react";
+import PropTypes from "proptypes";
 
-const Togglable = React.forwardRef(({
-      buttonLabel,
-      children
-      }, 
-      ref
-    ) => {
-  
+const Togglable = React.forwardRef(({ buttonLabel, children }, ref) => {
   //...
 
   return (
@@ -10235,12 +9913,12 @@ const Togglable = React.forwardRef(({
         <button onClick={toggleVisibility}>Cancel</button>
       </div>
     </div>
-  )
-})
+  );
+});
 
 //...
 
-export default Togglable
+export default Togglable;
 ```
 
 Now, we can go ahead and write tests for our `Togglable` component:
@@ -10248,39 +9926,39 @@ Now, we can go ahead and write tests for our `Togglable` component:
 **/Frontend/src/Togglable.test.js**
 
 ```jsx
-import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
-import Togglable from './Togglable'
+import React from "react";
+import { render, fireEvent } from "@testing-library/react";
+import Togglable from "./Togglable";
 
-describe('<Togglable /> Component Tests', () => {
-  let component
+describe("<Togglable /> Component Tests", () => {
+  let component;
 
   beforeEach(() => {
     component = render(
       <Togglable buttonLabel="Show Children">
         <div className="childDiv" />
       </Togglable>
-    )
-  })
+    );
+  });
 
-  test('children are rendered', () => {
-    component.container.querySelector('.childDiv')
-  })
+  test("children are rendered", () => {
+    component.container.querySelector(".childDiv");
+  });
 
-  test('children are not displayed when not shown', () => {
-    const div = component.container.querySelector('.togglableContent')
+  test("children are not displayed when not shown", () => {
+    const div = component.container.querySelector(".togglableContent");
 
-    expect(div).toHaveStyle('display: none')
-  })
+    expect(div).toHaveStyle("display: none");
+  });
 
-  test('children are displayed after clicking show button', () => {
-    const button = component.getByText('Show Children')
-    fireEvent.click(button)
+  test("children are displayed after clicking show button", () => {
+    const button = component.getByText("Show Children");
+    fireEvent.click(button);
 
-    const div = component.container.querySelector('.togglableContent')
-    expect(div).not.toHaveStyle('display: none')
-  })
-})
+    const div = component.container.querySelector(".togglableContent");
+    expect(div).not.toHaveStyle("display: none");
+  });
+});
 ```
 
 Here, we simply wrap all of our tests in a describe block and employ other concepts that we have already been exposed to. Before each test, we render the `Togglable` component to the `component` variable of which the `Togglable` component has a `div` element as its child. We then check if it is rendered, if the child div is not shown (has `display: 'none'`), and if the child div is shown after clicking on the button (does not have `display: 'none'`).
@@ -10294,18 +9972,16 @@ This leads to the question of retrieving elements that are not the first query m
 ```jsx
 //...
 
- test('children are hidden after clicking cancel button', () => {
-    const showButton = component.getByText('Show Children')
-    fireEvent.click(showButton)
-  
-    const cancelButton = component.container.querySelector(
-    'button:nth-child(2)'
- 	 	)
-   	fireEvent.click(cancelButton)
-  
-    const div = component.container.querySelector('.togglableContent')
-    expect(div).toHaveStyle('display: none')
-  })
+test("children are hidden after clicking cancel button", () => {
+  const showButton = component.getByText("Show Children");
+  fireEvent.click(showButton);
+
+  const cancelButton = component.container.querySelector("button:nth-child(2)");
+  fireEvent.click(cancelButton);
+
+  const div = component.container.querySelector(".togglableContent");
+  expect(div).toHaveStyle("display: none");
+});
 
 //...
 ```
@@ -10317,16 +9993,16 @@ Here, we simply use the query `button:nth-child(2)` to find the second element t
 ```jsx
 //...
 
-test('children are hidden after clicking cancel button', () => {
-    const showButton = component.getByText('Show Children')
-    fireEvent.click(showButton)
-  
-    const cancelButton = component.getByText('Cancel')
-    fireEvent.click(cancelButton)
-  
-    const div = component.container.querySelector('.togglableContent')
-    expect(div).toHaveStyle('display: none')
-  })
+test("children are hidden after clicking cancel button", () => {
+  const showButton = component.getByText("Show Children");
+  fireEvent.click(showButton);
+
+  const cancelButton = component.getByText("Cancel");
+  fireEvent.click(cancelButton);
+
+  const div = component.container.querySelector(".togglableContent");
+  expect(div).toHaveStyle("display: none");
+});
 
 //...
 ```
@@ -10340,15 +10016,14 @@ In order to properly test this component, we would have to enter some value into
 **/Frontend/src/components/NoteForm.test.js**
 
 ```jsx
-import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
-import NoteForm from './NoteForm'
+import React from "react";
+import { render, fireEvent } from "@testing-library/react";
+import NoteForm from "./NoteForm";
 
 const Wrapper = (props) => {
-
   const handleInputChange = (event) => {
-    props.state.noteField = event.target.value
-  }
+    props.state.noteField = event.target.value;
+  };
 
   return (
     <NoteForm
@@ -10356,28 +10031,26 @@ const Wrapper = (props) => {
       noteField={props.state.noteField}
       handleInputChange={handleInputChange}
     />
-  )
-}
+  );
+};
 
-test('<NoteForm /> updates through handleInputChange and calls addNote', () => {
-  const addNote = jest.fn()
+test("<NoteForm /> updates through handleInputChange and calls addNote", () => {
+  const addNote = jest.fn();
   const state = {
-      noteField: ''
-  }
+    noteField: "",
+  };
 
-  const component = render(
-    <Wrapper addNote={addNote} state={state} />
-  )
+  const component = render(<Wrapper addNote={addNote} state={state} />);
 
-  const input = component.container.querySelector('input')
-  const form = component.container.querySelector('form')
+  const input = component.container.querySelector("input");
+  const form = component.container.querySelector("form");
 
-  fireEvent.change(input, { target: { value: 'Test form input' } })
-  fireEvent.submit(form)
+  fireEvent.change(input, { target: { value: "Test form input" } });
+  fireEvent.submit(form);
 
-  expect(addNote.mock.calls.length).toBe(1)
-  expect(state.noteField).toBe('Test form input')
-})
+  expect(addNote.mock.calls.length).toBe(1);
+  expect(state.noteField).toBe("Test form input");
+});
 ```
 
 Recall that our `NoteForm` component is dependent on the `App` component where we pass it a `handleInputChange` function, `addNote` function, and the `noteField` piece of state. The `NoteForm` component simply does the job of triggering a function on submission and updating the state of its parent component. With this, we made the helper component, `Wrapper`, that emulates our `App` component in the sense that it contains the state and everything that our `NoteForm` component needs.
@@ -10399,26 +10072,26 @@ Let's start by mocking the LocalStorage API by creating an object that we can ma
 **/Frontend/src/setupTests.js**
 
 ```jsx
-import '@testing-library/jest-dom/extend-expect'
+import "@testing-library/jest-dom/extend-expect";
 
-let savedItems = {}
+let savedItems = {};
 
 const localStorageMock = {
   setItem: (key, item) => {
-    savedItems[key] = item
+    savedItems[key] = item;
   },
   getItem: (key) => savedItems[key],
   clear: () => {
-    savedItems = {}
-  }
-}
+    savedItems = {};
+  },
+};
 
-Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+Object.defineProperty(window, "localStorage", { value: localStorageMock });
 ```
 
 Here, we declared a `savedItems` varaibles which will act as the storage for our mock. We then have an object `localStorageMock` that contains two functions which will allow us to modify this object. Finally, we use `Object.defineProperty` to add this `localStorageMock` object to the `window` object under the property `localStorage`.
 
-Now, to address the problem of fetching notes from our MongoDB database, we can simply replace it with a hardcoded object that represents the collection of our notes. The use of hardcoded data also allows increased speed and stability as we do not have to access a database whose state may change over time. 
+Now, to address the problem of fetching notes from our MongoDB database, we can simply replace it with a hardcoded object that represents the collection of our notes. The use of hardcoded data also allows increased speed and stability as we do not have to access a database whose state may change over time.
 
 With this, let's mock our `noteService` module with a module that makes use of and returns hardcoded data. In Jest, manual mocks of modules are defined through writing a module in a **\_\_mocks\_\_** subdirectory in the same directory of the module. As our `noteService` module (**/Frontend/src/services/notes.js**) lies within the **services** directory, we will make a **\_\_mocks\_\_** directory within it and place our mock service within it:
 
@@ -10427,45 +10100,45 @@ With this, let's mock our `noteService` module with a module that makes use of a
 ```jsx
 const notes = [
   {
-  "content": "This is a mock note!",
-  "flagged": true,
-  "date": "2019-12-23T04:32:47.154Z",
-  "user": {
-    "username": "jassuf",
-    "name": "joe",
-    "id": "5df151019f8679503a3de183"
-  },
-  "id": "5e00436f4001db92b2ab0a00"
+    content: "This is a mock note!",
+    flagged: true,
+    date: "2019-12-23T04:32:47.154Z",
+    user: {
+      username: "jassuf",
+      name: "joe",
+      id: "5df151019f8679503a3de183",
+    },
+    id: "5e00436f4001db92b2ab0a00",
   },
   {
-    "content": "This is another mock note.",
-    "flagged": false,
-    "date": "2019-12-23T04:33:21.129Z",
-    "user": {
-      "username": "jassuf",
-      "name": "joe",
-      "id": "5df151019f8679503a3de183"
+    content: "This is another mock note.",
+    flagged: false,
+    date: "2019-12-23T04:33:21.129Z",
+    user: {
+      username: "jassuf",
+      name: "joe",
+      id: "5df151019f8679503a3de183",
     },
-    "id": "5e0043914001db92b2ab0a01"
+    id: "5e0043914001db92b2ab0a01",
   },
   {
-    "content": "This is the third mock note.",
-    "flagged": false,
-    "date": "2019-12-23T07:11:38.841Z",
-    "user": {
-      "username": "jassuf",
-      "name": "joe",
-      "id": "5df151019f8679503a3de183"
+    content: "This is the third mock note.",
+    flagged: false,
+    date: "2019-12-23T07:11:38.841Z",
+    user: {
+      username: "jassuf",
+      name: "joe",
+      id: "5df151019f8679503a3de183",
     },
-    "id": "5e0068aa4001db92b2ab0a02"
-  }
-]
+    id: "5e0068aa4001db92b2ab0a02",
+  },
+];
 
 const getAll = () => {
-  return Promise.resolve(notes)
-}
+  return Promise.resolve(notes);
+};
 
-export default { getAll }
+export default { getAll };
 ```
 
 Here, we hardcoded the data that our database might have. We also created a mock `getAll` function that we would find within our real `noteService`. This function actually returns a promise that will resolve to the list of notes. We do this because, in our actual application, we return a promise as a result of the `then()` method of the promise that `axios.get()` gives us.
@@ -10475,38 +10148,30 @@ We can now go ahead and write our integration test relating to our `App` compone
 **/Frontend/src/App.test.js**
 
 ```jsx
-import React from 'react'
-import { render,  waitForElement } from '@testing-library/react'
-jest.mock('./services/notes')
-import App from './App'
+import React from "react";
+import { render, waitForElement } from "@testing-library/react";
+jest.mock("./services/notes");
+import App from "./App";
 
-describe('<App /> Integration Tests', () => {
-  test('renders all notes from service', async () => {
-    const component = render(
-      <App />
-    )
-    component.rerender(<App />)
-    await waitForElement(
-      () => component.container.querySelector('.mainNote')
-    )
+describe("<App /> Integration Tests", () => {
+  test("renders all notes from service", async () => {
+    const component = render(<App />);
+    component.rerender(<App />);
+    await waitForElement(() => component.container.querySelector(".mainNote"));
 
-    const notes = component.container.querySelectorAll('.mainNote')
-    expect(notes.length).toBe(3) 
+    const notes = component.container.querySelectorAll(".mainNote");
+    expect(notes.length).toBe(3);
 
+    expect(component.container).toHaveTextContent("This is a mock note!");
+    expect(component.container).toHaveTextContent("This is another mock note.");
     expect(component.container).toHaveTextContent(
-      'This is a mock note!'
-    )
-    expect(component.container).toHaveTextContent(
-      'This is another mock note.'
-    )
-    expect(component.container).toHaveTextContent(
-      'This is the third mock note.'
-    )
-  })
-})
+      "This is the third mock note."
+    );
+  });
+});
 ```
 
-Through a call to `jest.mock()`, `jest` will find the import of the referenced module and check if there is a mock folder with the appropriate mock module in the same directory of the original module. If there is, it will use the manual mock, but if not, it will go ahead and create an *automatic mock* with functions that typically return `undefined`.
+Through a call to `jest.mock()`, `jest` will find the import of the referenced module and check if there is a mock folder with the appropriate mock module in the same directory of the original module. If there is, it will use the manual mock, but if not, it will go ahead and create an _automatic mock_ with functions that typically return `undefined`.
 
 `jest` allows for automatic mocks and extending actual modules from within manual mocks, but given the size of our current project, we are not going to discuss this at this time. As your projects scale, it is recommended to read more of the `jest` documentation in order to take advantage of newer features.
 
@@ -10514,7 +10179,7 @@ Looking at our test, we first call a `rerender` and await the rendering of all o
 
 ### Determining Test Coverage
 
-As our projects begin to grow larger and the amount of tests that we write increases, it would be helpful to be able to see what parts of our project do not have tests written for them. We can determine the *test coverage* of our project with `jest`'s integrated coverage reported which typically requires no configuration.
+As our projects begin to grow larger and the amount of tests that we write increases, it would be helpful to be able to see what parts of our project do not have tests written for them. We can determine the _test coverage_ of our project with `jest`'s integrated coverage reported which typically requires no configuration.
 
 In order to generate a coverage report, add `-- --coverage` to your test command as such:
 
@@ -10538,7 +10203,7 @@ It even will highlight individual lines of code that have not been tested:
 
 ### Jest Snapshot Testing
 
-Jest also offers another form of testing with regard to *snapshot* testing. Snapshot testing is useful for when you want to ensure that the user interface hasn't change. WIth this, the core principle of snapshot testing is very simple: upon creating the test, a snapshot will be generated of a given component, etc. to which this snapshot is compared to the live rendering of a component.
+Jest also offers another form of testing with regard to _snapshot_ testing. Snapshot testing is useful for when you want to ensure that the user interface hasn't change. WIth this, the core principle of snapshot testing is very simple: upon creating the test, a snapshot will be generated of a given component, etc. to which this snapshot is compared to the live rendering of a component.
 
 For example, with snapshot testing, we would render our `NoteForm` component to HTML and store it as a JSON representation (or something else) with this being our snapshot. Then, upon running our tests, we repeat the same rendering process and compare our output to this snapshot. If there are differences, then we are notified as to be made aware that there were some changes to the component that are reflected in the HTML.
 
@@ -10562,13 +10227,13 @@ In addition to the 10 built-in hooks and their APIs that come with React, we are
 
 For the most part, React hooks are regular JavaScript functions that have to adhere to two main rules:
 
-* Hooks can only be called at the top level of the component
-  * This means that they should not be called inside loops, conditional blocks, nested functions, etc.
-    * This ensures that the hooks are called in the exact same order every time the component renders, allowing React to hold on and preserve the state between multiple calls.
-    * As for background, when taking the `useState()` hook as an example, you might wonder how React knows which piece of state corresponds to each `useState()` call. It does this through tracking the order of which the hooks are called. This is why it is important that hooks are called within the top level of the component, because if they are executed conditionally or multiple times, it alters the order and leads to the behavior of our hooks to shift.
-* Hooks can only be called from React functions
-  * We can only call hooks from React function components and within other custom hooks.
-    * This allows us to see all stateful logic related to a component from standardized areas in its source code.
+- Hooks can only be called at the top level of the component
+  - This means that they should not be called inside loops, conditional blocks, nested functions, etc.
+    - This ensures that the hooks are called in the exact same order every time the component renders, allowing React to hold on and preserve the state between multiple calls.
+    - As for background, when taking the `useState()` hook as an example, you might wonder how React knows which piece of state corresponds to each `useState()` call. It does this through tracking the order of which the hooks are called. This is why it is important that hooks are called within the top level of the component, because if they are executed conditionally or multiple times, it alters the order and leads to the behavior of our hooks to shift.
+- Hooks can only be called from React functions
+  - We can only call hooks from React function components and within other custom hooks.
+    - This allows us to see all stateful logic related to a component from standardized areas in its source code.
 
 # INSERT MORE INFORMATION ON WHY REACT HOOKS RELY ON ORDER HERE
 
@@ -10585,16 +10250,12 @@ After installing the plugin, we can configure it by adding it to our **.eslintrc
 ```js
 module.exports = {
   //...
-  "plugins": [
-        "react",
-        "jest",
-        "react-hooks"
-  ],
-  "rules": {
+  plugins: ["react", "jest", "react-hooks"],
+  rules: {
     "react-hooks/rules-of-hooks": "error",
     //...
-  }
-}; 
+  },
+};
 ```
 
 We will now gain access to syntax highlighting and underlining for hooks within VSCode and will get thrown an error if we violate these rules upon linting our project.
@@ -10602,52 +10263,46 @@ We will now gain access to syntax highlighting and underlining for hooks within 
 As an introduction to hooks, let's just create a simple counter using custom hooks. Previously, we might have created a counter as follows:
 
 ```jsx
-import React, { useState } from 'react'
+import React, { useState } from "react";
 const App = (props) => {
-  const [counter, setCounter] = useState(0)
+  const [counter, setCounter] = useState(0);
 
   return (
     <div>
       <div>{counter}</div>
-      <button onClick={() => setCounter(counter + 1)}>
-        plus
-      </button>
-      <button onClick={() => setCounter(counter - 1)}>
-        minus
-      </button>      
-      <button onClick={() => setCounter(0)}>
-        zero
-      </button>
+      <button onClick={() => setCounter(counter + 1)}>plus</button>
+      <button onClick={() => setCounter(counter - 1)}>minus</button>
+      <button onClick={() => setCounter(0)}>zero</button>
     </div>
-  )
-}
+  );
+};
 ```
 
 With React Hooks, we can first abstract the logic involving the counter and its state to its own hook:
 
 ```jsx
 const useCounter = () => {
-  const [value, setValue] = useState(0)
+  const [value, setValue] = useState(0);
 
   const increase = () => {
-    setValue(value + 1)
-  }
+    setValue(value + 1);
+  };
 
   const decrease = () => {
-    setValue(value - 1)
-  }
+    setValue(value - 1);
+  };
 
   const reset = () => {
-    setValue(0)
-  }
+    setValue(0);
+  };
 
   return {
-    value, 
+    value,
     increase,
     decrease,
-    reset
-  }
-}
+    reset,
+  };
+};
 ```
 
 Notice how we call the `useState()` hook from within our own custom hook. Here, our hook behaves similarly to how an abstraction over our mock local storage module behaved. This hook, upon being called, will return an object containing functions that allow us to set the internal state of this component, as well as the internal state itself.
@@ -10656,23 +10311,17 @@ Now, we can make use of this hook within a component:
 
 ```jsx
 const App = (props) => {
-  const counter = useCounter()
+  const counter = useCounter();
 
   return (
     <div>
       <div>{counter.value}</div>
-      <button onClick={counter.increase}>
-        Increase
-      </button>
-      <button onClick={counter.decrease}>
-        Decrease
-      </button>      
-      <button onClick={counter.zero}>
-        Reset
-      </button>
+      <button onClick={counter.increase}>Increase</button>
+      <button onClick={counter.decrease}>Decrease</button>
+      <button onClick={counter.zero}>Reset</button>
     </div>
-  )
-}
+  );
+};
 ```
 
 Here, in our component, we just lay out the elements of our counter and make use of the `useCounter()` hook for all of our logic and state relating to the counter.
@@ -10685,22 +10334,18 @@ If we wanted a component that required two counters within it, rather than makin
 
 ```jsx
 const App = () => {
-  const leftVote = useCounter()
-  const rightVote = useCounter()
+  const leftVote = useCounter();
+  const rightVote = useCounter();
 
   return (
     <div>
       {leftVote.value}
-      <button onClick={leftVote.increase}>
-        Vote for Left
-      </button>
-      <button onClick={rightVote.increase}>
-        Vote for Right
-      </button>
+      <button onClick={leftVote.increase}>Vote for Left</button>
+      <button onClick={rightVote.increase}>Vote for Right</button>
       {rightVote.value}
     </div>
-  )
-}
+  );
+};
 ```
 
 Here, our component contains two separate counters with their logic in separate instances of the `useCounter()` hook. We then call the respective functions of the hooks and display their states to provide the interaction and display of the two counters.
@@ -10711,18 +10356,18 @@ Thinking about this, the logic behind creating a controlled form element can be 
 
 ```jsx
 const useField = (type) => {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState("");
 
   const onChange = (event) => {
-    setValue(event.target.value)
-  }
+    setValue(event.target.value);
+  };
 
   return {
     type,
     value,
-    onChange
-  }
-}
+    onChange,
+  };
+};
 ```
 
 Here, we create a piece of state so that we can keep track of what is typed in our input element. We then return a function that takes in an event and sets our internal state to the target value of that event (this is what we can pass to the `onChange` property of our actual form element). We also keep track of the element type and return that as well as the state.
@@ -10733,7 +10378,7 @@ As a quick example, we can use the hook as such:
 
 ```jsx
 const App = () => {
-  const userEmail = useField('text')
+  const userEmail = useField("text");
   // ...
 
   return (
@@ -10742,29 +10387,29 @@ const App = () => {
         <input
           type={userEmail.type}
           value={userEmail.value}
-          onChange={userEmail.onChange} 
-        /> 
+          onChange={userEmail.onChange}
+        />
       </form>
     </div>
-  )
-}
+  );
+};
 ```
 
 Here, our `input` element is controlled by the logic in the `userEmail` hook. In this case, since our key values are the same as the key values in the object that we're trying to pass values from, we can use the spread operator to break down our object into the correct fields:
 
 ```jsx
 const App = () => {
-  const userEmail = useField('text')
+  const userEmail = useField("text");
   // ...
 
   return (
     <div>
       <form>
-        <input {...userEmail} /> 
+        <input {...userEmail} />
       </form>
     </div>
-  )
-}
+  );
+};
 ```
 
 This produces the exact same result as manually referencing the properties of the object and matching them up with the appropriate property of the element.
@@ -10777,7 +10422,7 @@ function App1() {
 }
 
 function App2() {
-  const props = {firstName: 'Ben', lastName: 'Hector'};
+  const props = { firstName: "Ben", lastName: "Hector" };
   return <Greeting {...props} />;
 }
 ```
@@ -10794,13 +10439,13 @@ So far, we've just dealt with simple component state where we just followed the 
 
 Flux is the application architecture that Facebook uses (they are transitioning to Redux, however) to build client-side web applications. It utilizes a unidirectional data flow, similar to how passing down state through components is unidirectional. Rather than a full framework, Flux is essentially a pattern of state management, to which there are several implementations (see Redux below).
 
-One key difference is that the state is separated completely from React components into their own *stores*. This state is then modified (not directly, but updated) through the use of *actions*. Typically, when an action changes the state of a store,  they emit an event that causes the views (components) to be rerendered.
+One key difference is that the state is separated completely from React components into their own _stores_. This state is then modified (not directly, but updated) through the use of _actions_. Typically, when an action changes the state of a store, they emit an event that causes the views (components) to be rerendered.
 
 ![img](https://miro.medium.com/max/2600/1*Ek68XwgLgxwlAZl6hhxx1w.png)
 
 > Annotated Flux Overview by Facebook: [facebook.github.io/flux/docs/in-depth-overview.html](https://facebook.github.io/flux/docs/in-depth-overview.html)
 
-Here, you can see how state is updated and triggers events in components while being separate from the components. For example, if you clicked a button that incremented a piece of state in a store, the change would have to be made with an action. This action is then provided to the dispatcher who sends the action to all stores. These stores will then update themselves and their state and emit a *change event* once they are done. Then, the *controller-views* consisting of components listen for these changes and update their state, triggering a rerender (usually).
+Here, you can see how state is updated and triggers events in components while being separate from the components. For example, if you clicked a button that incremented a piece of state in a store, the change would have to be made with an action. This action is then provided to the dispatcher who sends the action to all stores. These stores will then update themselves and their state and emit a _change event_ once they are done. Then, the _controller-views_ consisting of components listen for these changes and update their state, triggering a rerender (usually).
 
 ### Redux
 
@@ -10822,7 +10467,7 @@ For example, with our incrementor, we need an action with the type of `INCREMENT
 
 ```js
 {
-  type: 'INCREMENT'
+  type: "INCREMENT";
 }
 ```
 
@@ -10849,7 +10494,7 @@ const counterReducer = (state = 0, action) => {
 }
 ```
 
-Here, dependent on the action type, we update our state correspondingly. Reducers will take in the original state and the action as inputs and will return the updated state as the output. Now, we must create a store that will bring our actions and reducers together. We also use a *default function parameter* to set `state = 0` if no value or `undefined` is passed to `state`.
+Here, dependent on the action type, we update our state correspondingly. Reducers will take in the original state and the action as inputs and will return the updated state as the output. Now, we must create a store that will bring our actions and reducers together. We also use a _default function parameter_ to set `state = 0` if no value or `undefined` is passed to `state`.
 
 #### Store
 
@@ -10859,42 +10504,42 @@ It is important to realize that a reducer should never (except in some very odd 
 
 The store is responsible for:
 
-* Holding the application state
-* Allowing access to the state through a call to `getState()`
-* Allowing updates to the state through a call to `dispatch(action)`
-* Registering listeners through a call to `subscribe(listener)`
-* Handling unregistering of listeners through the function returned by `subscribe(listener)`
+- Holding the application state
+- Allowing access to the state through a call to `getState()`
+- Allowing updates to the state through a call to `dispatch(action)`
+- Registering listeners through a call to `subscribe(listener)`
+- Handling unregistering of listeners through the function returned by `subscribe(listener)`
 
-The last 2 responsibilities may sound very unfamiliar. Do not worry as we will soon cover these topics. Additionally, it is important to note that we'll only have a singular store in our entire application. Eventually, when we want to use multiple reducers to split our data handling logic, we'll use *reducer composition* to combine our separate reducers into one single reducer that we can give to our store.
+The last 2 responsibilities may sound very unfamiliar. Do not worry as we will soon cover these topics. Additionally, it is important to note that we'll only have a singular store in our entire application. Eventually, when we want to use multiple reducers to split our data handling logic, we'll use _reducer composition_ to combine our separate reducers into one single reducer that we can give to our store.
 
 Moving back to our counter application, we can create the store by passing the reducer to `createStore()`:
 
 ```jsx
-import { createStore } from 'redux'
+import { createStore } from "redux";
 
 const counterReducer = (state = 0, action) => {
   switch (action.type) {
-    case 'INCREMENT':
-      return state + 1
-    case 'DECREMENT':
-      return state - 1
-    case 'RESET':
-      return 0
+    case "INCREMENT":
+      return state + 1;
+    case "DECREMENT":
+      return state - 1;
+    case "RESET":
+      return 0;
     default:
-      return state
+      return state;
   }
-}
+};
 
-const store = createStore(counterReducer)
+const store = createStore(counterReducer);
 ```
 
-The store now has our `counterReducer` to handle any actions that we *dispatch* (send) to it using the `dispatch()` method:
+The store now has our `counterReducer` to handle any actions that we _dispatch_ (send) to it using the `dispatch()` method:
 
 ```js
-store.dispatch({type: 'INCREMENT'})
+store.dispatch({ type: "INCREMENT" });
 ```
 
-We can call `dispatch(action)` from anywhere in our application. If we wanted to get the state of our store, we can just call `getState()` upon the store. 
+We can call `dispatch(action)` from anywhere in our application. If we wanted to get the state of our store, we can just call `getState()` upon the store.
 
 #### Registering Listeners via Subscribe
 
@@ -10903,12 +10548,12 @@ For the purposes of testing our application for now, let's register a listener u
 ```jsx
 //...
 
-const store = createStore(counterReducer)
+const store = createStore(counterReducer);
 
 store.subscribe(() => {
-  const currentStore = store.getState()
-  console.log(currentStore)
-})
+  const currentStore = store.getState();
+  console.log(currentStore);
+});
 ```
 
 Here, we listen for any change upon the store. Upon a change, the function that we had provided will be executed. In this case, the function simply just logs the store object to the console.
@@ -10916,11 +10561,11 @@ Here, we listen for any change upon the store. Upon a change, the function that 
 Let's add the following to our application:
 
 ```jsx
-store.dispatch({ type: 'INCREMENT' })
-store.dispatch({ type: 'INCREMENT' })
-store.dispatch({ type: 'DECREMENT' })
-store.dispatch({ type: 'RESET' })
-store.dispatch({ type: 'INCREMENT' })
+store.dispatch({ type: "INCREMENT" });
+store.dispatch({ type: "INCREMENT" });
+store.dispatch({ type: "DECREMENT" });
+store.dispatch({ type: "RESET" });
+store.dispatch({ type: "INCREMENT" });
 ```
 
 Upon executing our code, these actions are dispatched and our reducers update our store accordingly. Then, our listeners observe the change and print the following to the console:
@@ -10938,62 +10583,52 @@ We can now render a UI for our counter that calls these dispatchers upon button 
 **/counter-application/src/index.js**
 
 ```jsx
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
+import React from "react";
+import ReactDOM from "react-dom";
+import { createStore } from "redux";
 
 const counterReducer = (state = 0, action) => {
   switch (action.type) {
-    case 'INCREMENT':
-      return state + 1
-    case 'DECREMENT':
-      return state - 1
-    case 'RESET':
-      return 0
+    case "INCREMENT":
+      return state + 1;
+    case "DECREMENT":
+      return state - 1;
+    case "RESET":
+      return 0;
     default:
-      return state
+      return state;
   }
-}
+};
 
-const store = createStore(counterReducer)
+const store = createStore(counterReducer);
 
 store.subscribe(() => {
-  const currentStore = store.getState()
-  console.log(currentStore)
-})
+  const currentStore = store.getState();
+  console.log(currentStore);
+});
 
 const App = () => {
   return (
     <div>
-      <div>
-        {store.getState()}
-      </div>
-      <button 
-        onClick={e => store.dispatch({ type: 'INCREMENT' })}
-      >
+      <div>{store.getState()}</div>
+      <button onClick={(e) => store.dispatch({ type: "INCREMENT" })}>
         Increment
       </button>
-      <button
-        onClick={e => store.dispatch({ type: 'DECREMENT' })}
-      >
+      <button onClick={(e) => store.dispatch({ type: "DECREMENT" })}>
         Decrement
       </button>
-      <button 
-        onClick={e => store.dispatch({ type: 'RESET' })}
-      >
-        Reset
-      </button>
+      <button onClick={(e) => store.dispatch({ type: "RESET" })}>Reset</button>
     </div>
-  )
-}
+  );
+};
 
 const renderDOM = () => {
-    console.log('Rendering application...')
-    ReactDOM.render(<App />, document.getElementById('root'))
-}
+  console.log("Rendering application...");
+  ReactDOM.render(<App />, document.getElementById("root"));
+};
 
-renderDOM()
-store.subscribe(renderDOM)
+renderDOM();
+store.subscribe(renderDOM);
 ```
 
 Here, we create an `App` component that simply calls the appropriate dispatcher for the button that emits the `onClick` event. We display the current counter value by grabbing the state of the store using `getState()`. Finally, at the end, we create a function that will call `ReactDOM.render()` to render our `App` component. We also subscribe to the store and pass the `renderDOM` function to it so that our component will be rerendered upon every change to our state.
@@ -11007,59 +10642,63 @@ With the general idea of Redux and Flux Architecture down, let's first start mak
 **/src/index.js**
 
 ```jsx
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
+import React from "react";
+import ReactDOM from "react-dom";
+import { createStore } from "redux";
 
-import noteReducer from './reducers/noteReducer'
+import noteReducer from "./reducers/noteReducer";
 
-const store = createStore(noteReducer)
+const store = createStore(noteReducer);
 
 store.dispatch({
-  type: 'NEW_NOTE',
+  type: "NEW_NOTE",
   data: {
-    content: 'This note is stored in the Redux store',
+    content: "This note is stored in the Redux store",
     flagged: true,
-    id: 1
-  }
-})
+    id: 1,
+  },
+});
 
 store.dispatch({
-  type: 'NEW_NOTE',
+  type: "NEW_NOTE",
   data: {
-    content: 'This is a new note created with Redux',
+    content: "This is a new note created with Redux",
     flagged: false,
-    id: 2
-  }
-})
+    id: 2,
+  },
+});
 
 const App = () => {
   return (
     <div>
       <ul>
-        {store.getState().map(note=>
+        {store.getState().map((note) => (
           <li key={note.id}>
-            <input type="checkbox" alt="Toggle Flagged" checked={note.flagged} />
-            {note.content} 
+            <input
+              type="checkbox"
+              alt="Toggle Flagged"
+              checked={note.flagged}
+            />
+            {note.content}
           </li>
-        )}
-        </ul>
+        ))}
+      </ul>
     </div>
-  )
-}
+  );
+};
 
 const renderDOM = () => {
-    console.log('Rendering application...')
-    ReactDOM.render(<App />, document.getElementById('root'))
-}
+  console.log("Rendering application...");
+  ReactDOM.render(<App />, document.getElementById("root"));
+};
 
-renderDOM()
-store.subscribe(renderDOM)
+renderDOM();
+store.subscribe(renderDOM);
 ```
 
 Our initial app does not have any project organization with separate modules, but it does lay out the groundwork for the structure of our notes and being able to send out note actions to add notes to our store using our `noteReducer`.
 
-The two `dispatch(action)` calls create two `NEW_NOTE` actions to which the payload has a `data` property which contains our actual note "object". This payload is received by the `noteReducer` reducer to which it concatenates the data if the action was of the type `NEW_NOTE`. We use `concat()` rather than `push()` (just as we did with React components) on the data as reducers are meant to be *pure functions* (functions that take in an input and return a value without modifying anything) to which we do not modify the store/state directly, but rather return a new state with the updated information. Pure functions, due to their nature of not being dependent on state or affecting state will return the same response every single time they are called with the same parameters.
+The two `dispatch(action)` calls create two `NEW_NOTE` actions to which the payload has a `data` property which contains our actual note "object". This payload is received by the `noteReducer` reducer to which it concatenates the data if the action was of the type `NEW_NOTE`. We use `concat()` rather than `push()` (just as we did with React components) on the data as reducers are meant to be _pure functions_ (functions that take in an input and return a value without modifying anything) to which we do not modify the store/state directly, but rather return a new state with the updated information. Pure functions, due to their nature of not being dependent on state or affecting state will return the same response every single time they are called with the same parameters.
 
 Another thing to note is the manner of which we map over our store's state in order to render an unordered list of our store's notes.
 
@@ -11073,15 +10712,15 @@ Before creating our tests, let's move our reducer over to its own dedicated dire
 
 ```jsx
 const noteReducer = (state = [], action) => {
-    switch (action.type) {
-        case 'NEW_NOTE':
-            return state.concat(action.data)
-        default:
-            return state
-    }
-}
+  switch (action.type) {
+    case "NEW_NOTE":
+      return state.concat(action.data);
+    default:
+      return state;
+  }
+};
 
-export default noteReducer
+export default noteReducer;
 ```
 
 For our test, we'll be utilizing a library, `deep-freeze`, that will allow us to freeze objects recursively. This is important, because we can freeze our state and ensure that nothing (our reducers, etc.) is directly modifying it. We can install `deep-freeze` by running:
@@ -11095,28 +10734,28 @@ Similar to React components, we define the tests for a given reducer in the same
 **/src/reducers/noteReducer.test.js**
 
 ```jsx
-import noteReducer from './noteReducer'
-import deepFreeze from 'deep-freeze'
+import noteReducer from "./noteReducer";
+import deepFreeze from "deep-freeze";
 
-describe('noteReducer Unit Tests', () => {
-  test('action NEW_NOTE returns new state', () => {
-    const state = []
+describe("noteReducer Unit Tests", () => {
+  test("action NEW_NOTE returns new state", () => {
+    const state = [];
     const action = {
-      type: 'NEW_NOTE',
+      type: "NEW_NOTE",
       data: {
-        content: 'This should update the store state',
+        content: "This should update the store state",
         flagged: false,
-        id: 1
-      }
-    }
+        id: 1,
+      },
+    };
 
-    deepFreeze(state)
-    const newState = noteReducer(state, action)
+    deepFreeze(state);
+    const newState = noteReducer(state, action);
 
-    expect(newState.length).toBe(1)
-    expect(newState).toContainEqual(action.data)
-  })
-})
+    expect(newState.length).toBe(1);
+    expect(newState).toContainEqual(action.data);
+  });
+});
 ```
 
 Here, we simply freeze the state so that we can't modify it directly, allowing us to see via a thrown error if we are not defining reducers correctly. With this, we just attempt to get the updated state using the `NEW_NOTE` action to which we store it in `newState` and expect it to contain 1 object as well as the notes data.
@@ -11127,23 +10766,23 @@ Let's change our `noteReducer` to utilize `array.push()` instead of `array.conca
 
 ```jsx
 const noteReducer = (state = [], action) => {
-    switch (action.type) {
-        case 'NEW_NOTE':
-        		state.push(action.data)
-            return state
-        default:
-            return state
-    }
-}
+  switch (action.type) {
+    case "NEW_NOTE":
+      state.push(action.data);
+      return state;
+    default:
+      return state;
+  }
+};
 
-export default noteReducer
+export default noteReducer;
 ```
 
 Upon running our tests, we receive the following error as a result of directly mutating the state that has been frozen:
 
 ![image-20191230182443818](/Users/josephsemrai/Library/Application Support/typora-user-images/image-20191230182443818.png)
 
-Let's now revert our changes and use `array.concat()` once again. With this, the test surrounding the `NEW_NOTE` action of `noteReducer` passes. 
+Let's now revert our changes and use `array.concat()` once again. With this, the test surrounding the `NEW_NOTE` action of `noteReducer` passes.
 
 As stated earlier, we'll go ahead and create a test for toggling the flagged property of our notes before actually implementing the feature (test-driven development):
 
@@ -11152,42 +10791,43 @@ As stated earlier, we'll go ahead and create a test for toggling the flagged pro
 ```jsx
 //...
 
-test('action TOGGLE_FLAGGED returns new state with note flagged changed', () => {
-    const state = [
-      {
-        content: 'This is stored in the store',
-        flagged: false,
-        id: 1
-      },
-      {
-        content: 'This state will be updated via actions',
-        flagged: true,
-        id: 2
-      }]
-  
-    const action = {
-      type: 'TOGGLE_FLAGGED',
-      data: {
-        id: 2
-      }
-    }
-  
-    deepFreeze(state)
-    const newState = noteReducer(state, action)
-  
-    expect(newState.length).toBe(2)
-  
-    expect(newState).toContainEqual(state[0])
-  
-    expect(newState).toContainEqual({
-      content: 'This state will be updated via actions',
+test("action TOGGLE_FLAGGED returns new state with note flagged changed", () => {
+  const state = [
+    {
+      content: "This is stored in the store",
       flagged: false,
-      id: 2
-    })
-})
+      id: 1,
+    },
+    {
+      content: "This state will be updated via actions",
+      flagged: true,
+      id: 2,
+    },
+  ];
+
+  const action = {
+    type: "TOGGLE_FLAGGED",
+    data: {
+      id: 2,
+    },
+  };
+
+  deepFreeze(state);
+  const newState = noteReducer(state, action);
+
+  expect(newState.length).toBe(2);
+
+  expect(newState).toContainEqual(state[0]);
+
+  expect(newState).toContainEqual({
+    content: "This state will be updated via actions",
+    flagged: false,
+    id: 2,
+  });
+});
 ```
 
-Here, we write a test surrounding the `TOGGLE_FLAGGED` action of `noteReducer`.  The action that we perform in the test is:
+Here, we write a test surrounding the `TOGGLE_FLAGGED` action of `noteReducer`. The action that we perform in the test is:
 
 ```jsx
 {
@@ -11231,7 +10871,7 @@ We now have a case that handles the `TOGGLE_FLAGGED` action type. The logic behi
 To update the flagged property, we first find the note with the matching `id` using the array `find()` method:
 
 ```js
-const originalNote = state.find(n => n.id === noteId)
+const originalNote = state.find((n) => n.id === noteId);
 ```
 
 Recall that this method returns the object being passed in the current iteration when the return value of the specified function is truthy.
@@ -11241,8 +10881,8 @@ We then create the updated note object with the `flagged` property:
 ```js
 const updatedNote = {
   ...originalNote,
-  flagged: !originalNote.flagged
-}
+  flagged: !originalNote.flagged,
+};
 ```
 
 The object spread operator (`...`) is used here to copy the properties over (shallowly) so that we don't have to manually copy over each of the properties. We also made use of this in our other application.
@@ -11250,32 +10890,32 @@ The object spread operator (`...`) is used here to copy the properties over (sha
 Finally, we return the updated state by mapping over the old state and replacing the referenced nte with the updated note:
 
 ```jsx
-return state.map(n => n.id === noteId ? updatedNote : n)
+return state.map((n) => (n.id === noteId ? updatedNote : n));
 ```
 
 We do this by mapping over the array with a function that checks if the current note that is being iterated over matches the `id` of the action. If the `id` matches, then we simply replace the note with the `updatedNote`. This line makes use of the conditional (ternary) operator.
 
 #### Array Spread Operator
 
-After taking a look at the object spread operator in this reducer, let's talk about the *array spread operator* which is quite similar conceptually.
+After taking a look at the object spread operator in this reducer, let's talk about the _array spread operator_ which is quite similar conceptually.
 
 The array spread operator allows for an iterable to be expanded into areas that take in more than one argument. Basically, this operator breaks an array into its individual objects, to which these objects are passed in, one by one, into the area where it is called. Let's take a look at an example:
 
 ```js
-const alphabet = ['a', 'b', 'c', 'd']
+const alphabet = ["a", "b", "c", "d"];
 
-const moreLetters = [...alphabet, 'e', 'f']
+const moreLetters = [...alphabet, "e", "f"];
 
-const lettersAndNumbers = [1, 2, ...alphabet]
+const lettersAndNumbers = [1, 2, ...alphabet];
 
-const [first, second, ...rest] = moreLetters
+const [first, second, ...rest] = moreLetters;
 
-console.log(alphabet)
-console.log(moreLetters)
-console.log(lettersAndNumbers)
-console.log(first)
-console.log(second)
-console.log(rest) 
+console.log(alphabet);
+console.log(moreLetters);
+console.log(lettersAndNumbers);
+console.log(first);
+console.log(second);
+console.log(rest);
 ```
 
 This code outputs the following:
@@ -11289,7 +10929,7 @@ The use of the array spread operator for `lettersAndNumbers` follows the same co
 Arguably, the most interesting bit of the code is the destructuring of the array and the use of the spread operator in the line:
 
 ```js
-const [first, second, ...rest] = moreLetters
+const [first, second, ...rest] = moreLetters;
 ```
 
 Here, we destructure based on position. The variable specified in index 0 of the variable declaration side of the expression will be assigned the value of index 0 in the array and so on. Then, the variable following the array spread operator will receive the rest of the array. In other words, when using the array spread operator in assignment, anything that has not been destructured will go into the variable prefixed by the array spread operator.
@@ -11303,23 +10943,23 @@ In our simplified notes application, the array spread operator actually has an a
 ```jsx
 const noteReducer = (state = [], action) => {
   switch (action.type) {
-  case 'NEW_NOTE':
-    return [...state, action.data]
-  case 'TOGGLE_FLAGGED': {
-    const noteId = action.data.id
-    const originalNote = state.find(n => n.id === noteId)
-    const updatedNote = {
-      ...originalNote,
-      flagged: !originalNote.flagged
+    case "NEW_NOTE":
+      return [...state, action.data];
+    case "TOGGLE_FLAGGED": {
+      const noteId = action.data.id;
+      const originalNote = state.find((n) => n.id === noteId);
+      const updatedNote = {
+        ...originalNote,
+        flagged: !originalNote.flagged,
+      };
+      return state.map((n) => (n.id === noteId ? updatedNote : n));
     }
-    return state.map(n => n.id === noteId ? updatedNote : n)
+    default:
+      return state;
   }
-  default:
-    return state
-  }
-}
+};
 
-export default noteReducer
+export default noteReducer;
 ```
 
 As our state object is just an array, we can use the array spread operator to create a copy of the original state array in our new state array and just add our new note to the end of the array.
@@ -11331,71 +10971,70 @@ Now, moving on to the ability to actually add notes via the frontend of our appl
 **/src/index.js**
 
 ```jsx
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
+import React from "react";
+import ReactDOM from "react-dom";
+import { createStore } from "redux";
 
-import noteReducer from './reducers/noteReducer'
+import noteReducer from "./reducers/noteReducer";
 
-const store = createStore(noteReducer)
+const store = createStore(noteReducer);
 
-const generateId = () => Math.round(Number((Math.random() * 10000)))
+const generateId = () => Math.round(Number(Math.random() * 10000));
 
 const App = () => {
-
   const addNote = (event) => {
-    event.preventDefault()
-    const textContent = event.target.noteField.value
+    event.preventDefault();
+    const textContent = event.target.noteField.value;
     store.dispatch({
-      type: 'NEW_NOTE',
+      type: "NEW_NOTE",
       data: {
         textContent,
         important: false,
-        id: generateId()
-      }
-    })
-    event.target.noteField.value = ''
-  }
+        id: generateId(),
+      },
+    });
+    event.target.noteField.value = "";
+  };
 
   const toggleFlagged = (id) => () => {
     store.dispatch({
-      type: 'TOGGLE_FLAGGED',
-      data: { id }
-    })
-  }
+      type: "TOGGLE_FLAGGED",
+      data: { id },
+    });
+  };
 
   return (
     <div>
       <form onSubmit={addNote}>
-        <input name="noteField"/> 
+        <input name="noteField" />
         <button type="submit">Create Note</button>
       </form>
 
       <ul>
-        {store.getState().map(note =>
+        {store.getState().map((note) => (
           <li key={note.id}>
-            <input 
-              name="note" 
-              type="checkbox" 
-              alt="Toggle Flagged" 
-              checked={note.flagged} 
+            <input
+              name="note"
+              type="checkbox"
+              alt="Toggle Flagged"
+              checked={note.flagged}
               onClick={toggleFlagged(note.id)}
             />
-            {note.textContent} 
+            {note.textContent}
           </li>
-        )}
-        </ul>
+        ))}
+      </ul>
     </div>
-  )
-}
+  );
+};
 
 const renderDOM = () => {
-    console.log('Rendering application...')
-    ReactDOM.render(<App />, document.getElementById('root'))
-}
+  console.log("Rendering application...");
+  ReactDOM.render(<App />, document.getElementById("root"));
+};
 
-renderDOM()
-store.subscribe(renderDOM)
+renderDOM();
+store.subscribe(renderDOM);
 ```
 
 In the above block of code, you'll find comments describing most of the major additions to our previous iteration of our app. Here, we create a wrapper function around our `TOGGLE_FLAGGED` action dispatch call that takes in an `id` of a note to be updated. Then, this function is set as the `onClick` handler in the JSX for our checkboxes.
@@ -11410,7 +11049,7 @@ It is generally recommended to use controlled components to implement forms as w
 
 ### Synchronous Action Creators
 
-In the block of code above, we wrapped the `TOGGLE_FLAGGED` action dispatch call into its own function. These functions are called *action creators*. As React components do not actually need to observe the implementation of actions, including their type, we can just abstract these calls into their own functions and simply call the functions from within our components.
+In the block of code above, we wrapped the `TOGGLE_FLAGGED` action dispatch call into its own function. These functions are called _action creators_. As React components do not actually need to observe the implementation of actions, including their type, we can just abstract these calls into their own functions and simply call the functions from within our components.
 
 With this, putting our action dispatch calls into action creator functions would look something like this:
 
@@ -11421,21 +11060,21 @@ With this, putting our action dispatch calls into action creator functions would
 
 const createNote = (textContent) => {
   return {
-      type: 'NEW_NOTE',
-      data: {
-        textContent,
-        important: false,
-        id: generateId()
-      }
-  }
-}
+    type: "NEW_NOTE",
+    data: {
+      textContent,
+      important: false,
+      id: generateId(),
+    },
+  };
+};
 
 const toggleFlaggedOf = (id) => {
   return {
-    type: 'TOGGLE_FLAGGED',
-    data: { id }
-  }
-}
+    type: "TOGGLE_FLAGGED",
+    data: { id },
+  };
+};
 
 //...
 ```
@@ -11459,7 +11098,7 @@ const App = () => {
   const toggleFlagged = (id) => () => {
     store.dispatch(toggleFlaggedOf(id))
   }
-  
+
   //...
 ```
 
@@ -11476,42 +11115,42 @@ One method of accessing the store in separate modules/components is to pass the 
 ```jsx
 const noteReducer = (state = [], action) => {
   switch (action.type) {
-  case 'NEW_NOTE':
-    return [...state, action.data]
-  case 'TOGGLE_FLAGGED': {
-    const noteId = action.data.id
-    const originalNote = state.find(n => n.id === noteId)
-    const updatedNote = {
-      ...originalNote,
-      flagged: !originalNote.flagged
+    case "NEW_NOTE":
+      return [...state, action.data];
+    case "TOGGLE_FLAGGED": {
+      const noteId = action.data.id;
+      const originalNote = state.find((n) => n.id === noteId);
+      const updatedNote = {
+        ...originalNote,
+        flagged: !originalNote.flagged,
+      };
+      return state.map((n) => (n.id === noteId ? updatedNote : n));
     }
-    return state.map(n => n.id === noteId ? updatedNote : n)
+    default:
+      return state;
   }
-  default:
-    return state
-  }
-}
+};
 
-const generateId = () => Math.round(Number((Math.random() * 10000)))
+const generateId = () => Math.round(Number(Math.random() * 10000));
 
 export const createNote = (textContent) => {
   return {
-    type: 'NEW_NOTE',
+    type: "NEW_NOTE",
     data: {
       textContent,
       flagged: false,
-      id: generateId()
-    }
-  }
-}
+      id: generateId(),
+    },
+  };
+};
 
 export const toggleFlaggedOf = (id) => {
   return {
-    type: 'TOGGLE_FLAGGED',
-    data: { id }
-  }
-}
-export default noteReducer
+    type: "TOGGLE_FLAGGED",
+    data: { id },
+  };
+};
+export default noteReducer;
 ```
 
 First, we moved the action creators to the `noteReducer` module as we may use it in multiple components, and it makes logical sense for these action creators to be with the reducer. We also moved over the `generateId` helper function, as `createNote` relies on it. We then named exported these two functions. Next, let's reflect these changes in the `App` component:
@@ -11519,63 +11158,59 @@ First, we moved the action creators to the `noteReducer` module as we may use it
 **/src/App.js**
 
 ```jsx
-import React from 'react'
-import { createNote, toggleFlaggedOf } from './reducers/noteReducer'
+import React from "react";
+import { createNote, toggleFlaggedOf } from "./reducers/noteReducer";
 
 const App = ({ store }) => {
-
   const toggleFlagged = (id) => () => {
-    store.dispatch(toggleFlaggedOf(id))
-  }
+    store.dispatch(toggleFlaggedOf(id));
+  };
 
   return (
     <div>
       <ul>
-        {store.getState().map(note =>
+        {store.getState().map((note) => (
           <li key={note.id}>
-            <input 
-              name="note" 
-              type="checkbox" 
-              alt="Toggle Flagged" 
-              checked={note.flagged} 
+            <input
+              name="note"
+              type="checkbox"
+              alt="Toggle Flagged"
+              checked={note.flagged}
               onClick={toggleFlagged(note.id)}
             />
-            {note.textContent} 
+            {note.textContent}
           </li>
-        )}
-        </ul>
+        ))}
+      </ul>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
 ```
 
-Then, we move the `App` component into its own module from which we take in the store from the props by destructuring `store` from the object. We also have to import `createNote` and `toggleFlaggedOf` from the `noteReducer` module. 
+Then, we move the `App` component into its own module from which we take in the store from the props by destructuring `store` from the object. We also have to import `createNote` and `toggleFlaggedOf` from the `noteReducer` module.
 
 Finally, we're left with a simplified **index.js** file:
 
 **/src/index.js**
 
 ```jsx
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
-import App from './App'
+import React from "react";
+import ReactDOM from "react-dom";
+import { createStore } from "redux";
+import App from "./App";
 
-import noteReducer from './reducers/noteReducer'
+import noteReducer from "./reducers/noteReducer";
 
-const store = createStore(noteReducer)
+const store = createStore(noteReducer);
 
 const renderApp = () => {
-  ReactDOM.render(
-    <App store={store}/>,
-    document.getElementById('root')
-  )
-}
+  ReactDOM.render(<App store={store} />, document.getElementById("root"));
+};
 
-renderApp()
-store.subscribe(renderApp)
+renderApp();
+store.subscribe(renderApp);
 ```
 
 This is a good start, but we can go even further by moving everything involved with creating a note into its own component:
@@ -11583,26 +11218,25 @@ This is a good start, but we can go even further by moving everything involved w
 **/src/components/NewNote.js**
 
 ```jsx
-import React from 'react'
+import React from "react";
 
 const NewNote = ({ store }) => {
-  
   const addNote = (event) => {
-    event.preventDefault()
-    const textContent = event.target.noteField.value
-    store.dispatch(createNote(textContent))
-    event.target.noteField.value = ''
-  }
-  
-  return (
-  	<form onSubmit={addNote}>
-        <input name="noteField"/> 
-        <button type="submit">Create Note</button>
-    </form>
-  )
-}
+    event.preventDefault();
+    const textContent = event.target.noteField.value;
+    store.dispatch(createNote(textContent));
+    event.target.noteField.value = "";
+  };
 
-export default NewNote
+  return (
+    <form onSubmit={addNote}>
+      <input name="noteField" />
+      <button type="submit">Create Note</button>
+    </form>
+  );
+};
+
+export default NewNote;
 ```
 
 Here, we moved the function that essentially bridged our React part of our application to the Redux part of our application into a component that renders the new note form. This makes sense as this form is the only element that makes use of the `addNote` function.
@@ -11612,25 +11246,24 @@ For further simplification, let's create a singular note component and a compone
 **/src/components/Note.js**
 
 ```jsx
-import React from 'react'
+import React from "react";
 
 const Note = ({ note, toggleFlagged }) => {
-
   return (
     <li>
-      <input 
+      <input
         name="note"
-        type="checkbox" 
-        alt="Toggle Flagged" 
-        checked={note.flagged} 
+        type="checkbox"
+        alt="Toggle Flagged"
+        checked={note.flagged}
         onChange={toggleFlagged}
       />
       {note.textContent}
     </li>
-  )
-}
+  );
+};
 
-export default Note
+export default Note;
 ```
 
 Here, we have a component for a singular note. We just take in the `toggleFlagged` `onChange` handler and the actual note content so that we can compose the individual note row. This component will be the child component of the `Notes` component which will compose a list of these `Note` components:
@@ -11638,56 +11271,54 @@ Here, we have a component for a singular note. We just take in the `toggleFlagge
 **/src/components/Notes.js**
 
 ```jsx
-import React from 'react'
-import { toggleFlaggedOf } from '../reducers/noteReducer'
-import Note from './Note'
+import React from "react";
+import { toggleFlaggedOf } from "../reducers/noteReducer";
+import Note from "./Note";
 
 const Notes = ({ store }) => {
-
   const toggleFlagged = (id) => () => {
-    store.dispatch(toggleFlaggedOf(id))
-  }
+    store.dispatch(toggleFlaggedOf(id));
+  };
 
   return (
     <ul>
-      {store.getState().map(note =>
+      {store.getState().map((note) => (
         <Note
           key={note.id}
           note={note}
           toggleFlagged={toggleFlagged(note.id)}
         />
-      )}
+      ))}
     </ul>
-  )
-}
+  );
+};
 
-export default Notes
+export default Notes;
 ```
 
 The `Note` component actually takes in the store as a prop and gets the current state of the store to which we map over it with a function. This function renders a `Note` component for each note in an unordered list with us passing in the note, a key, and the actual `toggleFlagged` function.
 
-As `Note` simply returns JSX and does not contain any logic within it (all logic is passed in through props), we refer to it as a *presentational component*.
+As `Note` simply returns JSX and does not contain any logic within it (all logic is passed in through props), we refer to it as a _presentational component_.
 
-`Notes` is referred to as a *container component*, not because it contains multiple instances of another component, but rather because it contains some form of application logic and configures presentational components. In this case, it defines some logic surrounding the event handlers of the `Note` component (upon which the `Note` component will use for a `onChange` event).
+`Notes` is referred to as a _container component_, not because it contains multiple instances of another component, but rather because it contains some form of application logic and configures presentational components. In this case, it defines some logic surrounding the event handlers of the `Note` component (upon which the `Note` component will use for a `onChange` event).
 
 All of these changes leave us with a very simple `App` component:
 
 ```jsx
-import React from 'react'
-import Notes from './components/Notes'
-import NewNote from './components/NewNote'
+import React from "react";
+import Notes from "./components/Notes";
+import NewNote from "./components/NewNote";
 
 const App = ({ store }) => {
-
   return (
     <div>
       <NewNote store={store} />
       <Notes store={store} />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
 ```
 
 You'll notice that, even though we receive the `store` prop, we do not actually use it within our `App` component exclusively. Herein lies a downside to forwarding the store to all components, going down the hierarchy. We will explore another approach to accessing the store in just a bit.
@@ -11701,35 +11332,34 @@ First, let's implement the user interface that will call a placeholder handler f
 **/src/App.js**
 
 ```jsx
-import React from 'react'
-import Notes from './components/Notes'
-import NewNote from './components/NewNote'
+import React from "react";
+import Notes from "./components/Notes";
+import NewNote from "./components/NewNote";
 
 const App = ({ store }) => {
-
-  let showAll = true // placeholder
+  let showAll = true; // placeholder
 
   const filterNotes = (value) => () => {
-    alert(value)
-    showAll = !showAll
-  }
+    alert(value);
+    showAll = !showAll;
+  };
 
   return (
     <div>
       <NewNote store={store} />
 
       <div>
-        <button onClick={filterNotes(showAll ? 'FLAGGED' : 'ALL')}>
-          Show {showAll ? 'Flagged' : 'All' }
+        <button onClick={filterNotes(showAll ? "FLAGGED" : "ALL")}>
+          Show {showAll ? "Flagged" : "All"}
         </button>
       </div>
 
       <Notes store={store} />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
 ```
 
 Here, we create a placeholder `showAll` piece of state (just a variable) so that we can better visualize the logic here. We have a `filterNotes` placeholder function that will be called by the button that we had added.
@@ -11740,10 +11370,10 @@ With this, we'd like our `filterNotes` handler to trigger an action creator that
 
 ```js
 {
-  notes : [
+  notes: [
     //...
-  ]
-  filter: 'ALL'
+  ];
+  filter: "ALL";
 }
 ```
 
@@ -11760,23 +11390,23 @@ First, let's implement the reducer that simply returns a new state that contains
 **/src/filterReducer.js**
 
 ```jsx
-const filterReducer = (state = 'ALL', action) => {
+const filterReducer = (state = "ALL", action) => {
   switch (action.type) {
-  case 'SET_FILTER':
-    return action.filterType
-  default:
-    return state
+    case "SET_FILTER":
+      return action.filterType;
+    default:
+      return state;
   }
-}
+};
 
-export const filterNotesBy = filterType => {
+export const filterNotesBy = (filterType) => {
   return {
-    type: 'SET_FILTER',
-    filterType
-  }
-}
+    type: "SET_FILTER",
+    filterType,
+  };
+};
 
-export default filterReducer
+export default filterReducer;
 ```
 
 Note how this reducer seems to only be concerned about its "part" of the state object (the `filter` property, rather than the rest of the state). We'll discuss how this is possible in a moment.
@@ -11788,28 +11418,28 @@ With this new reducer and action creator defined, let's actually try to use it. 
 **/src/index.js**
 
 ```jsx
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { createStore, combineReducers } from 'redux'
-import App from './App'
+import React from "react";
+import ReactDOM from "react-dom";
+import { createStore, combineReducers } from "redux";
+import App from "./App";
 
-import noteReducer from './reducers/noteReducer'
-import filterReducer from './reducers/filterReducer'
+import noteReducer from "./reducers/noteReducer";
+import filterReducer from "./reducers/filterReducer";
 
 const reducer = combineReducers({
   notes: noteReducer,
-  filter: filterReducer
-})
+  filter: filterReducer,
+});
 
-const store = createStore(reducer)
+const store = createStore(reducer);
 
 const renderDOM = () => {
-  console.log('Rendering application...')
-  ReactDOM.render(<App store={store} />, document.getElementById('root'))
-}
+  console.log("Rendering application...");
+  ReactDOM.render(<App store={store} />, document.getElementById("root"));
+};
 
-renderDOM()
-store.subscribe(renderDOM)
+renderDOM();
+store.subscribe(renderDOM);
 ```
 
 Here, you'll see how we use `combineReducers()` to combine the reducers into one reducer that we can then pass to `createStore(reducer)`. Herein this block of code also explains how these reducers only have to worry about their part/property of the state object.
@@ -11825,7 +11455,7 @@ For the following explanation, we'll add a manual dispatch call so that we can o
 ```jsx
 //...
 
-store.dispatch({type: 'SET_FILTER', filterType: 'ALL'})
+store.dispatch({ type: "SET_FILTER", filterType: "ALL" });
 
 //...
 ```
@@ -11848,23 +11478,22 @@ Our application is unable to find a `map()` method of the object that is returne
 //...
 
 const Notes = ({ store }) => {
-
   //...
 
   return (
     <ul>
-      {store.getState().notes.map(note =>
+      {store.getState().notes.map((note) => (
         <Note
           key={note.id}
           note={note}
           toggleFlagged={toggleFlagged(note.id)}
         />
-      )}
+      ))}
     </ul>
-  )
-}
+  );
+};
 
-export default Notes
+export default Notes;
 ```
 
 Upon accessing the `notes` property of the state object instead of the state object itself and mapping over that object, our application will now start.
@@ -11874,27 +11503,26 @@ Again, looking at our `App` component, we can further componentize our applicati
 **/src/components/NoteFilter.js**
 
 ```jsx
-import React from 'react'
-import { filterNotesBy } from '../reducers/filterReducer'
+import React from "react";
+import { filterNotesBy } from "../reducers/filterReducer";
 
 const NoteFilter = ({ store }) => {
-
   const filterNotes = (value) => () => {
-    store.dispatch(filterNotesBy(value))
-  }
+    store.dispatch(filterNotesBy(value));
+  };
 
-  const showAll = store.getState().filter === 'ALL'
+  const showAll = store.getState().filter === "ALL";
 
   return (
     <div>
-      <button onClick={filterNotes(showAll ? 'FLAGGED' : 'ALL')}>
-          Show {showAll ? 'Flagged' : 'All' }
+      <button onClick={filterNotes(showAll ? "FLAGGED" : "ALL")}>
+        Show {showAll ? "Flagged" : "All"}
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default NoteFilter
+export default NoteFilter;
 ```
 
 Here, we moved the JSX and helper function related to the filtering aspect of our application into its own module. Additionally, we replaced the placeholder helper function with a function that will actually create the appropriate action and dispatch the action. We also set `showAll` to appropriate value, dependent on the value of `store.filter`.
@@ -11904,40 +11532,39 @@ Now, for our application to work, all we have to do is update the `Notes` compon
 **/src/components/Notes.js**
 
 ```jsx
-import React from 'react'
-import { toggleFlaggedOf } from '../reducers/noteReducer'
-import Note from './Note'
+import React from "react";
+import { toggleFlaggedOf } from "../reducers/noteReducer";
+import Note from "./Note";
 
 const Notes = ({ store }) => {
-
-  const {notes, filter} = store.getState()
+  const { notes, filter } = store.getState();
 
   const noteList = () => {
-    if (filter === 'FLAGGED') {
-      return notes.filter(n => n.flagged)
+    if (filter === "FLAGGED") {
+      return notes.filter((n) => n.flagged);
     } else {
-      return notes
+      return notes;
     }
-  }
+  };
 
   const toggleFlagged = (id) => () => {
-    store.dispatch(toggleFlaggedOf(id))
-  }
+    store.dispatch(toggleFlaggedOf(id));
+  };
 
   return (
     <ul>
-      {noteList().map(note =>
+      {noteList().map((note) => (
         <Note
           key={note.id}
           note={note}
           toggleFlagged={toggleFlagged(note.id)}
         />
-      )}
+      ))}
     </ul>
-  )
-}
+  );
+};
 
-export default Notes
+export default Notes;
 ```
 
 In our `Notes` component, we created a new `noteList()` helper function that will give us an array of notes containing only the notes that we should display, dependent on the value of `filter` which was destructured from the object returned by `store.getState()`. We then call this function in our JSX, to which we map over the array that it returns, creating an instance of our `Note` component for each array element.
@@ -11963,29 +11590,28 @@ This gives us access to the `connect()` function. In order to use `connect()` wi
 **/src/index.js**
 
 ```jsx
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { createStore, combineReducers } from 'redux'
-import { Provider } from 'react-redux'
-import App from './App'
+import React from "react";
+import ReactDOM from "react-dom";
+import { createStore, combineReducers } from "redux";
+import { Provider } from "react-redux";
+import App from "./App";
 
-import noteReducer from './reducers/noteReducer'
-import filterReducer from './reducers/filterReducer'
+import noteReducer from "./reducers/noteReducer";
+import filterReducer from "./reducers/filterReducer";
 
 const reducer = combineReducers({
   notes: noteReducer,
-  filter: filterReducer
-})
+  filter: filterReducer,
+});
 
-const store = createStore(reducer)
-
+const store = createStore(reducer);
 
 ReactDOM.render(
-<Provider store={store}> 
-  <App store={store} />
-</Provider>,
-document.getElementById('root'))
-
+  <Provider store={store}>
+    <App store={store} />
+  </Provider>,
+  document.getElementById("root")
+);
 ```
 
 Here, we got rid of the `renderDOM()` function and the subscription that took it in as a parameter as we no longer need a listener to manually trigger rerenders when our store changes. Instead, we just call the `render()` method of `ReactDOM` directly on a `Provider` which wraps our `App` component.
@@ -11995,42 +11621,41 @@ Now that our `App` component is wrapped in a `Provider`, every single nested com
 **/src/components/Notes.js**
 
 ```jsx
-import React from 'react'
-import { toggleFlaggedOf } from '../reducers/noteReducer'
-import { connect } from 'react-redux'
-import Note from './Note'
+import React from "react";
+import { toggleFlaggedOf } from "../reducers/noteReducer";
+import { connect } from "react-redux";
+import Note from "./Note";
 
 const Notes = ({ store }) => {
-
-  const {notes, filter} = store.getState()
+  const { notes, filter } = store.getState();
 
   const noteList = () => {
-    if (filter === 'FLAGGED') {
-      return notes.filter(n => n.flagged)
+    if (filter === "FLAGGED") {
+      return notes.filter((n) => n.flagged);
     } else {
-      return notes
+      return notes;
     }
-  }
+  };
 
   const toggleFlagged = (id) => () => {
-    store.dispatch(toggleFlaggedOf(id))
-  }
+    store.dispatch(toggleFlaggedOf(id));
+  };
 
   return (
     <ul>
-      {noteList().map(note =>
+      {noteList().map((note) => (
         <Note
           key={note.id}
           note={note}
           toggleFlagged={toggleFlagged(note.id)}
         />
-      )}
+      ))}
     </ul>
-  )
-}
+  );
+};
 
-const ConnectedNotes = connect()(Notes)
-export default ConnectedNotes
+const ConnectedNotes = connect()(Notes);
+export default ConnectedNotes;
 ```
 
 Here, we import `connect` and use it to create a new connected component to which we store in `ConnectedNotes`. We then export `ConnectedNotes` rather than `Note`. We are not quite done yet.
@@ -12053,46 +11678,45 @@ Let's update our component to use props over directly accessing the store:
 **/src/components/Notes.js**
 
 ```jsx
-import React from 'react'
-import { toggleFlaggedOf } from '../reducers/noteReducer'
-import { connect } from 'react-redux'
-import Note from './Note'
+import React from "react";
+import { toggleFlaggedOf } from "../reducers/noteReducer";
+import { connect } from "react-redux";
+import Note from "./Note";
 
 const Notes = ({ notes, filter, store }) => {
-
   const noteList = () => {
-    if (filter === 'FLAGGED') {
-      return notes.filter(n => n.flagged)
+    if (filter === "FLAGGED") {
+      return notes.filter((n) => n.flagged);
     }
-    return notes
-  }
+    return notes;
+  };
 
   const toggleFlagged = (id) => () => {
-    store.dispatch(toggleFlaggedOf(id))
-  }
+    store.dispatch(toggleFlaggedOf(id));
+  };
 
   return (
     <ul>
-      {noteList().map(note =>
+      {noteList().map((note) => (
         <Note
           key={note.id}
           note={note}
           toggleFlagged={toggleFlagged(note.id)}
         />
-      )}
+      ))}
     </ul>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
     notes: state.notes,
     filter: state.filter,
-  }
-}
+  };
+};
 
-const ConnectedNotes = connect(mapStateToProps)(Notes)
-export default ConnectedNotes
+const ConnectedNotes = connect(mapStateToProps)(Notes);
+export default ConnectedNotes;
 ```
 
 A few things have changed here:
@@ -12109,21 +11733,21 @@ For example:
 
 ```jsx
 const add = (x) => (y) => {
-  return (x + y)
-}
+  return x + y;
+};
 
-const addOne = add(1)
+const addOne = add(1);
 
-const testOne = addOne(5) // 1 + 5 === 6
+const testOne = addOne(5); // 1 + 5 === 6
 
-const testTwo = add(1)(5) // 1 + 5 === 6
+const testTwo = add(1)(5); // 1 + 5 === 6
 ```
 
 Here, with `addOne`, we assign it with a function call to `add` while only providing one set of parentheses. This returns a function that we can later provide the second set of parentheses to which the first value was placed within the function (`x` in the function declaration was replaced with the value `1`). This is simply the practice of currying functions that we've been exposed to in the past, only with variables that are not immediately curried (return/curried functions that take in parameters).
 
 With `testTwo`, our first parentheses creates a function with `x` replaced with `1` just like we did with `addOne`, only this time, we immediately execute the function that was returned with the parameter(s) in the second parameter and store the return value of that function instead.
 
-![IMG_2D180F778260-1](/Users/josephsemrai/Downloads/IMG_2D180F778260-1.jpeg)
+TODO: Replace with actual diagram
 
 The above diagram illustrates how `connect()()` returns a "connected" component that has access to certain parts of the store via its props dependent on the assignments specified in `mapStateToProps()`.
 
@@ -12136,53 +11760,45 @@ React Redux provides a similar solution for dispatching actions: `mapDispatchToP
 **/src/components/Notes.js**
 
 ```jsx
-import React from 'react'
-import { toggleFlaggedOf } from '../reducers/noteReducer'
-import { connect } from 'react-redux'
-import Note from './Note'
+import React from "react";
+import { toggleFlaggedOf } from "../reducers/noteReducer";
+import { connect } from "react-redux";
+import Note from "./Note";
 
-const Notes = ({ 
-  notes,
-  filter,
-  toggleFlagged 
-}) => {
-
+const Notes = ({ notes, filter, toggleFlagged }) => {
   const noteList = () => {
-    if (filter === 'FLAGGED') {
-      return notes.filter(n => n.flagged)
+    if (filter === "FLAGGED") {
+      return notes.filter((n) => n.flagged);
     }
-    return notes
-  }
+    return notes;
+  };
 
   return (
     <ul>
-      {noteList().map(note =>
+      {noteList().map((note) => (
         <Note
           key={note.id}
           note={note}
           toggleFlagged={() => toggleFlagged(note.id)}
         />
-      )}
+      ))}
     </ul>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
     notes: state.notes,
-    filter: state.filter
-  }
-}
+    filter: state.filter,
+  };
+};
 
 const mapDispatchToProps = {
-  toggleFlagged: toggleFlaggedOf
-}
+  toggleFlagged: toggleFlaggedOf,
+};
 
-const ConnectedNotes = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Notes)
-export default ConnectedNotes
+const ConnectedNotes = connect(mapStateToProps, mapDispatchToProps)(Notes);
+export default ConnectedNotes;
 ```
 
 Here, we made a few changes to support dispatching from props using `mapDispatchToProps` rather than calling `dispatch()` upon our store directly. Here, we specify the `mapDispatchToProps` object which contains the action creators that we want to be passed to the connected component as props. We don't need to call `dispatch()` manually here, as `connect()()` will create a function that dispatches a given action creator for each one. Within the `mapDispatchToProps` object, we specify the name of the prop that we want for our dispatcher as the property name. The value for that property will be the action creator that is used to create the function that eventually dispatches this action.
@@ -12200,45 +11816,44 @@ We can also go ahead and use `connect()()` to fix a bug that had been introduced
 **/src/components/NoteFilter.js**
 
 ```jsx
-import React from 'react' // eslint-disable-line no-unused-vars
-import { filterNotesBy } from '../reducers/filterReducer'
-import { connect } from 'react-redux'
+import React from "react"; // eslint-disable-line no-unused-vars
+import { filterNotesBy } from "../reducers/filterReducer";
+import { connect } from "react-redux";
 const NoteFilter = ({ filter, filterNotes }) => {
-
-  const showAll = filter === 'ALL'
+  const showAll = filter === "ALL";
 
   return (
     <div>
-      <button onClick={() => filterNotes(showAll ? 'FLAGGED' : 'ALL')}>
-          Show {showAll ? 'Flagged' : 'All' }
+      <button onClick={() => filterNotes(showAll ? "FLAGGED" : "ALL")}>
+        Show {showAll ? "Flagged" : "All"}
       </button>
     </div>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
-    filter: state.filter
-  }
-}
+    filter: state.filter,
+  };
+};
 
 const mapDispatchToProps = {
-  filterNotes: filterNotesBy
-}
+  filterNotes: filterNotesBy,
+};
 
 const ConnectedNoteFilter = connect(
   mapStateToProps,
   mapDispatchToProps
-)(NoteFilter)
-export default ConnectedNoteFilter
+)(NoteFilter);
+export default ConnectedNoteFilter;
 ```
 
 #### The Two Forms of `mapDispatchToProps`
 
 The `mapDispatchToProps` parameter of `connect()()` can have either a function or an object as its value:
 
-* Function form: allows us to access `dispatch()` and make the call to it ourselves, giving us more flexibility in customizing its behavior.
-* Object form: easier to use as it will automatically convert the action creators specified in the object into functions that call `dispatch()` upon these actions.
+- Function form: allows us to access `dispatch()` and make the call to it ourselves, giving us more flexibility in customizing its behavior.
+- Object form: easier to use as it will automatically convert the action creators specified in the object into functions that call `dispatch()` upon these actions.
 
 We have just explored the object form where:
 
@@ -12246,36 +11861,36 @@ We have just explored the object form where:
 //...
 
 const mapDispatchToProps = {
-  filterNotes: filterNotesBy
-}
+  filterNotes: filterNotesBy,
+};
 
 const ConnectedNoteFilter = connect(
   mapStateToProps,
   mapDispatchToProps
-)(NoteFilter)
-export default ConnectedNoteFilter
+)(NoteFilter);
+export default ConnectedNoteFilter;
 ```
 
-Allows us to access `filterNotes()` from within our component, to which the action creator, `filterNotesBy`, is automatically dispatched via a call to our prop. 
+Allows us to access `filterNotes()` from within our component, to which the action creator, `filterNotesBy`, is automatically dispatched via a call to our prop.
 
 Alternatively, we can utilize the function form in order specify the implementation of the dispatch call:
 
 ```jsx
 //...
 
-const mapDispatchToProps = dispatch => {
-    return {
-        filterNotes: filter => {
-            dispatch(filterNotesBy(filter))
-        }
-    }
-}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    filterNotes: (filter) => {
+      dispatch(filterNotesBy(filter));
+    },
+  };
+};
 
 const ConnectedNoteFilter = connect(
   mapStateToProps,
   mapDispatchToProps
-)(NoteFilter)
-export default ConnectedNoteFilter
+)(NoteFilter);
+export default ConnectedNoteFilter;
 ```
 
 Here, we create a function that will eventually take in the `dispatch()` function (provided by `connect()()`) and will return an object containing functions where the keys will be the names of the props passed to the component. This function form achieves the same result as the object form, but gives us some more flexibility with its implementation.
@@ -12289,9 +11904,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     removePost: () => {
       dispatch(removePostById(ownProps.postid));
-    }
-  }
-}
+    },
+  };
+};
 ```
 
 Here, we specify a new parameter, `ownProps`, to which we can use the argument to access the `postid` prop of our component. We then provide this value to our `removePostById` action creator so that we can update the correct post. Finally, we dispatch the action that is provided to us.
@@ -12326,36 +11941,31 @@ Previously, we had discussed how presentational components should only be concer
 
 Let's apply this "separation of concerns" to our `Notes` component. Currently, we have a `noteList` function in our component function that returns an array of the notes that we need to display:
 
-**/
+\*\*/
 
 ```jsx
 //...
 
-const Notes = ({ 
-  notes,
-  filter,
-  toggleFlagged 
-}) => {
-
+const Notes = ({ notes, filter, toggleFlagged }) => {
   const noteList = () => {
-    if (filter === 'FLAGGED') {
-      return notes.filter(n => n.flagged)
+    if (filter === "FLAGGED") {
+      return notes.filter((n) => n.flagged);
     }
-    return notes
-  }
+    return notes;
+  };
 
   return (
     <ul>
-      {noteList().map(note =>
+      {noteList().map((note) => (
         <Note
           key={note.id}
           note={note}
           toggleFlagged={() => toggleFlagged(note.id)}
         />
-      )}
+      ))}
     </ul>
-  )
-}
+  );
+};
 
 //...
 ```
@@ -12363,59 +11973,59 @@ const Notes = ({
 Instead, we can employ the "separation of concerns" design principle (to a certain extent) by moving the logic that determines what notes will be rendered outside of the function:
 
 ```jsx
-import React from 'react'
-import { toggleFlaggedOf } from '../reducers/noteReducer'
-import { connect } from 'react-redux'
-import Note from './Note'
+import React from "react";
+import { toggleFlaggedOf } from "../reducers/noteReducer";
+import { connect } from "react-redux";
+import Note from "./Note";
 
-const Notes = ({ 
+const Notes = ({
   notes, // Subset of notes returned by the `noteList` selector
-  toggleFlagged 
+  toggleFlagged,
 }) => {
-
   return (
     <ul>
-      {notes.map(note => // We map over the `notes` prop now as it will contain only the notes that we want to display
-        <Note
-          key={note.id}
-          note={note}
-          toggleFlagged={() => toggleFlagged(note.id)}
-        />
+      {notes.map(
+        (
+          note // We map over the `notes` prop now as it will contain only the notes that we want to display
+        ) => (
+          <Note
+            key={note.id}
+            note={note}
+            toggleFlagged={() => toggleFlagged(note.id)}
+          />
+        )
       )}
     </ul>
-  )
-}
+  );
+};
 
-
-const noteList = ({ notes, filter }) => { // Destructures `notes` and `filter` from the state object passed to it
-  if (filter === 'FLAGGED') {
-    return notes.filter(n => n.flagged)
+const noteList = ({ notes, filter }) => {
+  // Destructures `notes` and `filter` from the state object passed to it
+  if (filter === "FLAGGED") {
+    return notes.filter((n) => n.flagged);
   }
-  return notes
-}
+  return notes;
+};
 
 const mapStateToProps = (state) => {
   return {
-    notes: noteList(state) // Call to `noteList` returns only the notes that we want to display dependent on the value of `filter` in our state
-  }
-}
+    notes: noteList(state), // Call to `noteList` returns only the notes that we want to display dependent on the value of `filter` in our state
+  };
+};
 
 const mapDispatchToProps = {
-  toggleFlagged: toggleFlaggedOf
-}
+  toggleFlagged: toggleFlaggedOf,
+};
 
-const ConnectedNotes = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Notes)
-export default ConnectedNotes
+const ConnectedNotes = connect(mapStateToProps, mapDispatchToProps)(Notes);
+export default ConnectedNotes;
 ```
 
-Read the comments in the code above to get a general idea of the changes that we had made. Here, instead of taking in the entire `notes` piece of state and then calling `noteList` upon the prop to filter out the notes that we don't want to display, we moved the logic for filtering the notes outside of the component. `noteList`, which lies outside of our functional component, now takes in the entire `state` object that will be given to it in our connected component. From this `state` object, it filters or *selects* a subset of the store and returns it. These simple functions that return a subset of data passed to it are called *selectors*.
+Read the comments in the code above to get a general idea of the changes that we had made. Here, instead of taking in the entire `notes` piece of state and then calling `noteList` upon the prop to filter out the notes that we don't want to display, we moved the logic for filtering the notes outside of the component. `noteList`, which lies outside of our functional component, now takes in the entire `state` object that will be given to it in our connected component. From this `state` object, it filters or _selects_ a subset of the store and returns it. These simple functions that return a subset of data passed to it are called _selectors_.
 
-Within `mapStateToProps()`, we call the `noteList` selector upon the `state` object and pass the resulting object to the `notes` prop. This allows our component to just receive the `notes` prop and map over it without any consideration of logic. All of this culminates in us creating a component that is closer to a *presentational component*.
+Within `mapStateToProps()`, we call the `noteList` selector upon the `state` object and pass the resulting object to the `notes` prop. This allows our component to just receive the `notes` prop and map over it without any consideration of logic. All of this culminates in us creating a component that is closer to a _presentational component_.
 
-Recall that a presentational component is not concerned about any of the logic surrounding it (that's left to *container components*), rather, it just takes in values and returns JSX to be *presented*.
+Recall that a presentational component is not concerned about any of the logic surrounding it (that's left to _container components_), rather, it just takes in values and returns JSX to be _presented_.
 
 ### Expanding Upon Presentational and Container Components
 
@@ -12423,9 +12033,9 @@ Dan Abramov, co-author of Redux and Create React App, states the following regar
 
 "Presentational components:
 
-- Are concerned with *how things look*.
-- May contain both presentational and container components** inside, and usually have some DOM markup and styles of their own.
-- Often allow containment via *this.props.children*.
+- Are concerned with _how things look_.
+- May contain both presentational and container components\*\* inside, and usually have some DOM markup and styles of their own.
+- Often allow containment via _this.props.children_.
 - Have no dependencies on the rest of the app, such as Flux actions or stores.
 - Don’t specify how the data is loaded or mutated.
 - Receive data and callbacks exclusively via props.
@@ -12434,19 +12044,19 @@ Dan Abramov, co-author of Redux and Create React App, states the following regar
 
 Our above `Notes` functional component follows most of these guidelines. When we pass this functional component into `connect()()`, it becomes a container component. Dan Abramov also states that container components:
 
-- "Are concerned with *how things work*.
+- "Are concerned with _how things work_.
 - **May contain both presentational and container components** inside but usually don’t have any DOM markup of their own except for some wrapping divs, and never have any styles.
 - Provide the data and behavior to presentational or other container components.
 - Call Flux actions and provide these as callbacks to the presentational components.
 - Are often stateful, as they tend to serve as data sources.
-- Are usually generated using [higher order components](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750) such as *connect()* from React Redux, *createContainer()* from Relay, or *Container.create()* from Flux Utils, rather than written by hand."
+- Are usually generated using [higher order components](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750) such as _connect()_ from React Redux, _createContainer()_ from Relay, or _Container.create()_ from Flux Utils, rather than written by hand."
 
 Usually, with separating our components in this manner, we gain a handful of benefits. Dan Abramov also lists the benefits of his separation criteria (listed above) as:
 
 - "Better separation of concerns. You understand your app and your UI better by writing components this way.
 - Better reusability. You can use the same presentational component with completely different state sources, and turn those into separate container components that can be further reused.
 - Presentational components are essentially your app’s “palette”. You can put them on a single page and let the designer tweak all their variations without touching the app’s logic. You can run screenshot regression tests on that page.
-- This forces you to extract “layout components” such as *Sidebar, Page, ContextMenu* and use *this.props.children* instead of duplicating the same markup and layout in several container components."
+- This forces you to extract “layout components” such as _Sidebar, Page, ContextMenu_ and use _this.props.children_ instead of duplicating the same markup and layout in several container components."
 
 Splitting up components like this may be a good idea sometimes, but it is not good to force this design upon your project if it does not fit well, especially in the case of using the React Hooks API. React Hooks allow us to "separate" stateful logic from the component without splitting the component up.
 
@@ -12474,18 +12084,18 @@ Recall that `json-server` will create a "mock API" that we can use in our fronte
 
 ```json
 {
-    "notes": [
-        {
-        "textContent": "This was served by json-server",
-        "flagged": false,
-        "id": 1
-        },
-        {
-        "textContent": "We're keeping track of all of these notes in the Redux Store",
-        "flagged": true,
-        "id": 2
-        }
-    ]
+  "notes": [
+    {
+      "textContent": "This was served by json-server",
+      "flagged": false,
+      "id": 1
+    },
+    {
+      "textContent": "We're keeping track of all of these notes in the Redux Store",
+      "flagged": true,
+      "id": 2
+    }
+  ]
 }
 ```
 
@@ -12515,16 +12125,16 @@ With our server up and running, we can now go ahead and add a service in our Rea
 **/src/services/noteService.js**
 
 ```jsx
-import axios from 'axios'
+import axios from "axios";
 
-const baseUrl = 'http://localhost:3001/notes'
+const baseUrl = "http://localhost:3001/notes";
 
 const getAll = async () => {
-  const res = await axios.get(baseUrl)
-  return res.data
-}
+  const res = await axios.get(baseUrl);
+  return res.data;
+};
 
-export default { getAll }
+export default { getAll };
 ```
 
 > `getAll` makes use of the async/await syntax.
@@ -12546,31 +12156,33 @@ One "hacky" solution involves fetching the notes and just dispatching a `NEW_NOT
 ```jsx
 //...
 
-import noteService from './services/noteService' // Import our Notes Service
+import noteService from "./services/noteService"; // Import our Notes Service
 
 const reducer = combineReducers({
   notes: noteReducer,
-  filter: filterReducer
-})
+  filter: filterReducer,
+});
 
-const store = createStore(reducer)
+const store = createStore(reducer);
 
-noteService.getAll().then(notes => // Gets all notes using the Notes Service and dispatches a NEW_NOTE action for each note
-  notes.forEach(note => {
-    store.dispatch({
-      type: 'NEW_NOTE',
-      data: note
-    });
-  })
+noteService.getAll().then(
+  (
+    notes // Gets all notes using the Notes Service and dispatches a NEW_NOTE action for each note
+  ) =>
+    notes.forEach((note) => {
+      store.dispatch({
+        type: "NEW_NOTE",
+        data: note,
+      });
+    })
 );
 
-
 ReactDOM.render(
-  <Provider store={store}> 
+  <Provider store={store}>
     <App store={store} />
   </Provider>,
-  document.getElementById('root')
-)
+  document.getElementById("root")
+);
 ```
 
 This gets the job done, but we can do better. Let's add support for a new `INIT_NOTES` action in our notes reducer so that we can initialize our notes by dispatching only one action:
@@ -12582,23 +12194,23 @@ This gets the job done, but we can do better. Let's add support for a new `INIT_
 
 const noteReducer = (state = [], action) => {
   switch (action.type) {
-  case 'INIT_NOTES':
-    return action.data // Simply sets the `notes` part of the store to the action's data
-  case 'NEW_NOTE':
-    return [...state, action.data]
-  case 'TOGGLE_FLAGGED': {
-    const noteId = action.data.id
-    const originalNote = state.find(n => n.id === noteId)
-    const updatedNote = {
-      ...originalNote,
-      flagged: !originalNote.flagged
+    case "INIT_NOTES":
+      return action.data; // Simply sets the `notes` part of the store to the action's data
+    case "NEW_NOTE":
+      return [...state, action.data];
+    case "TOGGLE_FLAGGED": {
+      const noteId = action.data.id;
+      const originalNote = state.find((n) => n.id === noteId);
+      const updatedNote = {
+        ...originalNote,
+        flagged: !originalNote.flagged,
+      };
+      return state.map((n) => (n.id === noteId ? updatedNote : n));
     }
-    return state.map(n => n.id === noteId ? updatedNote : n)
+    default:
+      return state;
   }
-  default:
-    return state
-  }
-}
+};
 
 //...
 ```
@@ -12612,10 +12224,10 @@ We can also create an action creator for using this new action type:
 
 export const initNotes = (notes) => {
   return {
-    type: 'INIT_NOTES',
+    type: "INIT_NOTES",
     data: notes,
-  }
-}
+  };
+};
 
 //...
 ```
@@ -12627,12 +12239,14 @@ Finally, we can make use of this new action in **index.js** where our initializa
 ```jsx
 //...
 
-import noteReducer, { initNotes } from './reducers/noteReducer'
+import noteReducer, { initNotes } from "./reducers/noteReducer";
 
 //...
 
-noteService.getAll().then(notes => // We get all notes and use the `initNotes` action creator with `notes` passed to it to dispatch an action that will initialize the `notes` part of our store
-  store.dispatch(initNotes(notes))
+noteService.getAll().then(
+  (
+    notes // We get all notes and use the `initNotes` action creator with `notes` passed to it to dispatch an action that will initialize the `notes` part of our store
+  ) => store.dispatch(initNotes(notes))
 );
 
 //...
@@ -12643,23 +12257,23 @@ We don't make use of `mapDispatchToProps` here since we are not in a React compo
 **/src/App.js**
 
 ```jsx
-import React, { useEffect } from 'react' // Import useEffect which will call initNotes
-import { connect } from 'react-redux' // Import connect so we can create our connected component
+import React, { useEffect } from "react"; // Import useEffect which will call initNotes
+import { connect } from "react-redux"; // Import connect so we can create our connected component
 
-import Notes from './components/Notes'
-import NewNote from './components/NewNote'
-import NoteFilter from './components/NoteFilter'
+import Notes from "./components/Notes";
+import NewNote from "./components/NewNote";
+import NoteFilter from "./components/NoteFilter";
 
-import { initNotes } from './reducers/noteReducer' // Imports our `initNotes` action creator
+import { initNotes } from "./reducers/noteReducer"; // Imports our `initNotes` action creator
 
-import noteService from './services/noteService' // Imports our notes service so that we can fetch our notes
+import noteService from "./services/noteService"; // Imports our notes service so that we can fetch our notes
 
-const App = ({ initializeNotes }) => { // Destructures `initNotes` provided to our connected component through its props
+const App = ({ initializeNotes }) => {
+  // Destructures `initNotes` provided to our connected component through its props
 
   useEffect(() => {
-    noteService.getAll().then(notes => initializeNotes(notes)) // Retrieves all notes and then calls the `initNotes` prop upon the object it retrieves
-  }, [initializeNotes])
-
+    noteService.getAll().then((notes) => initializeNotes(notes)); // Retrieves all notes and then calls the `initNotes` prop upon the object it retrieves
+  }, [initializeNotes]);
 
   return (
     <div>
@@ -12667,11 +12281,11 @@ const App = ({ initializeNotes }) => { // Destructures `initNotes` provided to o
       <NoteFilter />
       <Notes />
     </div>
-  )
-}
+  );
+};
 
-const ConnectedApp = connect(null, { initializeNotes: initNotes })(App) // Creates a connected component with a mapDispatchToProps object
-export default ConnectedApp
+const ConnectedApp = connect(null, { initializeNotes: initNotes })(App); // Creates a connected component with a mapDispatchToProps object
+export default ConnectedApp;
 ```
 
 Read the comments in the code above to see every single change that we had made and why we made them. In short, we make use of `react-redux` to create a connected component that has the `initNotes` action creator passed to it as a dispatcher function through its props. This `initNotes` dispatcher (created automatically by `connect()()` from our action creator) is called in the function specified to `useEffect()` upon the fulfillment of the `noteService.getAll()` promise. We make use of the effect hook as we do not want to fetch the data from the server every single time our component renders (we register `initializeNotes` as a dependency of the effect hook as to make sure that we call the function if `initializeNotes` is ever updated and to silence React warnings).
@@ -12681,28 +12295,29 @@ Let's extend this logic to creating new notes so that our notes can be reflected
 **/src/services/noteService.js**
 
 ```jsx
-import axios from 'axios'
+import axios from "axios";
 
-const baseUrl = 'http://localhost:3001/notes'
+const baseUrl = "http://localhost:3001/notes";
 
 const getAll = async () => {
-  const res = await axios.get(baseUrl)
-  return res.data
-}
+  const res = await axios.get(baseUrl);
+  return res.data;
+};
 
-const create = async textContent => { // New service that posts a note object to our "database"
-  const note = { 
+const create = async (textContent) => {
+  // New service that posts a note object to our "database"
+  const note = {
     textContent,
-    flagged: false 
-  }
-  const res = await axios.post(baseUrl, note)
-  return res.data
-}
+    flagged: false,
+  };
+  const res = await axios.post(baseUrl, note);
+  return res.data;
+};
 
-export default { 
+export default {
   getAll,
-  create
-}
+  create,
+};
 ```
 
 We can then update the `addNote` method in the `NewNote` component to make use of this service:
@@ -12710,30 +12325,29 @@ We can then update the `addNote` method in the `NewNote` component to make use o
 **/src/components/NewNote.js**
 
 ```jsx
-import React from 'react'
-import { connect } from 'react-redux'
+import React from "react";
+import { connect } from "react-redux";
 
-import { createNote } from '../reducers/noteReducer' // Relevant imports
+import { createNote } from "../reducers/noteReducer"; // Relevant imports
 
-import noteService from '../services/noteService' // Relevant imports
+import noteService from "../services/noteService"; // Relevant imports
 
 const NewNote = ({ createNewNote }) => {
-  
   const addNote = async (event) => {
-    event.preventDefault()
-    const textContent = event.target.noteField.value
-    event.target.noteField.value = '' // Moved before the awaited method call to preserve atomic updates
-    const receivedNote = await noteService.create(textContent) // Uses the create method of our service
-    createNewNote(receivedNote) // Dispatches the `createNote` action using the received note from the post request
-  }
-  
+    event.preventDefault();
+    const textContent = event.target.noteField.value;
+    event.target.noteField.value = ""; // Moved before the awaited method call to preserve atomic updates
+    const receivedNote = await noteService.create(textContent); // Uses the create method of our service
+    createNewNote(receivedNote); // Dispatches the `createNote` action using the received note from the post request
+  };
+
   return (
     <form onSubmit={addNote}>
-      <input name="noteField"/> 
+      <input name="noteField" />
       <button type="submit">Create Note</button>
     </form>
-  )
-}
+  );
+};
 
 //...
 ```
@@ -12749,10 +12363,10 @@ As we are now passing in the entire note object rather than just the text conten
 
 export const createNote = (data) => {
   return {
-    type: 'NEW_NOTE',
-    data
-  }
-}
+    type: "NEW_NOTE",
+    data,
+  };
+};
 
 //...
 ```
@@ -12762,34 +12376,35 @@ Finally, we'll add the ability to update a note in our "backend":
 **/src/services/noteService.js**
 
 ```jsx
-import axios from 'axios'
+import axios from "axios";
 
-const baseUrl = 'http://localhost:3001/notes'
+const baseUrl = "http://localhost:3001/notes";
 
 const getAll = async () => {
-  const res = await axios.get(baseUrl)
-  return res.data
-}
+  const res = await axios.get(baseUrl);
+  return res.data;
+};
 
-const create = async textContent => {
-  const note = { 
+const create = async (textContent) => {
+  const note = {
     textContent,
-    flagged: false 
-  }
-  const res = await axios.post(baseUrl, note)
-  return res.data
-}
+    flagged: false,
+  };
+  const res = await axios.post(baseUrl, note);
+  return res.data;
+};
 
-const update = async (id, newObject) => { // Added update method that takes in the id and the object to replace it with
-  const res = await axios.put(`${baseUrl}/${id}`, newObject)
-  return res.data
-}
+const update = async (id, newObject) => {
+  // Added update method that takes in the id and the object to replace it with
+  const res = await axios.put(`${baseUrl}/${id}`, newObject);
+  return res.data;
+};
 
-export default { 
+export default {
   getAll,
   create,
-  update
-}
+  update,
+};
 ```
 
 Now, let's make use of this new service method that we had created in our `Notes` component where we'll create a `toggleNoteFlagged()` wrapper function around our `toggleFlagged()` dispatcher that will both make the appropriate API calls and update our local state:
@@ -12797,62 +12412,55 @@ Now, let's make use of this new service method that we had created in our `Notes
 **/src/components/Notes.js**
 
 ```jsx
-import React from 'react'
-import { toggleFlaggedOf } from '../reducers/noteReducer'
-import { connect } from 'react-redux'
-import Note from './Note'
-import noteService from '../services/noteService'
+import React from "react";
+import { toggleFlaggedOf } from "../reducers/noteReducer";
+import { connect } from "react-redux";
+import Note from "./Note";
+import noteService from "../services/noteService";
 
-const Notes = ({ 
-  notes,
-  toggleFlagged 
-}) => {
-
-  const toggleNoteFlagged = async note => {
-    const toggledNote = { // Create the updated note with the toggled flag
+const Notes = ({ notes, toggleFlagged }) => {
+  const toggleNoteFlagged = async (note) => {
+    const toggledNote = {
+      // Create the updated note with the toggled flag
       ...note,
-      flagged: !note.flagged
-    }
-    await noteService.update(note.id, toggledNote) // Update the note with the updated note
-    toggleFlagged(note.id) // Toggle the flagged property in our local state (in a proper solution, we should update the entire object upon receiving a response)
-  }
+      flagged: !note.flagged,
+    };
+    await noteService.update(note.id, toggledNote); // Update the note with the updated note
+    toggleFlagged(note.id); // Toggle the flagged property in our local state (in a proper solution, we should update the entire object upon receiving a response)
+  };
 
   return (
     <ul>
-      {notes.map(note =>
+      {notes.map((note) => (
         <Note
           key={note.id}
           note={note}
           toggleFlagged={() => toggleNoteFlagged(note)}
         />
-      )}
+      ))}
     </ul>
-  )
-}
-
+  );
+};
 
 const noteList = ({ notes, filter }) => {
-  if (filter === 'FLAGGED') {
-    return notes.filter(n => n.flagged)
+  if (filter === "FLAGGED") {
+    return notes.filter((n) => n.flagged);
   }
-  return notes
-}
+  return notes;
+};
 
 const mapStateToProps = (state) => {
   return {
-    notes: noteList(state)
-  }
-}
+    notes: noteList(state),
+  };
+};
 
 const mapDispatchToProps = {
-  toggleFlagged: toggleFlaggedOf
-}
+  toggleFlagged: toggleFlaggedOf,
+};
 
-const ConnectedNotes = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Notes)
-export default ConnectedNotes
+const ConnectedNotes = connect(mapStateToProps, mapDispatchToProps)(Notes);
+export default ConnectedNotes;
 ```
 
 ### Abstraction with Redux-Server Communication
@@ -12861,22 +12469,22 @@ From the code that we have written so far, you might have been wondering if we c
 
 Currently, we're communicating with the server using functions that reside inside of our functions. Let's apply the "separation of concerns" design pattern and attempt to abstract these functions away from the insides of our components.
 
-`redux-thunk` allows us to do this by enabling us to write action creators that return a function instead of an action creator. These functions, called *thunks*, receive `dispatch()` as an argument and can call it asynchronously. This allows us to communicate with the server from within the action creators that are created instead of writing an entire wrapper function that calls the dispatcher and the relevant statements to communicate with the server (like we did with `toggleNoteFlagged()`).
+`redux-thunk` allows us to do this by enabling us to write action creators that return a function instead of an action creator. These functions, called _thunks_, receive `dispatch()` as an argument and can call it asynchronously. This allows us to communicate with the server from within the action creators that are created instead of writing an entire wrapper function that calls the dispatcher and the relevant statements to communicate with the server (like we did with `toggleNoteFlagged()`).
 
 To illustrate this, our initialization of notes would be simplified from this:
 
 ```jsx
 useEffect(() => {
-    noteService.getAll().then(notes => initializeNotes(notes))
-  }, [initializeNotes])
+  noteService.getAll().then((notes) => initializeNotes(notes));
+}, [initializeNotes]);
 ```
 
 to this:
 
 ```jsx
 useEffect(() => {
-    initializeNotes(notes)
-  },[initializeNotes])
+  initializeNotes(notes);
+}, [initializeNotes]);
 ```
 
 This is because we would be able to perform the server communication involving fetching the notes in the function that is returned (as we are no longer just returning the action).
@@ -12887,52 +12495,52 @@ Let's start by installing `redux-thunk` by executing:
 npm install redux-thunk
 ```
 
-`redux-thunk` is a *redux middleware*. Recall that middleware in Express is simply some piece of code that you can put between some code during the lifecycle of a request to the server. Redux middleware implements this concept by providing a third-party extension point between dispatching an action and reaching the reducer. Thus, you have an extension point where you can execute code that will be executed after you dispatch an action, but before the reducer receives it (like how you can use Express middleware to modify the `req` object before it actually reaches the controller).
+`redux-thunk` is a _redux middleware_. Recall that middleware in Express is simply some piece of code that you can put between some code during the lifecycle of a request to the server. Redux middleware implements this concept by providing a third-party extension point between dispatching an action and reaching the reducer. Thus, you have an extension point where you can execute code that will be executed after you dispatch an action, but before the reducer receives it (like how you can use Express middleware to modify the `req` object before it actually reaches the controller).
 
 Before we work with `redux-thunk`, let's organize our project further by placing the initialization of our store and combining of our reducers in its own module:
 
 **/src/store.js**
 
 ```jsx
-import { createStore, combineReducers, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 
-import filterReducer from './reducers/filterReducer'
-import noteReducer from './reducers/noteReducer'
+import filterReducer from "./reducers/filterReducer";
+import noteReducer from "./reducers/noteReducer";
 
 const reducer = combineReducers({
   notes: noteReducer,
-  filter: filterReducer
-})
+  filter: filterReducer,
+});
 
-const store = createStore(reducer, applyMiddleware(thunk))
+const store = createStore(reducer, applyMiddleware(thunk));
 
-export default store
+export default store;
 ```
 
-Here, we create our store with our combined reducers and add the `thunk` middleware using `applyMiddleware()`. `applyMiddleware()` is a *store enhancer* which is a higher-order function that composes a store creator to return a new, enhance store creator. It is unlikely that you will have to work store enhancers, but it is helpful to understand what `applyMiddleware()` actually is.
+Here, we create our store with our combined reducers and add the `thunk` middleware using `applyMiddleware()`. `applyMiddleware()` is a _store enhancer_ which is a higher-order function that composes a store creator to return a new, enhance store creator. It is unlikely that you will have to work store enhancers, but it is helpful to understand what `applyMiddleware()` actually is.
 
 We can then just import `store` from the module in **index.js**, dramatically simplifying the file:
 
 **/src/index.js**
 
 ```jsx
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import App from './App'
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import App from "./App";
 
-import store from './store'
+import store from "./store";
 
 ReactDOM.render(
-  <Provider store={store}> 
+  <Provider store={store}>
     <App store={store} />
   </Provider>,
-  document.getElementById('root')
-)
+  document.getElementById("root")
+);
 ```
 
-Let's write our first *thunk* involving the initialization of notes in our application:
+Let's write our first _thunk_ involving the initialization of notes in our application:
 
 **/src/reducers/noteReducer.js**
 
@@ -12940,39 +12548,38 @@ Let's write our first *thunk* involving the initialization of notes in our appli
 //...
 
 export const initNotes = () => {
-  return async dispatch => {
-    const notes = await noteService.getAll()
+  return async (dispatch) => {
+    const notes = await noteService.getAll();
     dispatch({
-      type: 'INIT_NOTES',
-      data: notes
-    })
-  }
-}
+      type: "INIT_NOTES",
+      data: notes,
+    });
+  };
+};
 
 //...
 ```
 
-Here, `initNotes` (the *thunk* or wrapper function) returns an asynchronous function that awaits the retrieval of notes from the backend and dispatches a `INIT_NOTES` action with the notes in order to initialize our store.
+Here, `initNotes` (the _thunk_ or wrapper function) returns an asynchronous function that awaits the retrieval of notes from the backend and dispatches a `INIT_NOTES` action with the notes in order to initialize our store.
 
 In our `App` component, we can go ahead and use the simplified code that we talked about earlier:
 
 **/src/App.js**
 
 ```jsx
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 
-import Notes from './components/Notes'
-import NewNote from './components/NewNote'
-import NoteFilter from './components/NoteFilter'
+import Notes from "./components/Notes";
+import NewNote from "./components/NewNote";
+import NoteFilter from "./components/NoteFilter";
 
-import { initNotes } from './reducers/noteReducer'
+import { initNotes } from "./reducers/noteReducer";
 
 const App = ({ initializeNotes }) => {
-
   useEffect(() => {
-    initializeNotes()
-  }, [initializeNotes])
+    initializeNotes();
+  }, [initializeNotes]);
 
   return (
     <div>
@@ -12980,11 +12587,11 @@ const App = ({ initializeNotes }) => {
       <NoteFilter />
       <Notes />
     </div>
-  )
-}
+  );
+};
 
-const ConnectedApp = connect(null, { initializeNotes: initNotes })(App) 
-export default ConnectedApp
+const ConnectedApp = connect(null, { initializeNotes: initNotes })(App);
+export default ConnectedApp;
 ```
 
 Here, we can just call `initNotes` and watch as it updates our store using data that has been fetched in the thunk. One thing to note is that: when we call `connect()()`, Redux will no longer add the `dispatch` logic for us as we are now defining it in the function form rather than the object shorthand form.
@@ -12994,15 +12601,15 @@ The logic for initializing our notes now resides outside of any of our component
 ```jsx
 //...
 
-export const createNote = textContent => {
-  return async dispatch => {
-    const newNote = await noteService.create(textContent)
+export const createNote = (textContent) => {
+  return async (dispatch) => {
+    const newNote = await noteService.create(textContent);
     dispatch({
-      type: 'NEW_NOTE',
-      data: newNote
-    })
-  }
-}
+      type: "NEW_NOTE",
+      data: newNote,
+    });
+  };
+};
 
 //...
 ```
@@ -13014,36 +12621,33 @@ With thunks, our wrapper function (the actual thunk) returns a curried function 
 Our `NewNote` component now simply just calls the `createNewNote` thunk rather than making the API requests itself in `addNote()`:
 
 ```jsx
-import React from 'react'
-import { connect } from 'react-redux'
+import React from "react";
+import { connect } from "react-redux";
 
-import { createNote } from '../reducers/noteReducer'
+import { createNote } from "../reducers/noteReducer";
 
 const NewNote = ({ createNewNote }) => {
   const addNote = (event) => {
-    event.preventDefault()
-    const textContent = event.target.noteField.value
-    event.target.noteField.value = ''
-    createNewNote(textContent)
-  }
-  
+    event.preventDefault();
+    const textContent = event.target.noteField.value;
+    event.target.noteField.value = "";
+    createNewNote(textContent);
+  };
+
   return (
     <form onSubmit={addNote}>
-      <input name="noteField"/> 
+      <input name="noteField" />
       <button type="submit">Create Note</button>
     </form>
-  )
-}
+  );
+};
 
 const mapDispatchToProps = {
-  createNewNote: createNote
-}
+  createNewNote: createNote,
+};
 
-const ConnectedNewNote = connect(
-  null,
-  mapDispatchToProps
-)(NewNote)
-export default ConnectedNewNote
+const ConnectedNewNote = connect(null, mapDispatchToProps)(NewNote);
+export default ConnectedNewNote;
 ```
 
 At this point, we're managing much of our application's state using Redux. This is often considered the "right" way to use React with it primarily focused on generating views with the application state being found in Redux with its actions, reducers, etc. However, there still are cases when we might be better served by keeping some logic within React. For example, if we had a simple form whose state does not need to be reflected across the application, the `useState()` hook would serve us just fine over using Redux.
@@ -13063,25 +12667,23 @@ We can then modify our `store` module by wrapping all of our enhancers/middlewar
 **/src/store.js**
 
 ```jsx
-import { createStore, combineReducers, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
-import { composeWithDevTools } from 'redux-devtools-extension'
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
 
-import filterReducer from './reducers/filterReducer'
-import noteReducer from './reducers/noteReducer'
+import filterReducer from "./reducers/filterReducer";
+import noteReducer from "./reducers/noteReducer";
 
 const reducer = combineReducers({
   notes: noteReducer,
-  filter: filterReducer
-})
+  filter: filterReducer,
+});
 
-const enhancer = composeWithDevTools(
-  applyMiddleware(thunk)
-)
+const enhancer = composeWithDevTools(applyMiddleware(thunk));
 
-const store = createStore(reducer, enhancer)
+const store = createStore(reducer, enhancer);
 
-export default store
+export default store;
 ```
 
 Upon restarting our browser, a new "Redux" tab will appear in our Chrome Developer Tools. Upon viewing the tab, we'll see information relating to the store of our application:
@@ -13091,8 +12693,6 @@ Upon restarting our browser, a new "Redux" tab will appear in our Chrome Develop
 There are various features that assist us with development. One notable thing that we can do with this is dispatch actions manually from the developer tools:
 
 ![Redux Demonstration](https://i.imgur.com/HeH2fJE.png)
-
-
 
 # Chapter 35135: React Navigation, Unpacking Create-React-App, and Component Libraries
 
@@ -13108,40 +12708,45 @@ We could provide the illusion of multiple pages (assuming that we have component
 //...
 
 const App = () => {
- const [page, setPage] = useState('home') // State tracking the page that we should render
+  const [page, setPage] = useState("home"); // State tracking the page that we should render
 
-  const toPage = (page) => (event) => { // Updates the state
-    event.preventDefault()
-    setPage(page)
-  }
+  const toPage = (page) => (event) => {
+    // Updates the state
+    event.preventDefault();
+    setPage(page);
+  };
 
-  const content = () => { // Returns the component that we should render dependent on the state
-    if (page === 'home') {
-      return <Home />
-    } else if (page === 'notes') {
-      return <Notes />
-    } else if (page === 'users') {
-      return <Users />
+  const content = () => {
+    // Returns the component that we should render dependent on the state
+    if (page === "home") {
+      return <Home />;
+    } else if (page === "notes") {
+      return <Notes />;
+    } else if (page === "users") {
+      return <Users />;
     }
-  }
+  };
 
   return (
     <div>
-      <div> {/* Start navigation bar */}
-        <a href="" onClick={toPage('home')}>
+      <div>
+        {" "}
+        {/* Start navigation bar */}
+        <a href="" onClick={toPage("home")}>
           Home
         </a>
-        <a href="" onClick={toPage('notes')}>
+        <a href="" onClick={toPage("notes")}>
           notes
         </a>
-        <a href="" onClick={toPage('users')}>
+        <a href="" onClick={toPage("users")}>
           users
         </a>
-      </div> {/* End navigation bar */}
+      </div>{" "}
+      {/* End navigation bar */}
       {content()} {/* Content of "page" */}
     </div>
-  )
-}
+  );
+};
 ```
 
 Here, we create a helper function, `toPage()` that takes in the name of the page component that we want to load. This function prevents the default behavior of an anchor element (which is to redirect the page to the value specified to `href`) and sets the `page` piece of state that we're on. This affects the page that is rendered, because in our `content()` method (which returns the JSX of the page that we render), we check the `page` piece of state and return the component that we want to render.
@@ -13169,11 +12774,13 @@ We can use these bindings to emulate the above functionality as follows:
 
 import {
   BrowserRouter as Router,
-  Route, Link, Redirect, withRouter
-} from 'react-router-dom'
+  Route,
+  Link,
+  Redirect,
+  withRouter,
+} from "react-router-dom";
 
 const App = () => {
-
   return (
     <div>
       <Router>
@@ -13189,8 +12796,8 @@ const App = () => {
         </div>
       </Router>
     </div>
-  )
-}
+  );
+};
 ```
 
 Here, we specify the routing of our application. Here, routing is just conditional rendering of components based on the URL that we are currently visiting to which the components are children of the `Router` component.
@@ -13225,7 +12832,7 @@ This logic of providing a relative path/route and a component to render extends 
 
 Here, we have to specify `exact` as a prop since this will tell React Router that the route must match `/` exactly for this component to be rendered; otherwise, anything following `/` will still evaluate to the route for `/`.
 
-Something interesting to note is that React Router takes advantage of *dynamic routing*. Static routing (found in Express, Ember, Angular, and older versions of React Router) has routes declared before the app listens for any requests (declaring routes up front before the app renders).
+Something interesting to note is that React Router takes advantage of _dynamic routing_. Static routing (found in Express, Ember, Angular, and older versions of React Router) has routes declared before the app listens for any requests (declaring routes up front before the app renders).
 
 React Router with its dynamic routing has routing taking place as the app renders. Routes do not lie within a configuration or convention running outside of the app. This gives us the advantage of dynamically changing routes depending on screen size, state, etc. For example, we might want to render a dashboard view instead of individual sections of the dashboard on larger screens. With this declarative method, on a larger screen, we could automatically redirect the user to the dashboard route and "remove" the routes relating to the smaller screen sizes. This would not be possible with static routing.
 
@@ -13238,54 +12845,52 @@ Our old project is in a horrendous state. Tons of logic can be found all in our 
 **/Frontend/src/components/LoginContainer.js**
 
 ```jsx
-import React, { useState } from 'react'
-import loginService from '../services/login'
-import noteService from '../services/notes'
-import Togglable from './Togglable'
-import LoginForm from './LoginForm'
+import React, { useState } from "react";
+import loginService from "../services/login";
+import noteService from "../services/notes";
+import Togglable from "./Togglable";
+import LoginForm from "./LoginForm";
 
 const LoginContainer = ({ user, setUser, setNotificationMessage }) => {
-
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     try {
       const user = await loginService.login({
-        username, password,
-      })
+        username,
+        password,
+      });
 
-      setUser(user)
-      setUsername('')
-      setPassword('')
-      window.localStorage.setItem(
-        'noteAppUser', JSON.stringify(user)
-      )
-      noteService.setToken(user.token)
+      setUser(user);
+      setUsername("");
+      setPassword("");
+      window.localStorage.setItem("noteAppUser", JSON.stringify(user));
+      noteService.setToken(user.token);
     } catch (exception) {
-      console.log(exception)
-      setNotificationMessage('Incorrect credentials: ' + exception)
+      console.log(exception);
+      setNotificationMessage("Incorrect credentials: " + exception);
       setTimeout(() => {
-        setNotificationMessage(null)
-      }, 3000)
+        setNotificationMessage(null);
+      }, 3000);
     }
-  }
+  };
 
   const handleLogout = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     try {
-      window.localStorage.removeItem('noteAppUser')
-      noteService.setToken(null)
-      setUser(null)
+      window.localStorage.removeItem("noteAppUser");
+      noteService.setToken(null);
+      setUser(null);
     } catch (exception) {
-      console.log(exception)
+      console.log(exception);
     }
-  }
+  };
 
   const loginForm = () => {
     return (
-      <Togglable buttonLabel='Login'>
+      <Togglable buttonLabel="Login">
         <LoginForm
           handleLogin={handleLogin}
           handleUsernameChange={({ target }) => setUsername(target.value)}
@@ -13294,17 +12899,20 @@ const LoginContainer = ({ user, setUser, setNotificationMessage }) => {
           password={password}
         />
       </Togglable>
-    )
-  }
+    );
+  };
 
-  return user === null ?
-    loginForm() :
+  return user === null ? (
+    loginForm()
+  ) : (
     <div>
-      <p>Welcome, {user.name}</p> <button onClick={handleLogout}>Sign Out</button>
+      <p>Welcome, {user.name}</p>{" "}
+      <button onClick={handleLogout}>Sign Out</button>
     </div>
-}
+  );
+};
 
-export default LoginContainer
+export default LoginContainer;
 ```
 
 Note how `LoginContainer` takes in `user`, `setUser`, and `setNotificationMessage` in from its props. We did not move these functions and pieces of state into this component as multiple components rely on this state (lifting state up).
@@ -13312,7 +12920,11 @@ Note how `LoginContainer` takes in `user`, `setUser`, and `setNotificationMessag
 When we eventually render this component in `App`, we will pass the props as follows:
 
 ```jsx
-<LoginContainer user={user} setUser={setUser} setNotificationMessage={setNotificationMessage} />
+<LoginContainer
+  user={user}
+  setUser={setUser}
+  setNotificationMessage={setNotificationMessage}
+/>
 ```
 
 We'll delete the excess code from `App` and continue with moving note creation into its own component:
@@ -13320,52 +12932,48 @@ We'll delete the excess code from `App` and continue with moving note creation i
 **/Frontend/src/components/NoteFormContainer.js**
 
 ```jsx
-import React, { useState } from 'react'
-import noteService from '../services/notes'
-import Togglable from './Togglable'
-import NoteForm from './NoteForm'
+import React, { useState } from "react";
+import noteService from "../services/notes";
+import Togglable from "./Togglable";
+import NoteForm from "./NoteForm";
 
 const NoteFormContainer = ({ notes, setNotes }) => {
+  const [noteField, setNoteField] = useState("Enter a new note here...");
 
-  const [noteField, setNoteField] = useState(
-    'Enter a new note here...'
-  )
-
-  const noteFormRef = React.createRef()
+  const noteFormRef = React.createRef();
 
   const handleInputChange = (event) => {
-    console.log('Input form changed', event.target.value)
-    setNoteField(event.target.value)
-  }
+    console.log("Input form changed", event.target.value);
+    setNoteField(event.target.value);
+  };
 
   const addNote = (event) => {
-    event.preventDefault()
-    noteFormRef.current.toggleVisibility()
+    event.preventDefault();
+    noteFormRef.current.toggleVisibility();
     const newNoteObject = {
       content: noteField,
       date: new Date(),
       flagged: Math.random() > 0.5,
-    }
+    };
 
-    noteService.create(newNoteObject)
-      .then(data => {
-        setNotes(notes.concat(data))
-        setNoteField('Enter a new note here...')
-      })
-  }
+    noteService.create(newNoteObject).then((data) => {
+      setNotes(notes.concat(data));
+      setNoteField("Enter a new note here...");
+    });
+  };
 
   return (
-    <Togglable buttonLabel='Create Note' ref={noteFormRef}>
+    <Togglable buttonLabel="Create Note" ref={noteFormRef}>
       <NoteForm
         addNote={addNote}
         noteField={noteField}
         handleInputChange={handleInputChange}
       />
     </Togglable>
-  )
-}
+  );
+};
 
-export default NoteFormContainer
+export default NoteFormContainer;
 ```
 
 As with `LoginContainer `, `NoteFormContainer` takes in state through its props since this state needs to be shared between components (`notes` piece of state). When we use this component, we would pass in the props as follows:
@@ -13379,51 +12987,47 @@ Finally, let's create a component for the displaying of notes and the toggling o
 **/Frontend/src/components/NoteContainer.js**
 
 ```jsx
-import React, { useState } from 'react'
-import noteService from '../services/notes'
-import Note from './Note'
+import React, { useState } from "react";
+import noteService from "../services/notes";
+import Note from "./Note";
 
 const NoteContainer = ({ notes, setNotes }) => {
+  const [showAll, setShowAll] = useState(true);
 
-  const [showAll, setShowAll] = useState(true)
+  const toggleFlagged = (id) => {
+    const referencedNote = notes.find((n) => n.id === id);
+    const updatedNote = { ...referencedNote, flagged: !referencedNote.flagged };
 
-  const toggleFlagged = id => {
-    const referencedNote = notes.find(n => n.id === id)
-    const updatedNote = { ...referencedNote, flagged: !referencedNote.flagged }
+    noteService.update(id, updatedNote).then((responseNote) => {
+      setNotes(notes.map((note) => (note.id === id ? updatedNote : note)));
+    });
+  };
 
-    noteService
-      .update(id, updatedNote)
-      .then(responseNote => {
-        setNotes(notes.map(note => note.id === id ? updatedNote : note))
-      })
-  }
+  const filteredNotes = showAll ? notes : notes.filter((note) => note.flagged);
 
-  const filteredNotes = showAll ? notes : notes.filter(note => note.flagged)
-
-  const noteList = () => filteredNotes.map(note =>
-    <Note
-      key={note.id}
-      note={note}
-      toggleFlagged={() => toggleFlagged(note.id)}
-    />
-  )
+  const noteList = () =>
+    filteredNotes.map((note) => (
+      <Note
+        key={note.id}
+        note={note}
+        toggleFlagged={() => toggleFlagged(note.id)}
+      />
+    ));
 
   return (
-          <>
-            <div>
-              <button onClick={() => setShowAll(!showAll)}>
-                Show {showAll ? 'Flagged' : 'All' }
-              </button>
-            </div>
+    <>
+      <div>
+        <button onClick={() => setShowAll(!showAll)}>
+          Show {showAll ? "Flagged" : "All"}
+        </button>
+      </div>
 
-            <ul>
-              {noteList()}
-            </ul>
-          </>
-  )
-}
+      <ul>{noteList()}</ul>
+    </>
+  );
+};
 
-export default NoteContainer
+export default NoteContainer;
 ```
 
 As with `NoteFormContainer `, `NoteContainer` takes in the `notes` piece of state since it needs to be shared between components. When we use this component, we would pass in the props as follows:
@@ -13437,53 +13041,53 @@ With all of this, our `App` component is dramatically simplified and only contai
 **/Frontend/src/App.js**
 
 ```jsx
-import React, { useState, useEffect } from 'react'
-import Notification from './components/Notification'
-import Separator from './components/Separator'
-import noteService from './services/notes'
-import LoginContainer from './components/LoginContainer'
-import NoteFormContainer from './components/NoteFormContainer'
-import NoteContainer from './components/NoteContainer'
-import {
-  BrowserRouter as Router, Route, Link
-} from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import Notification from "./components/Notification";
+import Separator from "./components/Separator";
+import noteService from "./services/notes";
+import LoginContainer from "./components/LoginContainer";
+import NoteFormContainer from "./components/NoteFormContainer";
+import NoteContainer from "./components/NoteContainer";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const App = (props) => {
-  const [notes, setNotes] = useState([])
-  const [notificationMessage, setNotificationMessage] = useState()
-  const [user, setUser] = useState(null)
+  const [notes, setNotes] = useState([]);
+  const [notificationMessage, setNotificationMessage] = useState();
+  const [user, setUser] = useState(null);
 
   const loadNotesEffect = () => {
     noteService
       .getAll()
-      .then(initialNotes => {
-        setNotes(initialNotes)
+      .then((initialNotes) => {
+        setNotes(initialNotes);
       })
-      .catch(error => {
-        setNotificationMessage(`${error}: Something went wrong while trying to retrieve data from the server.`)
-      })
-  }
+      .catch((error) => {
+        setNotificationMessage(
+          `${error}: Something went wrong while trying to retrieve data from the server.`
+        );
+      });
+  };
 
   const signedInEffect = () => {
-    const loggedInUserJSON = window.localStorage.getItem('noteAppUser')
+    const loggedInUserJSON = window.localStorage.getItem("noteAppUser");
     if (loggedInUserJSON) {
-      const user = JSON.parse(loggedInUserJSON)
-      setUser(user)
-      noteService.setToken(user.token)
+      const user = JSON.parse(loggedInUserJSON);
+      setUser(user);
+      noteService.setToken(user.token);
     }
-  }
+  };
 
-  useEffect(loadNotesEffect, [])
-  useEffect(signedInEffect, [])
+  useEffect(loadNotesEffect, []);
+  useEffect(signedInEffect, []);
 
-  const linkStyle = { padding: 10 }
+  const linkStyle = { padding: 10 };
 
-  return (
-      {/*...*/}
-  )
-}
+  return {
+    /*...*/
+  };
+};
 
-export default App
+export default App;
 ```
 
 We can now go ahead and use these components to be rendered conditionally dependent on a route. We'll also go ahead and add links to change the routes:
@@ -13493,31 +13097,56 @@ We can now go ahead and use these components to be rendered conditionally depend
 ```jsx
 //...
 
-  return (
-    <div>
-      <h1>Notes</h1>
-      <Router>
+return (
+  <div>
+    <h1>Notes</h1>
+    <Router>
+      <div>
         <div>
-          <div>
-            <Link style={linkStyle} to="/">Home</Link>
-            <Link style={linkStyle} to="/notes">Notes</Link>
-            <Link style={linkStyle} to="/login">Login</Link>
-            {user === null ?
-              null :
-              <Link style={linkStyle} to="/create">Create</Link>}
-          </div>
-          <Notification message={notificationMessage} />
-          <div>
-            <Route exact path="/" render={() => <h2>Home</h2>} />
-            <Route path="/login" render={() => <LoginContainer user={user} setUser={setUser} setNotificationMessage={setNotificationMessage} />} />
-            <Route path="/notes" render={() => <NoteContainer notes={notes} setNotes={setNotes} />}/>
-            <Route path="/create" render={() => <NoteFormContainer notes={notes} setNotes={setNotes} />}/>
-          </div>
+          <Link style={linkStyle} to="/">
+            Home
+          </Link>
+          <Link style={linkStyle} to="/notes">
+            Notes
+          </Link>
+          <Link style={linkStyle} to="/login">
+            Login
+          </Link>
+          {user === null ? null : (
+            <Link style={linkStyle} to="/create">
+              Create
+            </Link>
+          )}
         </div>
-      </Router>
-      <Separator />
-    </div>
-  )
+        <Notification message={notificationMessage} />
+        <div>
+          <Route exact path="/" render={() => <h2>Home</h2>} />
+          <Route
+            path="/login"
+            render={() => (
+              <LoginContainer
+                user={user}
+                setUser={setUser}
+                setNotificationMessage={setNotificationMessage}
+              />
+            )}
+          />
+          <Route
+            path="/notes"
+            render={() => <NoteContainer notes={notes} setNotes={setNotes} />}
+          />
+          <Route
+            path="/create"
+            render={() => (
+              <NoteFormContainer notes={notes} setNotes={setNotes} />
+            )}
+          />
+        </div>
+      </div>
+    </Router>
+    <Separator />
+  </div>
+);
 
 //...
 ```
@@ -13525,7 +13154,20 @@ We can now go ahead and use these components to be rendered conditionally depend
 Here, we establish three links that will always be displayed near the top of the page (links to `/`, `/login`, and `/notes`). We conditionally render the `/create` route since we don't want to display the page that allows a user to create a note when the user cannot do so. This outlines an advantage to the dynamic nature of React Router: if we wanted to apply the conditional logic to the `Route` component, the `/create` route would not "exist" when the user is not signed in as it is dynamically created only when the user is created:
 
 ```jsx
-{user ? <Route path="/create" render={() => user ? <NoteFormContainer notes={notes} setNotes={setNotes} /> : <Redirect to="/login" />}/> : null}
+{
+  user ? (
+    <Route
+      path="/create"
+      render={() =>
+        user ? (
+          <NoteFormContainer notes={notes} setNotes={setNotes} />
+        ) : (
+          <Redirect to="/login" />
+        )
+      }
+    />
+  ) : null;
+}
 ```
 
 We always display the `/login` link (even when the user is signed in) as the `LoginContainer` component also contains the button for logging out of the application.
@@ -13534,13 +13176,9 @@ All of this yields the following navigation:
 
 ![Initial](https://i.imgur.com/sp1rxta.png)
 
-
-
 Logging in gives us access to the "Create" tab:
 
 ![Create Tab](https://i.imgur.com/9t7TgU4.png)
-
-
 
 ### URL Parameters
 
@@ -13553,28 +13191,57 @@ For our purposes, let's just say that we wanted to make our individual notes lin
 ```jsx
 //...
 
-  return (
-	  <Router>
-        <div>
-          <div>
-            <Link style={linkStyle} to="/">Home</Link>
-            <Link style={linkStyle} to="/notes">Notes</Link>
-            <Link style={linkStyle} to="/login">Login</Link>
-            {user === null ?
-              null :
-              <Link style={linkStyle} to="/create">Create</Link>}
-          </div>
-          <Notification message={notificationMessage} />
-          <div>
-            <Route exact path="/" render={() => <h2>Home</h2>} />
-            <Route path="/login" render={() => <LoginContainer user={user} setUser={setUser} setNotificationMessage={setNotificationMessage} />} />
-            <Route exact path="/notes" render={() => <NoteContainer notes={notes} setNotes={setNotes} />}/>
-            <Route path="/notes/:id" render={({ match }) => <Note notes={getNoteById(match.params.id)} setNotes={setNotes} />}/>
-            <Route path="/create" render={() => <NoteFormContainer notes={notes} setNotes={setNotes} />}/>
-          </div>
-        </div>
-      </Router>
-  )
+return (
+  <Router>
+    <div>
+      <div>
+        <Link style={linkStyle} to="/">
+          Home
+        </Link>
+        <Link style={linkStyle} to="/notes">
+          Notes
+        </Link>
+        <Link style={linkStyle} to="/login">
+          Login
+        </Link>
+        {user === null ? null : (
+          <Link style={linkStyle} to="/create">
+            Create
+          </Link>
+        )}
+      </div>
+      <Notification message={notificationMessage} />
+      <div>
+        <Route exact path="/" render={() => <h2>Home</h2>} />
+        <Route
+          path="/login"
+          render={() => (
+            <LoginContainer
+              user={user}
+              setUser={setUser}
+              setNotificationMessage={setNotificationMessage}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/notes"
+          render={() => <NoteContainer notes={notes} setNotes={setNotes} />}
+        />
+        <Route
+          path="/notes/:id"
+          render={({ match }) => (
+            <Note notes={getNoteById(match.params.id)} setNotes={setNotes} />
+          )}
+        />
+        <Route
+          path="/create"
+          render={() => <NoteFormContainer notes={notes} setNotes={setNotes} />}
+        />
+      </div>
+    </div>
+  </Router>
+);
 ```
 
 Notice how we had to specify `exact` for the `/notes` route since the start of the route would also apply to the `/notes/:id` route that we want to target.
@@ -13582,15 +13249,18 @@ Notice how we had to specify `exact` for the `/notes` route since the start of t
 Here, similar to how parameters are defined in Express, we specify parameters in the form of `:PARAMETER`. In our `/notes/:id` route, we make use of parameters as well as a new `getNoteById()` helper:
 
 ```jsx
-<Route path="/notes/:id" render={({ match }) => <Note notes={getNoteById(match.params.id)} />}/>
+<Route
+  path="/notes/:id"
+  render={({ match }) => <Note notes={getNoteById(match.params.id)} />}
+/>
 ```
 
-You'll notice that we're able to grab our parameters from the `params` property of `match`. The `match` object simply contains information on how the `Route` *matched* the URL.
+You'll notice that we're able to grab our parameters from the `params` property of `match`. The `match` object simply contains information on how the `Route` _matched_ the URL.
 
 Our helper is simply defined as:
 
 ```jsx
-const getNoteById = (id) => notes.find(note => note.id === id)
+const getNoteById = (id) => notes.find((note) => note.id === id);
 ```
 
 This helper gives us the information for the note with the id specified in our URL, allowing us to pass it in as a prop to the `Note` component.
@@ -13600,27 +13270,30 @@ Now, we can dive into our `Note` component and modify it so that the text conten
 **/Frontend/src/components/Note.js**
 
 ```jsx
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Note = ({ note, toggleFlagged }) => {
   if (!note) {
     note = {
       flagged: false,
-      content: "Note content not found"
-    }
+      content: "Note content not found",
+    };
   }
   return (
     <li className="mainNote card">
-      <input type="checkbox" alt="Toggle Flagged" checked={note.flagged} onChange={toggleFlagged} />
-        <Link to={`/notes/${note.id}`}>
-          {note.content}
-        </Link>
+      <input
+        type="checkbox"
+        alt="Toggle Flagged"
+        checked={note.flagged}
+        onChange={toggleFlagged}
+      />
+      <Link to={`/notes/${note.id}`}>{note.content}</Link>
     </li>
-  )
-}
+  );
+};
 
-export default Note
+export default Note;
 ```
 
 We also added a default note (since we don't have actual proper state management with Redux in this application) for an use case in our application. If we decided to visit a component's link directly, for example: `http://localhost:3000/notes/5dcb86f0e84c9f54b0e9f7b4`, we would encounter a `TypeError` relating to us accessing properties of `note` when `note` is `undefined`. `note` is `undefined` when we visit the URL directly, because we immediately attempt to render the `Note` component with a note fetched by `getNoteById`. The issue lies in that `getNoteById` depends on the `notes` piece of state which is empty when the application first attempts to render since our effect (`loadNotesEffect`) only loads our notes after the first render. Adding a default allows our component to successfully render to which our effect can run and replace the state, causing our component to re-render with the proper state.
@@ -13634,8 +13307,6 @@ Upon clicking this link, we'll be taken to a page featuring just the one note:
 ![Note Page](https://i.imgur.com/zzIp2U2.png)
 
 We won't be able to toggle the importance of a note since our `onChange` handler is defined in `NoteContainer` and is passed to `Note`s there.
-
-
 
 #### withRouter() HOC
 
@@ -13651,7 +13322,7 @@ For example, if we wanted to direct the user to the home page after logging in, 
 import { withRouter } from 'react-router-dom' // Import the `withRouter` HOC
 
 const LoginContainer = ({ history, user, setUser, setNotificationMessage }) => { // Destructure the history object
-    
+
   //...
 
   const handleLogin = async (event) => {
@@ -13690,7 +13361,16 @@ Upon a successful call to `handleLogin()`, `history.push('/')` will change the U
 We can use the `Redirect` component to redirect the user declaratively (as we did imperatively above). For example, if we wanted to redirect the user to the login page if they weren't signed in and visited the `create` route, we could conditionally render the `Redirect` component if `user` didn't exist in the `Route`'s `render` property:
 
 ```jsx
-<Route path="/create" render={() => user ? <NoteFormContainer notes={notes} setNotes={setNotes} /> : <Redirect to="/login" />}/>
+<Route
+  path="/create"
+  render={() =>
+    user ? (
+      <NoteFormContainer notes={notes} setNotes={setNotes} />
+    ) : (
+      <Redirect to="/login" />
+    )
+  }
+/>
 ```
 
 If we are not signed in and attempt to visit `/create`, we will be taken to `/login`.
@@ -13700,49 +13380,54 @@ Looking at the `App` component, you can see the various components that we had u
 **/Frontend/src/App.js**
 
 ```jsx
-import React, { useState, useEffect } from 'react'
-import Notification from './components/Notification'
-import Separator from './components/Separator'
-import noteService from './services/notes'
-import LoginContainer from './components/LoginContainer'
-import NoteFormContainer from './components/NoteFormContainer'
-import Note from './components/Note'
-import NoteContainer from './components/NoteContainer'
+import React, { useState, useEffect } from "react";
+import Notification from "./components/Notification";
+import Separator from "./components/Separator";
+import noteService from "./services/notes";
+import LoginContainer from "./components/LoginContainer";
+import NoteFormContainer from "./components/NoteFormContainer";
+import Note from "./components/Note";
+import NoteContainer from "./components/NoteContainer";
 import {
-  BrowserRouter as Router, Route, Link, Redirect
-} from 'react-router-dom'
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 
 const App = (props) => {
-  const [notes, setNotes] = useState([])
-  const [notificationMessage, setNotificationMessage] = useState()
-  const [user, setUser] = useState(null)
+  const [notes, setNotes] = useState([]);
+  const [notificationMessage, setNotificationMessage] = useState();
+  const [user, setUser] = useState(null);
 
   const loadNotesEffect = () => {
     noteService
       .getAll()
-      .then(initialNotes => {
-        setNotes(initialNotes)
+      .then((initialNotes) => {
+        setNotes(initialNotes);
       })
-      .catch(error => {
-        setNotificationMessage(`${error}: Something went wrong while trying to retrieve data from the server.`)
-      })
-  }
+      .catch((error) => {
+        setNotificationMessage(
+          `${error}: Something went wrong while trying to retrieve data from the server.`
+        );
+      });
+  };
 
   const signedInEffect = () => {
-    const loggedInUserJSON = window.localStorage.getItem('noteAppUser')
+    const loggedInUserJSON = window.localStorage.getItem("noteAppUser");
     if (loggedInUserJSON) {
-      const user = JSON.parse(loggedInUserJSON)
-      setUser(user)
-      noteService.setToken(user.token)
+      const user = JSON.parse(loggedInUserJSON);
+      setUser(user);
+      noteService.setToken(user.token);
     }
-  }
+  };
 
-  useEffect(loadNotesEffect, [])
-  useEffect(signedInEffect, [])
+  useEffect(loadNotesEffect, []);
+  useEffect(signedInEffect, []);
 
-  const getNoteById = (id) => notes.find(note => note.id === id)
+  const getNoteById = (id) => notes.find((note) => note.id === id);
 
-  const linkStyle = { padding: 10 }
+  const linkStyle = { padding: 10 };
 
   return (
     <div>
@@ -13750,54 +13435,89 @@ const App = (props) => {
       <Router>
         <div>
           <div>
-            <Link style={linkStyle} to="/">Home</Link>
-            <Link style={linkStyle} to="/notes">Notes</Link>
-            <Link style={linkStyle} to="/login">Login</Link>
-            {user === null ?
-              null :
-              <Link style={linkStyle} to="/create">Create</Link>}
+            <Link style={linkStyle} to="/">
+              Home
+            </Link>
+            <Link style={linkStyle} to="/notes">
+              Notes
+            </Link>
+            <Link style={linkStyle} to="/login">
+              Login
+            </Link>
+            {user === null ? null : (
+              <Link style={linkStyle} to="/create">
+                Create
+              </Link>
+            )}
           </div>
           <Notification message={notificationMessage} />
           <div>
             <Route exact path="/" render={() => <h2>Home</h2>} />
-            <Route path="/login" render={() => <LoginContainer user={user} setUser={setUser} setNotificationMessage={setNotificationMessage} />} />
-            <Route exact path="/notes" render={() => <NoteContainer notes={notes} setNotes={setNotes} />}/>
-            <Route path="/notes/:id" render={({ match }) => <Note note={getNoteById(match.params.id)} />}/>
-            <Route path="/create" render={() => user ? <NoteFormContainer notes={notes} setNotes={setNotes} /> : <Redirect to="/login" />}/>
+            <Route
+              path="/login"
+              render={() => (
+                <LoginContainer
+                  user={user}
+                  setUser={setUser}
+                  setNotificationMessage={setNotificationMessage}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/notes"
+              render={() => <NoteContainer notes={notes} setNotes={setNotes} />}
+            />
+            <Route
+              path="/notes/:id"
+              render={({ match }) => (
+                <Note note={getNoteById(match.params.id)} />
+              )}
+            />
+            <Route
+              path="/create"
+              render={() =>
+                user ? (
+                  <NoteFormContainer notes={notes} setNotes={setNotes} />
+                ) : (
+                  <Redirect to="/login" />
+                )
+              }
+            />
           </div>
         </div>
       </Router>
       <Separator />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
 ```
 
 You'll also notice that the "Notes" header is rendered regardless of our route. This is because it is found outside of the `Router` and any `Route`s and will not be conditionally rendered.
 
-There are plenty of features in React Router, and when you get into more complex applications, these features may come into much use. It is recommended to read up on the latest React Router documentation on *reacttraining.com*.
+There are plenty of features in React Router, and when you get into more complex applications, these features may come into much use. It is recommended to read up on the latest React Router documentation on _reacttraining.com_.
 
 ## Passport.js and OAuth
 
-Previously, we talked about using JSON Web Tokens (JWT) for authentication and implemented it manually in our application using `bcrypt` and `jsonwebtoken`. We'll now transition into using Passport.js which gives us the ability to integrate with login strategies for Facebook, Google, LinkedIn, Twitch, Twitter, and many more. 
+Previously, we talked about using JSON Web Tokens (JWT) for authentication and implemented it manually in our application using `bcrypt` and `jsonwebtoken`. We'll now transition into using Passport.js which gives us the ability to integrate with login strategies for Facebook, Google, LinkedIn, Twitch, Twitter, and many more.
 
 If you just need username/password-like authentication, it is recommended to just implement the feature manually, but if you need to take advantage of OAuth, OpenID, etc. you'll usually need to take advantage of Passport.js.
 
 Recall that we had implemented token-based authentication. As a refresher and to draw another difference, the three main options for authentication are:
 
-* **Session-Based Authentication:** Associates a "session" with the client through storing the user state in the server's memory. When the user logs in, the session ID is stored in a cookie in the user's browser. This ID is used to identify the user and is used to be compared to the stored session data in the server's memory in order to authenticate.
-* **Cookie-Based Authentication:** Identifier for the user is stored in a cookie (usually a token) and is used to automatically identify API requests. This is easier to deal with, but it comes with some security flaws as cookies are automatically included in all suitable requests to the host.
-* **Token-Based Authentication:** Like cookie-based authentication (the definition that we explored earlier in this book), but you must manually include it with requests (in the `Authorization` header).
+- **Session-Based Authentication:** Associates a "session" with the client through storing the user state in the server's memory. When the user logs in, the session ID is stored in a cookie in the user's browser. This ID is used to identify the user and is used to be compared to the stored session data in the server's memory in order to authenticate.
+- **Cookie-Based Authentication:** Identifier for the user is stored in a cookie (usually a token) and is used to automatically identify API requests. This is easier to deal with, but it comes with some security flaws as cookies are automatically included in all suitable requests to the host.
+- **Token-Based Authentication:** Like cookie-based authentication (the definition that we explored earlier in this book), but you must manually include it with requests (in the `Authorization` header).
 
 CodeRealm (https://github.com/alex996) provides a very good presentation highlighting the differences in authentication methods (skip to #Passport Modules if you wish to skip to right with working with token-based authentication):
 
-* **Session Flow**: user submits email/password (credentials) -> server verifies credentials from the data it has stored in the database -> server creates a temporary user **session** -> server takes the session's ID and sends it back -> user sends the cookie with the ID stored with each request -> server validates the cookie against the session store and grants access if correct -> user logs out and the server destroys the session.
-  * Stateful (sessions stored on the server whether it's a database or in memory)
-*  **Token Flow**: user submits email/password (credentials) -> server verifies credentials from the data it has stored in the database -> server creates a temporary **token** and embeds the user's data in it -> server sends the token back -> client stores the token -> client sends the token along with requests -> server validates the token and grants access if correct -> user logs out and the client deletes the token
-  * **Stateless JWT** (JWT token contains the session data encoded right in the token)
-  * **Stateful JWT** (JWT token just contains a reference to the session and the session data is still stored server-side)
+- **Session Flow**: user submits email/password (credentials) -> server verifies credentials from the data it has stored in the database -> server creates a temporary user **session** -> server takes the session's ID and sends it back -> user sends the cookie with the ID stored with each request -> server validates the cookie against the session store and grants access if correct -> user logs out and the server destroys the session.
+  - Stateful (sessions stored on the server whether it's a database or in memory)
+- **Token Flow**: user submits email/password (credentials) -> server verifies credentials from the data it has stored in the database -> server creates a temporary **token** and embeds the user's data in it -> server sends the token back -> client stores the token -> client sends the token along with requests -> server validates the token and grants access if correct -> user logs out and the client deletes the token
+- **Stateless JWT** (JWT token contains the session data encoded right in the token)
+- **Stateful JWT** (JWT token just contains a reference to the session and the session data is still stored server-side)
 
 ### Passport Modules
 
@@ -13827,8 +13547,6 @@ Then, we'll press "Select a Project", then "New Project":
 
 ![Project Creation](https://i.imgur.com/FJwecjF.png)
 
-
-
 We'll be prompted to enter a project name and organization. We can just proceed by pressing "Create" for now. We can then select our new project from the "Select a project" dropdown.
 
 Next, we'll need to visit the "OAuth consent screen" tab on the sidebar and select "External":
@@ -13838,8 +13556,6 @@ Next, we'll need to visit the "OAuth consent screen" tab on the sidebar and sele
 On the next screen, we can enter in whatever information we would like for the application name and logo, but, for development:
 
 ![Test Name](https://i.imgur.com/vJ12WOF.png)
-
-
 
 After saving these changes, we can head to the "Credentials" tab, press "Create Credentials", and then press "OAuth client ID":
 
@@ -13923,38 +13639,42 @@ We'll then make the following changes to our config module:
 **/Backend/utils/config.js**
 
 ```jsx
-require('dotenv').config()
-const logger = require('./logger')
+require("dotenv").config();
+const logger = require("./logger");
 
 let isRequired = (name, ...values) => {
-  values.forEach(value => {
-    if (value == null || value === '') { // Takes advantage of coercing to check if the value is undefined or null or blank
-      logger.error(`${name} is missing a value!`)
+  values.forEach((value) => {
+    if (value == null || value === "") {
+      // Takes advantage of coercing to check if the value is undefined or null or blank
+      logger.error(`${name} is missing a value!`);
     }
-  })
-}
+  });
+};
 
 // Express Configuration
-let PORT = process.env.PORT
-isRequired('Express Configuration', PORT)
+let PORT = process.env.PORT;
+isRequired("Express Configuration", PORT);
 
 // Database Configuration
-let MONGODB_URI = process.env.MONGODB_URI
-isRequired('MongoDB Configuration', MONGODB_URI)
+let MONGODB_URI = process.env.MONGODB_URI;
+isRequired("MongoDB Configuration", MONGODB_URI);
 
 // Google API Configuration
-let GOOGLE_CLIENTID = process.env.GOOGLE_CLIENTID
-let GOOGLE_CLIENTSECRET = process.env.GOOGLE_CLIENTSECRET
-isRequired('Google API Configuration', GOOGLE_CLIENTID, GOOGLE_CLIENTSECRET)
+let GOOGLE_CLIENTID = process.env.GOOGLE_CLIENTID;
+let GOOGLE_CLIENTSECRET = process.env.GOOGLE_CLIENTSECRET;
+isRequired("Google API Configuration", GOOGLE_CLIENTID, GOOGLE_CLIENTSECRET);
 
 // Facebook API Configuration
-let FACEBOOK_CLIENTID = process.env.FACEBOOK_CLIENTID
-let FACEBOOK_CLIENTSECRET = process.env.FACEBOOK_CLIENTSECRET
-isRequired('Facebook API Configuration', FACEBOOK_CLIENTID, FACEBOOK_CLIENTSECRET)
+let FACEBOOK_CLIENTID = process.env.FACEBOOK_CLIENTID;
+let FACEBOOK_CLIENTSECRET = process.env.FACEBOOK_CLIENTSECRET;
+isRequired(
+  "Facebook API Configuration",
+  FACEBOOK_CLIENTID,
+  FACEBOOK_CLIENTSECRET
+);
 
-
-if (process.env.NODE_ENV === 'test') {
-  MONGODB_URI = process.env.TEST_MONGODB_URI
+if (process.env.NODE_ENV === "test") {
+  MONGODB_URI = process.env.TEST_MONGODB_URI;
 }
 
 module.exports = {
@@ -13963,8 +13683,8 @@ module.exports = {
   GOOGLE_CLIENTID,
   GOOGLE_CLIENTSECRET,
   FACEBOOK_CLIENTID,
-  FACEBOOK_CLIENTSECRET
-}
+  FACEBOOK_CLIENTSECRET,
+};
 ```
 
 Here, we simply added the ability to fetch our API credentials from the `config` module. We have also added a `isRequired()` helper function that will tell us if any of our sections are missing anything configuration wise (by checking if the value is `undefined`, `null` or blank `""`).
@@ -13982,69 +13702,69 @@ We'll now update our `config` module as follows:
 **/Backend/utils/config.js**
 
 ```jsx
-require('dotenv').config()
-const convict = require('convict')
+require("dotenv").config();
+const convict = require("convict");
 
 const config = convict({
   port: {
-    doc: 'Port that Express listens on',
-    format: 'port',
+    doc: "Port that Express listens on",
+    format: "port",
     default: 3000,
-    env: 'PORT'
+    env: "PORT",
   },
   database: {
-    doc: 'MongoDB URI for database connection',
+    doc: "MongoDB URI for database connection",
     format: String,
-    default: '',
-    env: 'MONGODB_URI'
+    default: "",
+    env: "MONGODB_URI",
   },
   authentication: {
     google: {
       clientId: {
-        doc: 'Google Auth Client ID',
-        default: '',
-        env: 'GOOGLE_CLIENTID'
+        doc: "Google Auth Client ID",
+        default: "",
+        env: "GOOGLE_CLIENTID",
       },
       clientSecret: {
-        doc: 'Google Auth Client Secret',
-        default: '',
-        env: 'GOOGLE_CLIENTSECRET'
-      }
+        doc: "Google Auth Client Secret",
+        default: "",
+        env: "GOOGLE_CLIENTSECRET",
+      },
     },
     facebook: {
       clientId: {
-        doc: 'Facebook Auth client ID',
-        default: '',
-        env: 'FACEBOOK_CLIENTID'
+        doc: "Facebook Auth client ID",
+        default: "",
+        env: "FACEBOOK_CLIENTID",
       },
       clientSecret: {
-        doc: 'Facebook Auth client secret',
-        default: '',
-        env: 'FACEBOOK_CLIENTSECRET'
-      }
+        doc: "Facebook Auth client secret",
+        default: "",
+        env: "FACEBOOK_CLIENTSECRET",
+      },
     },
     token: {
       secret: {
-        doc: 'Secret key for JWT (signer)',
-        default: 'jDGWbgiUDHGIWOGE&G8DUGVHUI',
-        env: 'SECRET'
+        doc: "Secret key for JWT (signer)",
+        default: "jDGWbgiUDHGIWOGE&G8DUGVHUI",
+        env: "SECRET",
       },
       issuer: {
-        doc: 'JWT Issuer',
-        default: 'Test App'
+        doc: "JWT Issuer",
+        default: "Test App",
       },
       audience: {
-        doc: 'JWT Audience',
-        default: 'Test App'
-      }
-    }
-  }
-})
+        doc: "JWT Audience",
+        default: "Test App",
+      },
+    },
+  },
+});
 
 // Perform validation
-config.validate({ allowed: 'strict' })
+config.validate({ allowed: "strict" });
 
-module.exports = config.getProperties()
+module.exports = config.getProperties();
 ```
 
 The above represents a new way of defining our configuration variables. You'll see how we are able to provide descriptions and validation for our environment variables with the above syntax. We're also able to nest configuration within "objects" (for example, our actual credentials are nested within `facebook` and `google` properties of the `authentication` object).
@@ -14057,8 +13777,8 @@ We'll also update all relevant references to our config file (for example `confi
 //...
 
 {
-    //...
-    "proxy": "http://localhost:3000"
+  //...
+  "proxy": "http://localhost:3000"
 }
 
 //...
@@ -14075,11 +13795,11 @@ To do this, we'll just require the `passport` module in our `app` module to whic
 ```js
 //...
 
-const passport = require('passport')
+const passport = require("passport");
 
 //...
 
-app.use(passport.initialize())
+app.use(passport.initialize());
 
 //...
 ```
@@ -14095,33 +13815,34 @@ For the sake of organization, we'll be putting the configuration for the strateg
 **/Backend/utils/authentication/jwt.js**
 
 ```jsx
-const passport = require('passport')
-const passportJwt = require('passport-jwt')
-const config = require('../config')
-const User = require('../../models/user')
+const passport = require("passport");
+const passportJwt = require("passport-jwt");
+const config = require("../config");
+const User = require("../../models/user");
 
 const jwtOptions = {
   // Reads JWT from the HTTP Authorization header with the 'bearer' scheme
-  jwtFromRequest: passportJwt.ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
+  jwtFromRequest: passportJwt.ExtractJwt.fromAuthHeaderWithScheme("Bearer"),
   // Secret used to sign the JWT
   secretOrKey: config.authentication.token.secret,
   // Issuer stored in JWT
   issuer: config.authentication.token.issuer,
   // Audience stored in JWT
-  audience: config.authentication.token.audience
-}
+  audience: config.authentication.token.audience,
+};
 
-
-passport.use(new passportJwt.Strategy(jwtOptions, async (payload, done) => {
-  // In production, you should check to see if the token has not expired here
-  console.log(payload.sub)
-  const user = await User.findById(payload.sub)
-  console.log(user)
-  if (user) {
-    return done(null, user, payload)
-  }
-  return done(null, false, { message: 'User not found.' })
-}))
+passport.use(
+  new passportJwt.Strategy(jwtOptions, async (payload, done) => {
+    // In production, you should check to see if the token has not expired here
+    console.log(payload.sub);
+    const user = await User.findById(payload.sub);
+    console.log(user);
+    if (user) {
+      return done(null, user, payload);
+    }
+    return done(null, false, { message: "User not found." });
+  })
+);
 ```
 
 Here, we simply configure the JWT decoder with our knowledge of the secret, issuer, and audience. We also configure the JWT decoder to get the JWT from the Authorization header as a bearer token. If the issuer or audience does not match with what we have in our configuration, the authentication will fail.
@@ -14139,49 +13860,49 @@ Now that we had implemented the ability to decode our JWTs, let's create a dedic
 **/Backend/utils/authentication/token.js**
 
 ```jsx
-const jwt = require('jsonwebtoken')
-const config = require('../config')
+const jwt = require("jsonwebtoken");
+const config = require("../config");
 
 // Generate an Access Token for the given User ID
 function generateAccessJWT(userId) {
   // Time until token expires
-  const expiresIn = '1 hour'
+  const expiresIn = "1 hour";
   // Issuer of token
-  const issuer = config.authentication.token.issuer
+  const issuer = config.authentication.token.issuer;
   // Intended audience/service for token
-  const audience = config.authentication.token.audience
+  const audience = config.authentication.token.audience;
   // Signing key for token
-  const secret = config.authentication.token.secret
+  const secret = config.authentication.token.secret;
 
   const token = jwt.sign({}, secret, {
     expiresIn: expiresIn,
     audience: audience,
     issuer: issuer,
-    subject: userId.toString()
-  })
+    subject: userId.toString(),
+  });
 
-  return token
+  return token;
 }
 
 module.exports = {
-  generateAccessJWT
-}
+  generateAccessJWT,
+};
 ```
 
 Here, `generateAccessJWT()` takes in a user's ID and creates a JWT that will allow them to authenticate as that user. Notice how this token does not contain any other information in its payload where we previously were adding the user's username and id (instead we take the ID from the subject instead of other payload properties):
 
 ```jsx
 const userForToken = {
-    username: user.username,
-    id: user._id,
-}
+  username: user.username,
+  id: user._id,
+};
 
-const token = jwt.sign(userForToken, process.env.SECRET)
+const token = jwt.sign(userForToken, process.env.SECRET);
 ```
 
 We set the `subject` option that `jwt.sign()` takes in its third parameter to the userID so that we can simply check the token's payload for the `sub` property (subject is stored within `sub` in the payload of a token) for our user's ID.
 
-Within a token's payload, there are numerous *registered claims* which provide a set of useful, interoperable claims such as `iss` (issuer), `exp` (expiration time), `sub` (subject), and `aud` (audience).
+Within a token's payload, there are numerous _registered claims_ which provide a set of useful, interoperable claims such as `iss` (issuer), `exp` (expiration time), `sub` (subject), and `aud` (audience).
 
 See "Payload" of https://jwt.io/introduction/ for more information.
 
@@ -14200,24 +13921,35 @@ Let's create a `google` module that will configure Passport with `passport-googl
 **/Backend/utils/authentication/google.js**
 
 ```jsx
-const passport = require('passport')
-const passportGoogle = require('passport-google-oauth')
-const config = require('../config')
-const User = require('../../models/user')
+const passport = require("passport");
+const passportGoogle = require("passport-google-oauth");
+const config = require("../config");
+const User = require("../../models/user");
 
 const passportConfig = {
   clientID: config.authentication.google.clientId,
   clientSecret: config.authentication.google.clientSecret,
-  callbackURL: 'http://localhost:3000/api/authentication/google/redirect'
-}
+  callbackURL: "http://localhost:3000/api/authentication/google/redirect",
+};
 
 if (passportConfig.clientID) {
-  passport.use(new passportGoogle.OAuth2Strategy(passportConfig, function (request, accessToken, refreshToken, profile, done) {
-    // Creates user if this user does not already have an account with this googleId
-    User.findOrCreate({ name: profile.name.givenName, providerId: profile.id }, function (err, user) {
-      return done(err, user)
+  passport.use(
+    new passportGoogle.OAuth2Strategy(passportConfig, function (
+      request,
+      accessToken,
+      refreshToken,
+      profile,
+      done
+    ) {
+      // Creates user if this user does not already have an account with this googleId
+      User.findOrCreate(
+        { name: profile.name.givenName, providerId: profile.id },
+        function (err, user) {
+          return done(err, user);
+        }
+      );
     })
-  }))
+  );
 }
 ```
 
@@ -14238,9 +13970,9 @@ const findOrCreate = require('mongoose-findorcreate')
 
 const userSchema = new mongoose.Schema
 	username: String // Removed the `unique` property as usernames are no longer required
-    
+
 	//...
-    
+
 })
 
 //...
@@ -14261,28 +13993,33 @@ Now, we just have to set up route handlers to manage our Google authentication r
 **/Backend/controllers/auth.js**
 
 ```jsx
-const authRouter = require('express').Router()
-const passport = require('passport')
-const token = require('../utils/authentication/token')
-require('../utils/authentication/jwt')
-require('../utils/authentication/google')
-require('../utils/authentication/facebook')
+const authRouter = require("express").Router();
+const passport = require("passport");
+const token = require("../utils/authentication/token");
+require("../utils/authentication/jwt");
+require("../utils/authentication/google");
+require("../utils/authentication/facebook");
 
 function generateUserJWTAndRedirect(req, res) {
-  const accessJWT = token.generateAccessJWT(req.user.id)
-  res
-    .status(200)
-    .redirect(`http://localhost:3001/login?token=${accessJWT}`)
+  const accessJWT = token.generateAccessJWT(req.user.id);
+  res.status(200).redirect(`http://localhost:3001/login?token=${accessJWT}`);
 }
 
 // Google Routes
-authRouter.get('/google/start',
-  passport.authenticate('google', { session: false, scope: ['openid', 'profile', 'email'] }))
-authRouter.get('/google/redirect',
-  passport.authenticate('google', { session: false }),
-  generateUserJWTAndRedirect)
+authRouter.get(
+  "/google/start",
+  passport.authenticate("google", {
+    session: false,
+    scope: ["openid", "profile", "email"],
+  })
+);
+authRouter.get(
+  "/google/redirect",
+  passport.authenticate("google", { session: false }),
+  generateUserJWTAndRedirect
+);
 
-module.exports = authRouter
+module.exports = authRouter;
 ```
 
 Here, we chain our controllers/middleware.
@@ -14294,18 +14031,18 @@ We'll need to bind our router to our Express application in **App.js** as follow
 ```js
 //...
 
-const notesRouter = require('./controllers/notes')
-const usersRouter = require('./controllers/users')
-const loginRouter = require('./controllers/login')
-const authRouter = require('./controllers/auth')
+const notesRouter = require("./controllers/notes");
+const usersRouter = require("./controllers/users");
+const loginRouter = require("./controllers/login");
+const authRouter = require("./controllers/auth");
 
 //...
 
 // Routers
-app.use('/api/authentication', authRouter)
-app.use('/api/notes', notesRouter)
-app.use('/api/users', usersRouter)
-app.use('/api/login', loginRouter)
+app.use("/api/authentication", authRouter);
+app.use("/api/notes", notesRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/login", loginRouter);
 
 //...
 ```
@@ -14319,27 +14056,30 @@ Now, let's delve into the frontend and add a simple "Sign In with Google" button
 ```jsx
 //...
 
-  const authenticateWithProvider = (provider) => {
-    window.location = ('http://localhost:3000/api/authentication/' + provider + '/start')
-  }
+const authenticateWithProvider = (provider) => {
+  window.location =
+    "http://localhost:3000/api/authentication/" + provider + "/start";
+};
 
-  const loginForm = () => {
-    return (
-      <>
-        <Togglable buttonLabel='Sign Up With Email'>
-          <LoginForm
-            handleLogin={handleLogin}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            username={username}
-            password={password}
-          />
-        </Togglable>
-        <button onClick={() => authenticateWithProvider('google')}>Sign In with Google</button>
-      </>
-    )
-  }
-  
+const loginForm = () => {
+  return (
+    <>
+      <Togglable buttonLabel="Sign Up With Email">
+        <LoginForm
+          handleLogin={handleLogin}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          username={username}
+          password={password}
+        />
+      </Togglable>
+      <button onClick={() => authenticateWithProvider("google")}>
+        Sign In with Google
+      </button>
+    </>
+  );
+};
+
 //...
 ```
 
@@ -14349,15 +14089,16 @@ This means that instead of getting the token through an `axios` request like the
 
 ```jsx
 const user = await loginService.login({
-  username, password
-}) // Gives us username, name, and token in the user object
+  username,
+  password,
+}); // Gives us username, name, and token in the user object
 ```
 
 We have to fetch it from the URL:
 
 ```jsx
-const params = (new URL(document.location)).searchParams
-const token = params.get('token')
+const params = new URL(document.location).searchParams;
+const token = params.get("token");
 ```
 
 Our backend route will redirect us to the login route of our frontend with the token as a URL parameter to which we need to access and set the appropriate tokens in our modules/add it to local storage. This presents a perfect use case for `useEffect()` as we need something to occur after the component has rendered as a side effect:
@@ -14367,51 +14108,48 @@ Our backend route will redirect us to the login route of our frontend with the t
 ```jsx
 //...
 
-import authenticatedState from '../helpers/authenticatedState'
+import authenticatedState from "../helpers/authenticatedState";
 
 const LoginContainer = () => {
-    
   //...
-    
+
   const tokenEffect = () => {
-  const params = (new URL(document.location)).searchParams
-  const token = params.get('token')
-  if (token) {
-    setUser(authenticatedState(token))
-  }
+    const params = new URL(document.location).searchParams;
+    const token = params.get("token");
+    if (token) {
+      setUser(authenticatedState(token));
+    }
 
     // For production cases, you should remove the parameters from the URL so the user cannot accidentally copy and send their token when trying to share their link
-  }
+  };
 
-  useEffect(tokenEffect, [])
-}
+  useEffect(tokenEffect, []);
+};
 ```
 
 Here, our effect simply takes the token (if there is one) from the URL upon initial render of the page. We also set our user to the return value of `authenticatedState(token)`:
 
-Since we are no longer receiving our `token`, `username`, and `name` all in one response when we login with passport (unlike logging in through our `/login` route), we must take this token that we receive and use it to fetch our user information. With this, we created our first *helper* in our frontend that will go ahead and do everything for us regarding setting the tokens for our services, getting our `user` object, setting `localStorage`, setting state state, etc.
+Since we are no longer receiving our `token`, `username`, and `name` all in one response when we login with passport (unlike logging in through our `/login` route), we must take this token that we receive and use it to fetch our user information. With this, we created our first _helper_ in our frontend that will go ahead and do everything for us regarding setting the tokens for our services, getting our `user` object, setting `localStorage`, setting state state, etc.
 
 **/Frontend/src/helpers/authenticatedState.js**
 
 ```jsx
-import noteService from '../services/notes'
-import loginService from '../services/login'
+import noteService from "../services/notes";
+import loginService from "../services/login";
 
 const authenticatedState = async (token) => {
-  noteService.setToken(token)
-  loginService.setToken(token)
-  let user = await loginService.profile()
+  noteService.setToken(token);
+  loginService.setToken(token);
+  let user = await loginService.profile();
   user = {
     token,
-    ...user
-  }
-  window.localStorage.setItem(
-    'noteAppUser', JSON.stringify(user)
-  )
-  return user
-}
+    ...user,
+  };
+  window.localStorage.setItem("noteAppUser", JSON.stringify(user));
+  return user;
+};
 
-export default authenticatedState
+export default authenticatedState;
 ```
 
 Here, you'll see that we take advantage of a method of `loginService`, `profile()` to which we'll add as the following:
@@ -14419,30 +14157,30 @@ Here, you'll see that we take advantage of a method of `loginService`, `profile(
 **/Frontend/src/services/login.js**
 
 ```jsx
-import axios from 'axios'
-const baseUrl = '/api/login'
+import axios from "axios";
+const baseUrl = "/api/login";
 
-let token = null
+let token = null;
 
-const setToken = userToken => {
-  token = `bearer ${userToken}`
-}
+const setToken = (userToken) => {
+  token = `bearer ${userToken}`;
+};
 
-const login = async credentials => {
-  const res = await axios.post(baseUrl, credentials)
-  return res.data
-}
+const login = async (credentials) => {
+  const res = await axios.post(baseUrl, credentials);
+  return res.data;
+};
 
 const profile = async () => {
   const config = {
     headers: { Authorization: token },
-  }
+  };
 
-  const res = await axios.get(`${baseUrl}/profile`, config)
-  return res.data
-}
+  const res = await axios.get(`${baseUrl}/profile`, config);
+  return res.data;
+};
 
-export default { setToken, login, profile }
+export default { setToken, login, profile };
 ```
 
 This route does not yet exist in our backend, so we'll add the following to our `login` controller:
@@ -14452,24 +14190,25 @@ This route does not yet exist in our backend, so we'll add the following to our 
 ```js
 //...
 
-const passport = require('passport')
-require('../utils/authentication/jwt')
+const passport = require("passport");
+require("../utils/authentication/jwt");
 
 //...
 
-loginRouter.get('/profile',
-  passport.authenticate('jwt', { session: false }),
+loginRouter.get(
+  "/profile",
+  passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    const user = req.user
+    const user = req.user;
     const userForProfile = {
       username: user.username,
-      id: user._id
-    }
-    res.json(userForProfile)
+      id: user._id,
+    };
+    res.json(userForProfile);
   }
-)
+);
 
-module.exports = loginRouter
+module.exports = loginRouter;
 ```
 
 Here, since the goal is to simply provide an endpoint that returns the information that our frontend needs regarding the user, we can just return a JSON object containing the user information. Passport, upon authentication, makes the user object representing the user that is authenticated available under `req.user`. **We can "authenticate"/protect our controller by chaining the `passport.authenticate()` middleware before our actual controller.** This will ensure that the request is authenticated before we run any logic and will allow us to access `req.user`.
@@ -14481,36 +14220,36 @@ We'll also replace the manual logic for verifying a JWT with a simple call to `p
 ```jsx
 //...
 
-const passport = require('passport')
-require('../utils/authentication/jwt')
+const passport = require("passport");
+require("../utils/authentication/jwt");
 
 //...
 
-notesRouter.post('/',
-  passport.authenticate('jwt', { session: false }),
+notesRouter.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
-    const body = req.body
+    const body = req.body;
 
     try {
-      const user = await User.findById(req.user.id)
+      const user = await User.findById(req.user.id);
 
       const newNote = new Note({
         content: body.content,
         flagged: body.flagged || false,
         date: new Date(),
-        user: user._id
-      })
+        user: user._id,
+      });
 
-
-      const savedNote = await newNote.save()
-      user.notes = user.notes.concat(savedNote._id) // Adds the ID of the note we have just saved to the user's notes
-      await user.save()
-      res.status(201).json(savedNote.toJSON())
+      const savedNote = await newNote.save();
+      user.notes = user.notes.concat(savedNote._id); // Adds the ID of the note we have just saved to the user's notes
+      await user.save();
+      res.status(201).json(savedNote.toJSON());
     } catch (exception) {
-      next(exception)
+      next(exception);
     }
   }
-)
+);
 
 //...
 ```
@@ -14522,17 +14261,17 @@ We can also make a few updates to our `App` component so that we set the token f
 ```jsx
 //...
 
-  const signedInEffect = () => {
-    const loggedInUserJSON = window.localStorage.getItem('noteAppUser')
-    if (loggedInUserJSON) {
-      const storageUser = JSON.parse(loggedInUserJSON)
-      console.log('user')
-      setUser(storageUser)
-      console.log(storageUser)
-      noteService.setToken(storageUser.token)
-      loginService.setToken(storageUser.token)
-    }
+const signedInEffect = () => {
+  const loggedInUserJSON = window.localStorage.getItem("noteAppUser");
+  if (loggedInUserJSON) {
+    const storageUser = JSON.parse(loggedInUserJSON);
+    console.log("user");
+    setUser(storageUser);
+    console.log(storageUser);
+    noteService.setToken(storageUser.token);
+    loginService.setToken(storageUser.token);
   }
+};
 
 //...
 ```
@@ -14548,24 +14287,35 @@ Let's create the `facebook` strategy as follows:
 **/Backend/utils/authentication/facebook.js**
 
 ```js
-const passport = require('passport')
-const passportFacebook = require('passport-facebook')
-const config = require('../config')
-const User = require('../../models/user')
+const passport = require("passport");
+const passportFacebook = require("passport-facebook");
+const config = require("../config");
+const User = require("../../models/user");
 
 const passportConfig = {
   clientID: config.authentication.facebook.clientId,
   clientSecret: config.authentication.facebook.clientSecret,
-  callbackURL: 'http://localhost:3000/api/authentication/facebook/redirect'
-}
+  callbackURL: "http://localhost:3000/api/authentication/facebook/redirect",
+};
 
 if (passportConfig.clientID) {
-  passport.use(new passportFacebook.Strategy(passportConfig, function (request, accessToken, refreshToken, profile, done) {
-    // Creates user if this user does not already have an account with this facebookId
-    User.findOrCreate({ name: profile.displayName, providerId: profile.id }, function (err, user) {
-      return done(err, user)
+  passport.use(
+    new passportFacebook.Strategy(passportConfig, function (
+      request,
+      accessToken,
+      refreshToken,
+      profile,
+      done
+    ) {
+      // Creates user if this user does not already have an account with this facebookId
+      User.findOrCreate(
+        { name: profile.displayName, providerId: profile.id },
+        function (err, user) {
+          return done(err, user);
+        }
+      );
     })
-  }))
+  );
 }
 ```
 
@@ -14574,35 +14324,44 @@ We can then add the following routes to our `auth` controller:
 **/Backend/controllers/auth.js**
 
 ```js
-const authRouter = require('express').Router()
-const passport = require('passport')
-const token = require('../utils/authentication/token')
-require('../utils/authentication/jwt')
-require('../utils/authentication/google')
-require('../utils/authentication/facebook')
+const authRouter = require("express").Router();
+const passport = require("passport");
+const token = require("../utils/authentication/token");
+require("../utils/authentication/jwt");
+require("../utils/authentication/google");
+require("../utils/authentication/facebook");
 
 function generateUserJWTAndRedirect(req, res) {
-  const accessJWT = token.generateAccessJWT(req.user.id)
-  res
-    .status(200)
-    .redirect(`http://localhost:3001/login?token=${accessJWT}`)
+  const accessJWT = token.generateAccessJWT(req.user.id);
+  res.status(200).redirect(`http://localhost:3001/login?token=${accessJWT}`);
 }
 
 // Google Routes
-authRouter.get('/google/start',
-  passport.authenticate('google', { session: false, scope: ['openid', 'profile', 'email'] }))
-authRouter.get('/google/redirect',
-  passport.authenticate('google', { session: false }),
-  generateUserJWTAndRedirect)
+authRouter.get(
+  "/google/start",
+  passport.authenticate("google", {
+    session: false,
+    scope: ["openid", "profile", "email"],
+  })
+);
+authRouter.get(
+  "/google/redirect",
+  passport.authenticate("google", { session: false }),
+  generateUserJWTAndRedirect
+);
 
 // Facebook Routes
-authRouter.get('/facebook/start',
-  passport.authenticate('facebook', { session: false }))
-authRouter.get('/facebook/redirect',
-  passport.authenticate('facebook', { session: false }),
-  generateUserJWTAndRedirect)
+authRouter.get(
+  "/facebook/start",
+  passport.authenticate("facebook", { session: false })
+);
+authRouter.get(
+  "/facebook/redirect",
+  passport.authenticate("facebook", { session: false }),
+  generateUserJWTAndRedirect
+);
 
-module.exports = authRouter
+module.exports = authRouter;
 ```
 
 Finally, let's just add a button in the frontend that makes the first request for Facebook authentication:
@@ -14610,24 +14369,28 @@ Finally, let's just add a button in the frontend that makes the first request fo
 ```jsx
 //...
 
-  const loginForm = () => {
-    return (
-      <>
-        <Togglable buttonLabel='Sign Up With Email'>
-          <LoginForm
-            handleLogin={handleLogin}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            username={username}
-            password={password}
-          />
-        </Togglable>
-        <button onClick={() => authenticateWithProvider('google')}>Sign In with Google</button>
-        <button onClick={() => authenticateWithProvider('facebook')}>Sign In with Facebook</button>
-      </>
-    )
-  }
-  
+const loginForm = () => {
+  return (
+    <>
+      <Togglable buttonLabel="Sign Up With Email">
+        <LoginForm
+          handleLogin={handleLogin}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          username={username}
+          password={password}
+        />
+      </Togglable>
+      <button onClick={() => authenticateWithProvider("google")}>
+        Sign In with Google
+      </button>
+      <button onClick={() => authenticateWithProvider("facebook")}>
+        Sign In with Facebook
+      </button>
+    </>
+  );
+};
+
 //...
 ```
 
@@ -14638,33 +14401,35 @@ We can fix username/password authentication with the help of `passport-local`. W
 **/Backend/utils/authentication/local.js**
 
 ```jsx
-const passport = require('passport')
-const LocalStrategy = require('passport-local').Strategy
-const User = require('../../models/user')
-const bcrypt = require('bcrypt')
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const User = require("../../models/user");
+const bcrypt = require("bcrypt");
 
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-
+passport.use(
+  new LocalStrategy(function (username, password, done) {
     // Find user with matching username
-    User.findOne({ username: username }, async function(err, user) {
-      if (err) { return done(err) }
+    User.findOne({ username: username }, async function (err, user) {
+      if (err) {
+        return done(err);
+      }
       if (!user) {
-        return done(null, false, { message: 'Username not found.' })
+        return done(null, false, { message: "Username not found." });
       }
 
       // Checks to see if hashed password matches hash of provided password
-      const passwordCorrect = user === null
-        ? false
-        : await bcrypt.compare(password, user.passwordHash)
+      const passwordCorrect =
+        user === null
+          ? false
+          : await bcrypt.compare(password, user.passwordHash);
 
       if (!passwordCorrect) {
-        return done(null, false, { message: 'Incorrect password.' })
+        return done(null, false, { message: "Incorrect password." });
       }
-      return done(null, user)
-    })
-  }
-))
+      return done(null, user);
+    });
+  })
+);
 ```
 
 Here, you can see how we're pretty much left to ourselves in terms of describing what should authenticate and what shouldn't. We even describe how to check passwords. Passport does not implement signup methods as it is just an authorization library, so we are given the freedom with regard to how we create users as well. For now, our previous logic found in the `users` controller will work.
@@ -14672,41 +14437,52 @@ Here, you can see how we're pretty much left to ourselves in terms of describing
 Now, we just have to make use of our new `LocalStrategy` in our `auth` controller that will authenticate us and then generate a token that we can use for further authentication around our apps:
 
 ```jsx
-const authRouter = require('express').Router()
-const passport = require('passport')
-const token = require('../utils/authentication/token')
-require('../utils/authentication/jwt')
-require('../utils/authentication/google')
-require('../utils/authentication/facebook')
-require('../utils/authentication/local') // Local strategy import
+const authRouter = require("express").Router();
+const passport = require("passport");
+const token = require("../utils/authentication/token");
+require("../utils/authentication/jwt");
+require("../utils/authentication/google");
+require("../utils/authentication/facebook");
+require("../utils/authentication/local"); // Local strategy import
 
 function generateUserJWTAndRedirect(req, res) {
-  const accessJWT = token.generateAccessJWT(req.user.id)
-  res
-    .status(200)
-    .redirect(`http://localhost:3001/login?token=${accessJWT}`)
+  const accessJWT = token.generateAccessJWT(req.user.id);
+  res.status(200).redirect(`http://localhost:3001/login?token=${accessJWT}`);
 }
 
 // Google Routes
-authRouter.get('/google/start',
-  passport.authenticate('google', { session: false, scope: ['openid', 'profile', 'email'] }))
-authRouter.get('/google/redirect',
-  passport.authenticate('google', { session: false }),
-  generateUserJWTAndRedirect)
+authRouter.get(
+  "/google/start",
+  passport.authenticate("google", {
+    session: false,
+    scope: ["openid", "profile", "email"],
+  })
+);
+authRouter.get(
+  "/google/redirect",
+  passport.authenticate("google", { session: false }),
+  generateUserJWTAndRedirect
+);
 
 // Facebook Routes
-authRouter.get('/facebook/start',
-  passport.authenticate('facebook', { session: false }))
-authRouter.get('/facebook/redirect',
-  passport.authenticate('facebook', { session: false }),
-  generateUserJWTAndRedirect)
+authRouter.get(
+  "/facebook/start",
+  passport.authenticate("facebook", { session: false })
+);
+authRouter.get(
+  "/facebook/redirect",
+  passport.authenticate("facebook", { session: false }),
+  generateUserJWTAndRedirect
+);
 
 // Local Authentication Routes
-authRouter.get('/local/start',
-  passport.authenticate('local', { session: false }),
-  generateUserJWTAndRedirect)
+authRouter.get(
+  "/local/start",
+  passport.authenticate("local", { session: false }),
+  generateUserJWTAndRedirect
+);
 
-module.exports = authRouter
+module.exports = authRouter;
 ```
 
 Here, we don't need a redirect route that we then authenticate with as we can simply authenticate upon our initial request (as we have all the information that we need), generate a token, and redirect the user.
@@ -14718,23 +14494,27 @@ Finally, we just need to change our login form to actually submit a request to t
 ```jsx
 //...
 
-  const loginForm = () => {
-    return (
-      <>
-        <Togglable buttonLabel='Sign Up With Email'>
-          <LoginForm
-            loginAddress={'http://localhost:3000/api/authentication/local/start'}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            username={username}
-            password={password}
-          />
-        </Togglable>
-        <button onClick={() => authenticateWithProvider('google')}>Sign In with Google</button>
-        <button onClick={() => authenticateWithProvider('facebook')}>Sign In with Facebook</button>
-      </>
-    )
-  }
+const loginForm = () => {
+  return (
+    <>
+      <Togglable buttonLabel="Sign Up With Email">
+        <LoginForm
+          loginAddress={"http://localhost:3000/api/authentication/local/start"}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          username={username}
+          password={password}
+        />
+      </Togglable>
+      <button onClick={() => authenticateWithProvider("google")}>
+        Sign In with Google
+      </button>
+      <button onClick={() => authenticateWithProvider("facebook")}>
+        Sign In with Facebook
+      </button>
+    </>
+  );
+};
 
 //...
 ```
@@ -14746,21 +14526,20 @@ Now, we can just update the JSX for our login form to make a POST request to the
 **/Frontend/src/components/LoginForm.js**
 
 ```jsx
-import React from 'react'
-import PropTypes from 'proptypes'
+import React from "react";
+import PropTypes from "proptypes";
 
 const LoginForm = ({
   loginAddress,
   handleUsernameChange,
   handlePasswordChange,
   username,
-  password
+  password,
 }) => {
-
   return (
-    <form action={loginAddress} method={'post'}>
+    <form action={loginAddress} method={"post"}>
       <div>
-            Username
+        Username
         <input
           type="text"
           value={username}
@@ -14769,7 +14548,7 @@ const LoginForm = ({
         />
       </div>
       <div>
-            Password
+        Password
         <input
           type="password"
           value={password}
@@ -14779,18 +14558,18 @@ const LoginForm = ({
       </div>
       <button type="submit">Login</button>
     </form>
-  )
-}
+  );
+};
 
 LoginForm.propTypes = {
   loginAddress: PropTypes.string.isRequired,
   handleUsernameChange: PropTypes.func.isRequired,
   handlePasswordChange: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired
-}
+  password: PropTypes.string.isRequired,
+};
 
-export default LoginForm
+export default LoginForm;
 ```
 
 We also changed the names of our input fields to lowercase as that is what Passport is expecting.
@@ -14811,23 +14590,21 @@ However, it was not always like this, in the past, creating a React app was cons
 
 Even though ES6 modules have been standard for quite a while now, most browsers cannot handle code that's been split up into modules. This means that if we just tried to serve an application with one initial JavaScript file as an entry point and tried importing other files, our application would simply not work.
 
-To solve this issue, we have *bundlers* that will *bundle* our modules into single files that contain all of the necessary application code. For example, when we run `npm run build`, our bundler (webpack) will end up building the production version of the single JavaScript files. Our bundler will also manage other types of files for us (CSS, images, etc.). Bundling and building our application has previously resulted in the following files:
+To solve this issue, we have _bundlers_ that will _bundle_ our modules into single files that contain all of the necessary application code. For example, when we run `npm run build`, our bundler (webpack) will end up building the production version of the single JavaScript files. Our bundler will also manage other types of files for us (CSS, images, etc.). Bundling and building our application has previously resulted in the following files:
 
 ![Webpack](https://i.imgur.com/NAUdw9f.png)
-
-
 
 Essentially, webpack takes all of our import statements, grabs the content from those modules, and dumps it all into "one" file. It continues to do so "recursively" for all imports.
 
 Here, you'll see how our application is reduced into a few files by our bundler. We access these bundled JavaScript files in our **index.html** file to which our browser can now understand how to run our application:
 
 ```html
-  <link href="/static/css/main.ebd3d852.chunk.css" rel="stylesheet">
+<link href="/static/css/main.ebd3d852.chunk.css" rel="stylesheet" />
 
-  <!-- ... -->
+<!-- ... -->
 
-  <script src="/static/js/2.c1f08b50.chunk.js"></script>
-  <script src="/static/js/main.46edc656.chunk.js"></script>
+<script src="/static/js/2.c1f08b50.chunk.js"></script>
+<script src="/static/js/main.46edc656.chunk.js"></script>
 ```
 
 You'll find the above tags in our **index.html** file to which you can see that our application's CSS and JavaScript files are bundled into singular files where to which we can then reference in our HTML.
@@ -14863,16 +14640,16 @@ We can then make use of webpack with some initial configuration in **webpack.con
 **/webpack.config.js**
 
 ```js
-const path = require('path')
+const path = require("path");
 
 const config = {
-  entry: './src/index.js',
+  entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'main.js'
-  }
-}
-module.exports = config
+    path: path.resolve(__dirname, "build"),
+    filename: "main.js",
+  },
+};
+module.exports = config;
 ```
 
 Here, we define the configuration file that webpack will use. It's written in plain JavaScript and uses Node's module syntax (since we're not using a bundler to enable ES6 imports just yet).
@@ -14901,8 +14678,8 @@ Finally, we can start writing our test application in our **/src** directory:
 
 ```js
 const test = () => {
-  console.log('Hello World!')
-}
+  console.log("Hello World!");
+};
 ```
 
 After this setup, we can finally bundle and build our 'vanilla' JavaScript application by running `npm run build`:
@@ -14915,10 +14692,10 @@ In the output, we can see how our **index.js** file is picked up by webpack and 
 
 ```js
 const App = () => {
-  return "Hello World!"
-}
+  return "Hello World!";
+};
 
-export default App
+export default App;
 ```
 
 We'll also make the following changes to our **index.js** file so that we're making use of importing modules:
@@ -14926,13 +14703,13 @@ We'll also make the following changes to our **index.js** file so that we're mak
 **/src/index.js**
 
 ```js
-import App from './App'
+import App from "./App";
 
 const test = () => {
-  App()
-}
+  App();
+};
 
-test()
+test();
 ```
 
 Now, upon building our project using `npm run build`, we're given the following output:
@@ -14992,11 +14769,11 @@ Let's now try to edit our source files to create a React application:
 **/src/index.js**
 
 ```jsx
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App'
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById("root"));
 ```
 
 This is extremely similar to how our previous React applications were created with regard to their entry points.
@@ -15004,13 +14781,11 @@ This is extremely similar to how our previous React applications were created wi
 **/src/App.js**
 
 ```jsx
-import React from 'react'
+import React from "react";
 
-const App = () => (
-  <div>Hello World!</div>
-)
+const App = () => <div>Hello World!</div>;
 
-export default App
+export default App;
 ```
 
 Let's also add a **index.html** file in our **/build** directory (since it doesn't need to be bundled) so that we can actually serve our bundled JavaScript file:
@@ -15038,9 +14813,7 @@ If we try to bundle our application, we'll run into the following error:
 This is simply because we make use of JSX in the definition of our `App` module. Recall that, although React offers a pure JS way of rendering components, we elect to use JSX for rendering our views with its XML-like format:
 
 ```jsx
-const App = () => (
-  <div>Hello World!</div>
-)
+const App = () => <div>Hello World!</div>;
 ```
 
 Using JSX leads to an error as webpack, by default, only can bundle "vanilla" JavaScript. We can fix this by following the suggestion in the error message.
@@ -15054,36 +14827,36 @@ We can add a loader that transforms our JSX into "vanilla" JavaScript by adding 
 **/webpack.config.js**
 
 ```js
-const path = require('path')
+const path = require("path");
 
 const config = {
-  entry: './src/index.js',
+  entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'main.js'
+    path: path.resolve(__dirname, "build"),
+    filename: "main.js",
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
         options: {
-          presets: ['@babel/preset-react'],
+          presets: ["@babel/preset-react"],
         },
       },
     ],
-  }
-}
-module.exports = config
+  },
+};
+module.exports = config;
 ```
 
 Here, we define a loader under the `module` property in its `rules` array.
 
 In order to define a loader, we need to provider a `test` property, a `loader` property, and a `options` property:
 
-* The `test` property tells the file endings that our loader should target. It takes in a regular expression and our files must match this condition.
-* The `loader` property simply allows us to specify a loader to be used for the processing of files that match our `test`.
-* The `options` property just allows us to configure our loader. Here we just set the our `babel-loader` loader's preset to the default preset for React.
+- The `test` property tells the file endings that our loader should target. It takes in a regular expression and our files must match this condition.
+- The `loader` property simply allows us to specify a loader to be used for the processing of files that match our `test`.
+- The `options` property just allows us to configure our loader. Here we just set the our `babel-loader` loader's preset to the default preset for React.
 
 We'll also need to install the loader and its presets as referenced by our configuration:
 
@@ -15112,27 +14885,27 @@ npm i core-js
 We can then adjust the `entry ` property of our webpack configuration in order to polyfill using `core-js`:
 
 ```js
-const path = require('path')
+const path = require("path");
 
 const config = {
-  entry: ['core-js', './src/index.js'],
+  entry: ["core-js", "./src/index.js"],
   output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'main.js'
+    path: path.resolve(__dirname, "build"),
+    filename: "main.js",
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
         options: {
-          presets: ['@babel/preset-react'],
+          presets: ["@babel/preset-react"],
         },
       },
     ],
-  }
-}
-module.exports = config
+  },
+};
+module.exports = config;
 ```
 
 Here, we changed the value of `entry` to an array with `'core-js'` as its first value.
@@ -15143,7 +14916,7 @@ If we serve our **index.html** file with a HTTP server and open it in our browse
 
 ![Expected Application](https://i.imgur.com/rW5iTus.png)
 
-When we "convert" this JSX code into "vanilla" JavaScript code, we are *transpiling* the code. **Transpilers are tools that read source code written in one programming language (or superset/subset) and produce the equivalent in another language.**
+When we "convert" this JSX code into "vanilla" JavaScript code, we are _transpiling_ the code. **Transpilers are tools that read source code written in one programming language (or superset/subset) and produce the equivalent in another language.**
 
 In our configuration, we utilize `babel` which takes care of transpiling our code. Now, most browsers do not support the ES6 and ES7 features that we make use of (we did not use polyfills for every single feature). We can solve this by using a preset that will transpile our code written in newer JavaScript standards to code that operates in older standards. This allows us to use newer features without losing any compatibility.
 
@@ -15160,27 +14933,27 @@ As this package is only used by `babel` when transpiling our application, we onl
 Now, we can just add it to our `presets` property in our loader options for `babel-loader`:
 
 ```js
-const path = require('path')
+const path = require("path");
 
 const config = {
-  entry: ['core-js', './src/index.js'],
+  entry: ["core-js", "./src/index.js"],
   output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'main.js'
+    path: path.resolve(__dirname, "build"),
+    filename: "main.js",
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
         options: {
-          presets: ['@babel/preset-env', '@babel/preset-react'], // New Preset
+          presets: ["@babel/preset-env", "@babel/preset-react"], // New Preset
         },
       },
     ],
-  }
-}
-module.exports = config
+  },
+};
+module.exports = config;
 ```
 
 Now, our application will successfully transform our code into older JavaScript standards. For example, since arrow functions are not in the ES5 standard, they'll be converted to regular functions.
@@ -15202,12 +14975,12 @@ This polyfill is not added by webpack, but rather we just inject it into our app
 ```jsx
 //...
 
-import 'promise-polyfill/src/polyfill'
+import "promise-polyfill/src/polyfill";
 
 //...
 ```
 
-Here, if our window object (global) does not have a `Promise` property,  this `import` will add a global Promise object (including support for Node which does not have a `window` object).
+Here, if our window object (global) does not have a `Promise` property, this `import` will add a global Promise object (including support for Node which does not have a `window` object).
 
 #### CSS Loader
 
@@ -15262,14 +15035,12 @@ Now, we can use CSS in our application by creating a CSS file, importing it in a
 **/src/App.js**
 
 ```jsx
-import React from 'react'
-import './index.css'
+import React from "react";
+import "./index.css";
 
-const App = () => (
-  <div className="test">Hello World!</div>
-)
+const App = () => <div className="test">Hello World!</div>;
 
-export default App
+export default App;
 ```
 
 This yields the following result when served by a HTTP server:
@@ -15284,9 +15055,9 @@ Previously, when working with `create-react-app`, our app would automatically re
 
 There are three options with webpack that will automatically compile our code:
 
-* webpack Watch Mode
-* `webpack-dev-server`
-* `webpack-dev-middleware`
+- webpack Watch Mode
+- `webpack-dev-server`
+- `webpack-dev-middleware`
 
 For our purposes, as recommended by the official docs, we'll be exploring `webpack-dev-server`.
 
@@ -15350,25 +15121,27 @@ For example, let's intentionally cause an error in our application:
 **/src/App.js**
 
 ```jsx
-import React, { useState } from 'react'
-import './index.css'
+import React, { useState } from "react";
+import "./index.css";
 
 const App = () => {
-  const [testArray, setTestArray] = useState() // Defined with no value
+  const [testArray, setTestArray] = useState(); // Defined with no value
 
   const handleArrayAdd = () => {
-    setTestArray(testArray.concat('Added!')) // Tries to concat 'Added!' to an object that isn't an array
-  }
+    setTestArray(testArray.concat("Added!")); // Tries to concat 'Added!' to an object that isn't an array
+  };
 
   return (
     <>
       {testArray}
-      <button onClick={handleArrayAdd} className="test">Add value to array</button>
+      <button onClick={handleArrayAdd} className="test">
+        Add value to array
+      </button>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
 ```
 
 Here, we try to `concat()` a value to `testArray` which has not been initialized with any value. This will cause an error as `concat()` is not a property of `null` (as it is an array method).
@@ -15421,15 +15194,15 @@ This file is served from webpack at the address `webpack:///./src/App.js`. This 
 
 ### Large Bundle Sizes + Minification
 
-With larger projects, it may become important to monitor our package size. *BundlePhobia* (bundlephobia.com) is a great tool for monitoring the cost of adding a package to our application.
+With larger projects, it may become important to monitor our package size. _BundlePhobia_ (bundlephobia.com) is a great tool for monitoring the cost of adding a package to our application.
 
 We can also upload our **package.json** file to BundlePhobia to get some information on the cost of each package.
 
-Upon viewing a package, we can view the *minified* size of the package (+ gzipped) as well the estimated times it would take to download these packages:
+Upon viewing a package, we can view the _minified_ size of the package (+ gzipped) as well the estimated times it would take to download these packages:
 
 ![Package](https://i.imgur.com/WTLXuWu.png)
 
-You may not have heard of the term, *minification*, just yet. It simply refers to the compression of our files, optimizing the formatting by removing whitespace, shortening variable names, replacing verbose functions with more concise functions, etc.
+You may not have heard of the term, _minification_, just yet. It simply refers to the compression of our files, optimizing the formatting by removing whitespace, shortening variable names, replacing verbose functions with more concise functions, etc.
 
 You can conceptually think of the minification process as transpiling our JavaScript code into a more "space-efficient" version of JavaScript.
 
@@ -15445,7 +15218,7 @@ Enabling minification with webpack does not require much configuration, we just 
     "build": "webpack --mode=production", // Builds with production mode
     "start": "webpack-dev-server --mode=development"
   },
-    
+
   //...
 ```
 
@@ -15464,7 +15237,7 @@ This is not developer friendly, but is much more efficient with regard to space.
 
 #### Manual Webpack Configuration with `create-react-app`
 
-As we mentioned earlier, `create-react-app` uses webpack for its bundling. Its configuration is abstracted behind-the-scenes and is configured for us. If we wish to change the default configuration, we must *eject* from the tool. This essentially makes `create-react-app` a boilerplate generator to which we are given all of the configuration files needed for the project. We are essentially on our own after ejecting.
+As we mentioned earlier, `create-react-app` uses webpack for its bundling. Its configuration is abstracted behind-the-scenes and is configured for us. If we wish to change the default configuration, we must _eject_ from the tool. This essentially makes `create-react-app` a boilerplate generator to which we are given all of the configuration files needed for the project. We are essentially on our own after ejecting.
 
 We can eject our project by running `npm run eject`. This will copy all of the configuration files and its dependencies right into our project directory, giving us full control over them. React Scripts commands will still work, but they will now point to scripts found within our directory. There is a lot to the default configuration, and it can be quite hard to grasp. Thus, it may be a good idea, if you're planning on ejecting in the future, to just write your own webpack configuration from the start.
 
@@ -15487,11 +15260,11 @@ A barebones class component looks like this:
 **/src/App.js**
 
 ```jsx
-import React from 'react'
+import React from "react";
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
@@ -15499,18 +15272,18 @@ class App extends React.Component {
       <div>
         <h1>Note App</h1>
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;
 ```
 
 Here, you'll see that `App` is no longer a constant that references a function which returns JSX. Instead, we have a class named `App` containing a constructor and a `render()` method to which this method returns the JSX that we wish to be rendered.
 
 The constructor for a class component is called before the component is ever mounted and should call `super(props)` before any other statement in `React.Component` subclasses (meaning the class `extends React.Component`). If we do not call `super(props)`, the `props` object that our class may depend on will be undefined.
 
-React class-based component constructors are used to initialize local state through an object assigned to `this.state` (`state` being bound to the class via `this`). 
+React class-based component constructors are used to initialize local state through an object assigned to `this.state` (`state` being bound to the class via `this`).
 
 They are also used to bind event handler methods to an instance of the class.
 
@@ -15542,36 +15315,34 @@ Let's initialize our state with a `notes` array and display the `notes`:
 **/src/App.js**
 
 ```jsx
-import React from 'react'
-import 'promise-polyfill/src/polyfill'
+import React from "react";
+import "promise-polyfill/src/polyfill";
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      notes: []
-    }
+      notes: [],
+    };
   }
 
   render() {
-    if (this.state.notes.length === 0 ) {
-      return <p>There are no notes</p>
+    if (this.state.notes.length === 0) {
+      return <p>There are no notes</p>;
     }
 
     return (
       <div>
         <h1>Notes App</h1>
-        <div>
-          {this.state.notes.map(n => n.content)}
-        </div>
+        <div>{this.state.notes.map((n) => n.content)}</div>
         <button>Remove Notes</button>
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;
 ```
 
 Notice how we keep our `notes` piece of state as a property of the state object (`this.state`). `this.state.notes` is like the `notes` constant given to us by `const [notes, setNotes] = useState([])`. Within our component, we must also refer to our pieces of state as properties of `this.state`.
@@ -15584,7 +15355,7 @@ This yields the following result:
 
 This is rendered as we do not have any notes in our state. Let's go about fetching some notes to demonstrate this component.
 
-Previously, we had used the `useEffect()` hook in order to perform side effects in our function components. Among these side effects were network requests to fetch data. We can achieve the same result with class components through the use of *lifecycle methods*.
+Previously, we had used the `useEffect()` hook in order to perform side effects in our function components. Among these side effects were network requests to fetch data. We can achieve the same result with class components through the use of _lifecycle methods_.
 
 The lifecycle of a React class component refers to three phases: mounting, updating, and unmounting. Mounting a component simply refers to inserting elements into the DOM.
 
@@ -15605,10 +15376,10 @@ Since we had not discussed it yet, `getDerivedStateFromProps()` allows us to set
 class Test extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {someValue: "test"};
+    this.state = { someValue: "test" };
   }
   static getDerivedStateFromProps(props, state) {
-    return {someValue: props.valuePassedInFromProps };
+    return { someValue: props.valuePassedInFromProps };
   }
   render() {
     return (
@@ -15618,7 +15389,7 @@ class Test extends React.Component {
 }
 ```
 
-Here, we initialize the `someValue` piece of state in our `constructor(props)` and set it to the value passed into our `props` within `getDerivedStateFromProps(props, state)`. 
+Here, we initialize the `someValue` piece of state in our `constructor(props)` and set it to the value passed into our `props` within `getDerivedStateFromProps(props, state)`.
 
 Circling back to fetching our data, the `componentDidMount()` method runs after our component output has been rendered to the DOM for the first time.
 
@@ -15633,43 +15404,41 @@ Here, we can make our `axios` request for the notes and update our state appropr
 **/src/App.js**
 
 ```jsx
-import React from 'react'
-import 'promise-polyfill/src/polyfill'
-import axios from 'axios'
+import React from "react";
+import "promise-polyfill/src/polyfill";
+import axios from "axios";
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      notes: []
-    }
+      notes: [],
+    };
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3001/notes').then(res => {
-      this.setState({ notes: res.data })
-    })
+    axios.get("http://localhost:3001/notes").then((res) => {
+      this.setState({ notes: res.data });
+    });
   }
 
   render() {
-    if (this.state.notes.length === 0 ) {
-      return <p>There are no notes</p>
+    if (this.state.notes.length === 0) {
+      return <p>There are no notes</p>;
     }
 
     return (
       <div>
         <h1>Notes App</h1>
-        <div>
-          {this.state.notes.map(n => n.content)}
-        </div>
+        <div>{this.state.notes.map((n) => n.content)}</div>
         <button>Remove Notes</button>
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;
 ```
 
 We'll also use `json-server` to serve the following file to simulate our backend:
@@ -15714,30 +15483,28 @@ class App extends React.Component {
   //...
 
   handleClick() {
-    console.log(this)
+    console.log(this);
     this.setState({
-      notes: []
-    })
+      notes: [],
+    });
   }
 
   render() {
-    if (this.state.notes.length === 0 ) {
-      return <p>There are no notes</p>
+    if (this.state.notes.length === 0) {
+      return <p>There are no notes</p>;
     }
 
     return (
       <div>
         <h1>Notes App</h1>
-        <div>
-          {this.state.notes.map(n => n.content)}
-        </div>
+        <div>{this.state.notes.map((n) => n.content)}</div>
         <button onClick={this.handleClick}>Remove Notes</button>
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;
 ```
 
 Here, we have intentionally introduced a bug. Recall that we talked about binding `this` to the actual class since `this` will refer to the method that had called it (in this case, the `onClick` event or `undefined`). As `this` does not refer to the class, we do not have access to its `setState()` method, leading to a thrown error upon clicking the button:
@@ -15784,96 +15551,92 @@ Our final application's `App` component looks like this as a class component:
 **/src/App.js**
 
 ```jsx
-import React from 'react'
-import 'promise-polyfill/src/polyfill'
-import axios from 'axios'
+import React from "react";
+import "promise-polyfill/src/polyfill";
+import axios from "axios";
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      notes: []
-    }
+      notes: [],
+    };
 
-    this.handleClick = this.handleClick.bind(this)
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3001/notes').then(res => {
-      this.setState({ notes: res.data })
-    })
+    axios.get("http://localhost:3001/notes").then((res) => {
+      this.setState({ notes: res.data });
+    });
   }
 
   handleClick() {
     this.setState({
-      notes: []
-    })
+      notes: [],
+    });
   }
 
   render() {
-    if (this.state.notes.length === 0 ) {
-      return <p>There are no notes</p>
+    if (this.state.notes.length === 0) {
+      return <p>There are no notes</p>;
     }
 
     return (
       <div>
         <h1>Notes App</h1>
-        <div>
-          {this.state.notes.map(n => n.content)}
-        </div>
+        <div>{this.state.notes.map((n) => n.content)}</div>
         <button onClick={this.handleClick}>Remove Notes</button>
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;
 ```
 
 The "same" component written as a functional component looks like the following:
 
 ```jsx
-import React, { useState, useEffect} from 'react'
-import 'promise-polyfill/src/polyfill'
-import axios from 'axios'
+import React, { useState, useEffect } from "react";
+import "promise-polyfill/src/polyfill";
+import axios from "axios";
 
 const App = () => {
-  const [notes, setNotes] = useState([])
+  const [notes, setNotes] = useState([]);
 
-  useEffect(() =>{
-    axios.get('http://localhost:3001/notes').then(res => {
-      setNotes(res.data)
-    })
-  }, [])
+  useEffect(() => {
+    axios.get("http://localhost:3001/notes").then((res) => {
+      setNotes(res.data);
+    });
+  }, []);
 
   const handleClick = () => {
-    setNotes([])
-  }
+    setNotes([]);
+  };
 
   if (notes.length === 0) {
-    return <p>There are no notes</p>
+    return <p>There are no notes</p>;
   }
-  
+
   return (
     <div>
       <h1>Notes App</h1>
-      <div>
-        {notes.map(n => n.content)}
-      </div>
+      <div>{notes.map((n) => n.content)}</div>
       <button onClick={handleClick}>Remove Notes</button>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
 ```
 
 Here, you can somewhat see the differences between functional and class components. The advantages of functional components become much more realized with larger components and projects.
 
 `useEffect()` often becomes much more effective for dealing with side effects rather than the many lifecycle methods found in class components. We also do not have to deal with referencing `this` or being restricted to one object as our component's state.
 
-One potential use for class components that still has not been resolved is the use of class components as *error boundaries*, these components wrap other components and display a fallback UI upon catching an error in its child components.
+One potential use for class components that still has not been resolved is the use of class components as _error boundaries_, these components wrap other components and display a fallback UI upon catching an error in its child components.
 
 Error boundaries depend on the `componentDidCatch(error, info)` lifecycle method, to which these error boundaries can only be class components (although they may still wrap functional components).
 
@@ -15881,9 +15644,9 @@ Functional components can try to display fallback UIs and catch errors using the
 
 ```jsx
 try {
-  renderComponent()
+  renderComponent();
 } catch (error) {
-  displayFallbackUI()
+  displayFallbackUI();
 }
 ```
 
@@ -15891,7 +15654,7 @@ rather than for declarative code as React components should be:
 
 ```jsx
 <ErrorBoundary>
-	<SomeComponent />
+  <SomeComponent />
 </ErrorBoundary>
 ```
 
@@ -15947,9 +15710,15 @@ As these components make use of the Roboto font, we'll need to add a `link` elem
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />  <!-- Font Link -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <!-- Font Link -->
 
-<!-- ... -->
+    <!-- ... -->
+  </head>
+</html>
 ```
 
 We also added a `meta` tag to our `head` element which just specified certain behaviors ensuring proper rendering and touch zooming as recommended in the Material UI documentation.
@@ -15990,18 +15759,18 @@ This looks much better than the default checkbox rendered by our browser. Let's 
 **/Frontend/src/theme.js**
 
 ```jsx
-import { createMuiTheme } from '@material-ui/core'
-import { orange } from '@material-ui/core/colors'
+import { createMuiTheme } from "@material-ui/core";
+import { orange } from "@material-ui/core/colors";
 
 const baseTheme = {
   status: {
     danger: orange[500],
-  }
+  },
 };
 
-const theme = createMuiTheme(baseTheme)
+const theme = createMuiTheme(baseTheme);
 
-export default theme
+export default theme;
 ```
 
 Here, we leverages `createMuiTheme` in order to create a theme object that we'll pass to a theme provider which will apply our styles specified in `baseTheme` to our application.
@@ -16011,19 +15780,19 @@ We'll then use `ThemeProvider` to inject our `theme` object into our application
 **/Frontend/src/index.js**
 
 ```jsx
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App'
-import { ThemeProvider } from '@material-ui/core'
-import theme from './theme'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import { ThemeProvider } from "@material-ui/core";
+import theme from "./theme";
+import "./index.css";
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <App />
-  </ThemeProvider>
-  , document.getElementById('root'))
-
+  </ThemeProvider>,
+  document.getElementById("root")
+);
 ```
 
 With regard to providing styles and theme information within our components, there are three APIs that we can use to generate and apply styles, but they all share the same underlying object, so we'll just elect to use the Hook API for now:
@@ -16056,7 +15825,7 @@ const App = (props) => {
 }
 ```
 
-Here, we use `makeStyles()` in order to access our theme object and generate a hook to which we can call within our component to get `classes`. From this, we can access the CSS properties stored in the properties of the object returned by the function passed to `makeStyles()`.  We access the class through providing the reference to `className`.
+Here, we use `makeStyles()` in order to access our theme object and generate a hook to which we can call within our component to get `classes`. From this, we can access the CSS properties stored in the properties of the object returned by the function passed to `makeStyles()`. We access the class through providing the reference to `className`.
 
 This yields an orange checkbox that looks like this:
 
@@ -16081,7 +15850,7 @@ import { Checkbox, makeStyles, Container } from '@material-ui/core'
 
 const App = (props) => {
   //...
-    
+
   return (
    	<Container maxWidth="md">
      {/*...*/}
@@ -16101,24 +15870,30 @@ To keep things simple, instead of taking advantage of a list or such, since we a
 **/Frontend/src/components/Note.js**
 
 ```jsx
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { Card, CardContent, Checkbox, Typography, makeStyles } from '@material-ui/core'
+import React from "react";
+import { Link } from "react-router-dom";
+import {
+  Card,
+  CardContent,
+  Checkbox,
+  Typography,
+  makeStyles,
+} from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
     marginBottom: 10,
-  }
-})
+  },
+});
 
 const Note = ({ note, toggleFlagged }) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   if (!note) {
     note = {
       flagged: false,
-      content: 'Note content not found'
-    }
+      content: "Note content not found",
+    };
   }
   return (
     <li>
@@ -16131,10 +15906,10 @@ const Note = ({ note, toggleFlagged }) => {
         </CardContent>
       </Card>
     </li>
-  )
-}
+  );
+};
 
-export default Note
+export default Note;
 ```
 
 Here, there are a few interesting things to note. We've replaced the references to our original CSS stylesheet and instead are using Material UI components for the design of our `Note` component. You'll notice how we used the `makeStyles()` hook generator in order to give us a class that will add a bottom margin to the card that makes up our note component.
@@ -16144,8 +15919,6 @@ You'll also notice the introduction of a `Typography` component that acts as a w
 This is what our app looks like in this state:
 
 ![App Preview](https://i.imgur.com/tm3VVlp.png)
-
-
 
 The application is not pretty by any means, but it does show how Material UI can quickly give us a presentable UI to which it can be worked on to provide beautiful experiences.
 
@@ -16162,7 +15935,7 @@ import { Checkbox, makeStyles, Container, Tabs, Tab } from '@material-ui/core'
 
 const App = (props) => {
   //...
-    
+
   return (
     <Container maxWidth="md">
       <Checkbox
@@ -16197,24 +15970,21 @@ We'll move our attention over to the login form that we haven't touched yet. Cur
 Here, we'll take advantage of some of Material UI's input elements:
 
 ```jsx
-import React from 'react'
-import PropTypes from 'proptypes'
-import { Input, Button, Typography } from '@material-ui/core'
+import React from "react";
+import PropTypes from "proptypes";
+import { Input, Button, Typography } from "@material-ui/core";
 
 const LoginForm = ({
   loginAddress,
   handleUsernameChange,
   handlePasswordChange,
   username,
-  password
+  password,
 }) => {
-
   return (
-    <form action={loginAddress} method={'post'}>
+    <form action={loginAddress} method={"post"}>
       <div>
-        <Typography>
-          Username
-        </Typography>  
+        <Typography>Username</Typography>
         <Input
           type="text"
           value={username}
@@ -16223,9 +15993,7 @@ const LoginForm = ({
         />
       </div>
       <div>
-        <Typography>
-          Password
-        </Typography> 
+        <Typography>Password</Typography>
         <Input
           type="password"
           value={password}
@@ -16233,26 +16001,22 @@ const LoginForm = ({
           onChange={handlePasswordChange}
         />
       </div>
-      <Button 
-        variant="contained"
-        type="submit"
-        color="primary"
-      >
+      <Button variant="contained" type="submit" color="primary">
         Login
       </Button>
     </form>
-  )
-}
+  );
+};
 
 LoginForm.propTypes = {
   loginAddress: PropTypes.string.isRequired,
   handleUsernameChange: PropTypes.func.isRequired,
   handlePasswordChange: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired
-}
+  password: PropTypes.string.isRequired,
+};
 
-export default LoginForm
+export default LoginForm;
 ```
 
 Here, we just replaced our `input` elements with `Input` elements from Material UI. We also wrapped our text in `Typography` components and replaced our standard `button` with a `Button` component from Material UI with the extra props `variant` and `color`.
@@ -16261,7 +16025,7 @@ Our result is much better looking than before (but not nearly good enough for a 
 
 ![Better example](https://i.imgur.com/MQ2eeUw.png)
 
-In a production application, we would have to take much more consideration with regard to the color palette of our application, the spacing and distribution of components/elements, etc. With this, we have explored the basics of using a UI framework. There are plenty of other components that you can take advantage of in your future applications, but we have covered just about every component that we would be able to use in our application here. 
+In a production application, we would have to take much more consideration with regard to the color palette of our application, the spacing and distribution of components/elements, etc. With this, we have explored the basics of using a UI framework. There are plenty of other components that you can take advantage of in your future applications, but we have covered just about every component that we would be able to use in our application here.
 
 With this, we'll explore one other method of styling React components. This method is often considered the best way to style components (to which the many advantages of styled components are inspired and found in Material UI's theming system).
 
@@ -16270,7 +16034,7 @@ With this, we'll explore one other method of styling React components. This meth
 Styled components allow us to create reusable components that we can use throughout our application with styling information baked in. For example, if we wanted to create a styled regular `button` element, we would do the following:
 
 ```jsx
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const Button = styled.button`
   background: transparent;
@@ -16279,7 +16043,7 @@ const Button = styled.button`
   color: palevioletred;
   margin: 0 1em;
   padding: 0.25em 1em;
-`
+`;
 ```
 
 Here, we create a styled version of `button` using the style information provided between the backticks. This syntax may look awkward with it being a relatively niche feature introduced in ES6. Our styles here were defined using tagged template literals (enclosed by the backticks ``).
@@ -16289,9 +16053,7 @@ Tagged template literals take the template literal (the text in the backticks) a
 Let's just render this button to see its result:
 
 ```jsx
-const TestButton = () => (
-	<Button>This is a test of Styled Components!</Button>
-)
+const TestButton = () => <Button>This is a test of Styled Components!</Button>;
 ```
 
 This yields the following result:
@@ -16303,9 +16065,9 @@ Material UI allows for it to be styled using `styled-components` to which we use
 For example, if we wanted to create a styled `Button` component (not a plain `button`) with the `Button` component coming from Material UI, we would do the following:
 
 ```jsx
-import React from 'react'
-import styled from 'styled-components'
-import Button from '@material-ui/core/Button'
+import React from "react";
+import styled from "styled-components";
+import Button from "@material-ui/core/Button";
 
 const StyledButton = styled(Button)`
   background-color: #6772e5;
@@ -16315,7 +16077,7 @@ const StyledButton = styled(Button)`
   &:hover {
     background-color: #5469d4;
   }
-`
+`;
 ```
 
 Here, we call the `styled()` method with the `Button` component that we want to style, to which we put the template literal containing the styling information to add after.
@@ -16381,10 +16143,10 @@ Now, let's create our `App` component:
 **/src/App.js**
 
 ```jsx
-import React from 'react'
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
-import firebase from 'firebase/app' // Allows us to create app instances
-import 'firebase/auth' // Gives us Firebase authentication support
+import React from "react";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import firebase from "firebase/app"; // Allows us to create app instances
+import "firebase/auth"; // Gives us Firebase authentication support
 
 // Firebase configuration provided to us by the app creation process
 const firebaseConfig = {
@@ -16395,34 +16157,34 @@ const firebaseConfig = {
   storageBucket: "notes-app-bfbc5.appspot.com",
   messagingSenderId: "768088207404",
   appId: "1:768088207404:web:abd4b64d40dbab447e6189",
-  measurementId: "G-NBKG2S4VX5"
+  measurementId: "G-NBKG2S4VX5",
 };
 
 // Initializes Firebase and creates an app instance
-firebase.initializeApp(firebaseConfig)
+firebase.initializeApp(firebaseConfig);
 
 // Configure FirebaseUI.
 const uiConfig = {
   // Popup signin flow rather than redirect flow.
-  signInFlow: 'popup',
+  signInFlow: "popup",
   // We will display Google and Facebook as auth providers. Also configures the component with the provider IDs.
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    firebase.auth.FacebookAuthProvider.PROVIDER_ID
+    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
   ],
   callbacks: {
     // `signInSuccessWithAuthResult` is called with the user object when the user has successfully logged in
-    signInSuccessWithAuthResult: () => false // Empty function as we do not want to do anything just yet
-  }
-}
+    signInSuccessWithAuthResult: () => false, // Empty function as we do not want to do anything just yet
+  },
+};
 
 const App = () => {
   return (
-    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
-  )
-}
+    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+  );
+};
 
-export default App
+export default App;
 ```
 
 Read the comments in the code block to get a detailed explanation of what's going on in the component.
@@ -16476,11 +16238,11 @@ Our usage of these concepts with Firebase is as follows:
 
 ```jsx
 useEffect(() => {
-    // Realtime authentication listener subscription
-    const unsubscribe = onAuthStateChange() // Returns the unsubscribe function
-    // Unsubscribes from the listener when unmounting
-    return () => unsubscribe()
-  }, [])
+  // Realtime authentication listener subscription
+  const unsubscribe = onAuthStateChange(); // Returns the unsubscribe function
+  // Unsubscribes from the listener when unmounting
+  return () => unsubscribe();
+}, []);
 ```
 
 Here, we subscribe to the authentication state and deal with it in `onChange`. The `onAuthStateChanged()` function returns the unsubscribe function for the observer (subscriber). We then return a function that will call this unsubscribe function, to which React will call this function upon unmounting.
@@ -16492,36 +16254,34 @@ We'll now observe/subscribe the authentication state of our user to which we'll 
 **/src/App.js**
 
 ```jsx
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 
 //... EXISTING CONFIGURATION
 
 const onAuthStateChange = () => {
-  return firebase.auth().onAuthStateChanged(user => {
+  return firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      console.log("The user is logged in.")
+      console.log("The user is logged in.");
     } else {
-      console.log("The user is not logged in.")
+      console.log("The user is not logged in.");
     }
-  })
-}  
+  });
+};
 
 const App = () => {
-  
-  
   useEffect(() => {
     // Realtime authentication listener subscription
-    const unsubscribe = onAuthStateChange() // Returns the unsubscribe function
+    const unsubscribe = onAuthStateChange(); // Returns the unsubscribe function
     // Unsubscribes from the listener when unmounting
-    return () => unsubscribe()
-  }, [])
+    return () => unsubscribe();
+  }, []);
 
   return (
-    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
-  )
-}
+    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+  );
+};
 
-export default App
+export default App;
 ```
 
 Here, we define a function `onAuthStateChange()` which simply calls `firebase.auth().onAuthStateChanged()` internally. `firebase.auth().onAuthChanged()` takes in a callback function to which it'll pass in the `user` object upon a successful authentication. We take advantage of this fact to log to the console information about whether we have logged in or not.
@@ -16531,10 +16291,6 @@ Here, we define a function `onAuthStateChange()` which simply calls `firebase.au
 #### Enabling Authentication Methods
 
 Now, our initial setup for authentication is just about complete. If we try to log in using a provider right now, we'll receive the following error:
-
-
-
-
 
 ![Identity provider disabled](https://i.imgur.com/yeJtXOM.png)
 
@@ -16557,41 +16313,41 @@ Now, one change we might want to make is to store our user in our component's st
 **/src/App.js**
 
 ```jsx
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 
 //... EXISTING CONFIGURATION
 
 const onAuthStateChange = (setUser) => {
-  return firebase.auth().onAuthStateChanged(user => {
+  return firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      console.log("The user is logged in.", user)
-      setUser(user)
+      console.log("The user is logged in.", user);
+      setUser(user);
     } else {
-      console.log("The user is not logged in.")
+      console.log("The user is not logged in.");
     }
-  })
-}
+  });
+};
 
 const App = () => {
-  const [user, setUser] = useState()
+  const [user, setUser] = useState();
 
   useEffect(() => {
     // Realtime authentication listener subscription
-    const unsubscribe = onAuthStateChange(setUser) // Returns the unsubscribe function
+    const unsubscribe = onAuthStateChange(setUser); // Returns the unsubscribe function
     // Unsubscribes from the listener when unmounting
-    return () => unsubscribe()
-  }, [])
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
       {JSON.stringify(user)}
-      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
+      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
       <button onClick={() => firebase.auth().signOut()}>Sign-out</button>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
 ```
 
-Here, we made a few changes. 
+Here, we made a few changes.
